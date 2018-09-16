@@ -21,5 +21,5 @@ Leviathan PC Version
 
 **Special Thanks To:**
 * George Mason University and NASA Goddard Space Flight Center (for your 1M digits of <img src="https://latex.codecogs.com/svg.latex?\sqrt{2}" title="Square Root of Two" />)
-* SML2 team
+* SDL2 team
 * Whoever made RapidXML
