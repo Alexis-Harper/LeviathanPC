@@ -6,12 +6,10 @@
 #include <SDL.h>
 
 #include <vector>
-#include <map>
 
-#define ERROR_SDL_INIT_VIDEO 2
-#define ERROR_SDL_INIT_AUDIO 3
-#define ERROR_SDL_WINDOW_FAILED_TO_LOAD 4
-#define ERROR_SDL_AUDIO_WAV_LOAD 5
+//Reciporicals of \sqrt{2}
+#define SQRT_2 (float) 0.70710678118
+#define _SQRT_2 (float) -0.70710678118
 
 //Eight directon enum
 enum EightDirection {

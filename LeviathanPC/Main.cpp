@@ -1,10 +1,14 @@
 #include "stdafx.h"
 
+#include "ErrorEnum.h"
+
 #include <chrono>
 
 #include "Input.h"
 #include "Player.h"
 #include "Arena.h"
+
+#include "Sprite.h"
 
 using namespace std;
 
@@ -14,9 +18,6 @@ int main(int argc, char *args[]) {
 
 	//Window pointer
 	SDL_Window* window = NULL;
-
-	//Surface contained by the window
-	SDL_Surface* screenSurface = NULL;
 
 	//Initialize SDL Video
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -122,7 +123,12 @@ int main(int argc, char *args[]) {
 
 	}
 
+	Sprite::updateScreenDimentions (windowResX, windowResY);
+
 	window = SDL_CreateWindow ("Leviathan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowResX, windowResY, SDL_WINDOW_SHOWN);
+
+	//Window options
+	SDL_SetWindowResizable (window, (SDL_bool) true);
 
 	if (window == NULL) {
 
@@ -132,12 +138,12 @@ int main(int argc, char *args[]) {
 
 	}
 
-	//Get window surface
-	screenSurface = SDL_GetWindowSurface (window);
+	SDL_Renderer *renderer = SDL_CreateRenderer (window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor (renderer, 0x00, 0x00, 0x00, 0xFF);
 
 	Arena *activeArena = new Arena ();
 
-	Player player;
+	Player player = Player (renderer);
 
 	//SDL Events
 	bool exit = false;
@@ -154,7 +160,22 @@ int main(int argc, char *args[]) {
 			switch (sdlEvent.type) {
 
 			case SDL_QUIT:
+
 				exit = true;
+
+				break;
+
+			case SDL_WINDOWEVENT:
+
+				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED) {
+
+					windowResX = sdlEvent.window.data1;
+					windowResY = sdlEvent.window.data2;
+
+					Sprite::updateScreenDimentions (windowResX, windowResY);
+
+				}
+
 				break;
 
 			}
@@ -164,6 +185,8 @@ int main(int argc, char *args[]) {
 		//Limit FPS to 60 Hz
 		if (chrono::duration_cast<chrono::nanoseconds>(deltaTime) >= timestep) {
 
+			startTime = chrono::high_resolution_clock::now();
+
 			Input::setDelta ((double) (chrono::duration_cast<chrono::duration<double, nano>>(deltaTime) / chrono::duration_cast<chrono::duration<double, nano>>(timestep))); //Set delta
 
 			//Input
@@ -171,18 +194,20 @@ int main(int argc, char *args[]) {
 
 			//Update
 
-			cout << "Delta: " << Input::getDelta () << "\n";
-			cout << "Direction: " << Input::eightDirection () << "\n\n";
+			//cout << "Direction: " << Input::eightDirection () << "\n\n";
 
-			//player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
+			player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
+
+			player.update ();
 
 			//Render
 
-			//Fill the background black
-			SDL_FillRect (screenSurface, NULL, SDL_MapRGB (screenSurface->format, 0x00, 0x00, 0x00));
+			SDL_RenderClear (renderer);
 
-			//Update the surface
-			SDL_UpdateWindowSurface (window);
+			//Render things
+			player.render(renderer);
+
+			SDL_RenderPresent (renderer);
 
 		}
 

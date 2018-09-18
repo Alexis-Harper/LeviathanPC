@@ -4,10 +4,10 @@
 Arena::Arena () {
 
 	//Create borders (TODO)
-	this->createWallList (new Rectangle (0, 0, 1, 0), &this->up_first, &this->up_last);
-	this->createWallList (new Rectangle (1, 0, 0, 1), &this->right_first, &this->right_last);
-	this->createWallList (new Rectangle (0, 1, 1, 0), &this->down_first, &this->down_last);
-	this->createWallList (new Rectangle (0, 0, 0, 1), &this->left_first, &this->left_last);
+	this->createWallList (new Rectangle (0.0f, 0.0f, 1.0f, 0.0f), &this->up_first, &this->up_last);
+	this->createWallList (new Rectangle (1.0f, 0.0f, 0.0f, 1.0f), &this->right_first, &this->right_last);
+	this->createWallList (new Rectangle (0.0f, 1.0f, 1.0f, 0.0f), &this->down_first, &this->down_last);
+	this->createWallList (new Rectangle (0.0f, 0.0f, 0.0f, 1.0f), &this->left_first, &this->left_last);
 
 }
 
@@ -97,7 +97,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			#ifdef _DEBUG
 
-			printf ("Touching Up-Wall.");
+			printf ("Touching Up-Wall.\n");
 
 			#endif
 
@@ -119,7 +119,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			#ifdef _DEBUG
 
-			printf ("Touching Left-Wall.");
+			printf ("Touching Right-Wall.\n");
 
 			#endif
 
@@ -141,7 +141,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			#ifdef _DEBUG
 
-			printf ("Touching Down-Wall.");
+			printf ("Touching Down-Wall.\n");
 
 			#endif
 
@@ -163,7 +163,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			#ifdef _DEBUG
 
-			printf ("Touching Left-Wall.");
+			printf ("Touching Left-Wall.\n");
 
 			#endif
 

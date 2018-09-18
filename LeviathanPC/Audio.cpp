@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Audio.h"
 
+#include "ErrorEnum.h"
+
 #include "SDL_audio.h"
 
 namespace Audio {

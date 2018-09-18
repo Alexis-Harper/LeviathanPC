@@ -1,18 +1,19 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "Sprite.h"
 
 class Player {
 
 public:
 
-	Player ();
+	Player (SDL_Renderer*);
 	~Player ();
 
 	void eightDirection (bool*);
 
 	void update ();
-	void render ();
+	void render (SDL_Renderer*);
 
 	Rectangle getHixbox ();
 
@@ -24,7 +25,9 @@ private:
 
 	bool canMove[4] = { true, true, true, true };
 
-	Rectangle hitbox;
+	Sprite *sprite;
+
+	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.1f, 0.1f);
 
 };
 
