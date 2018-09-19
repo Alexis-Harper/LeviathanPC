@@ -138,6 +138,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arena.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

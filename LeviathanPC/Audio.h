@@ -7,7 +7,7 @@ namespace Audio {
 	public:
 
 		Audio ();
-		Audio (char*, char*);
+		Audio (const char*, const char*);
 		~Audio ();
 
 		void reQueue ();
@@ -31,7 +31,7 @@ namespace Audio {
 	public:
 
 		Music ();
-		Music (char*);
+		Music (const char*);
 		~Music ();
 
 		void render ();
@@ -49,12 +49,14 @@ namespace Audio {
 	public:
 
 		Effect ();
-		Effect (char*);
+		Effect (const char*);
 		~Effect ();
+
+		void playEffect ();
 
 	private:
 
-
+		Audio *audio = NULL;
 
 	};
 

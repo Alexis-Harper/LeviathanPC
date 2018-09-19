@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Audio.h"
+
 class GameObject {
 
 public:
@@ -15,6 +17,16 @@ public:
 
 	virtual void death () = 0;
 
+	int getHp ();
+	int getHpMax ();
+	int getAttack ();
+	int getSpeed ();
+
+	void setHp (int);
+	void setHpMax (int);
+	void setAttack (int);
+	void setSpeed (int);
+
 private:
 
 	//Stats
@@ -26,6 +38,8 @@ private:
 protected:
 
 	virtual void loadSound () = 0;
+
+	std::vector<Audio::Effect> soundEffects;
 
 };
 

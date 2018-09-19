@@ -8,6 +8,9 @@
 
 #include <vector>
 
+#include "Rectangle.h"
+#include "Vector.h"
+
 //Reciporicals of \sqrt{2}
 #define SQRT_2 (float) 0.70710678118
 #define _SQRT_2 (float) -0.70710678118

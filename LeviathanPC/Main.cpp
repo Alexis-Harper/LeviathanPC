@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Arena.h"
 
-#include "Sprite.h"
 #include "Audio.h"
 
 using namespace std;

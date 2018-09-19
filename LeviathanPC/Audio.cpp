@@ -19,7 +19,7 @@ namespace Audio {
 
 	}
 
-	Audio::Audio (char *filename, char *channelName) {
+	Audio::Audio (const char *filename, const char *channelName) {
 
 		if (SDL_LoadWAV (filename, &this->wav_spec, &this->wav_buffer, &this->wav_length) == NULL) {
 
@@ -69,7 +69,7 @@ namespace Audio {
 
 	}
 
-	Music::Music (char *filename) {
+	Music::Music (const char *filename) {
 
 		this->audio = new Audio (filename, NULL);
 
@@ -104,7 +104,7 @@ namespace Audio {
 
 	}
 
-	Effect::Effect (char* filename) {
+	Effect::Effect (const char* filename) {
 
 
 
@@ -112,7 +112,14 @@ namespace Audio {
 
 	Effect::~Effect () {
 
+		delete this->audio;
 
+	}
+
+	void Effect::playEffect () {
+
+		this->audio->reQueue ();
+		this->audio->pause (0);
 
 	}
 
