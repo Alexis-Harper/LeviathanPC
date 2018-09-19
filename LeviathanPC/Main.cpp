@@ -9,6 +9,7 @@
 #include "Arena.h"
 
 #include "Sprite.h"
+#include "Audio.h"
 
 using namespace std;
 
@@ -145,6 +146,9 @@ int main(int argc, char *args[]) {
 
 	Player player = Player (renderer);
 
+	Audio::Music *song = new Audio::Music ((char*) "assets/Ambient_Hell.wav");
+	song->pause (0);
+
 	//SDL Events
 	bool exit = false;
 	SDL_Event sdlEvent;
@@ -202,6 +206,8 @@ int main(int argc, char *args[]) {
 
 			//Render
 
+			song->render ();
+
 			SDL_RenderClear (renderer);
 
 			//Render things
@@ -214,6 +220,8 @@ int main(int argc, char *args[]) {
 	}
 
 	//Close program
+
+	delete song;
 
 	//Destroy window
 	SDL_DestroyWindow (window);

@@ -1,6 +1,15 @@
 #include "stdafx.h"
 #include "Arena.h"
 
+#include "ErrorEnum.h"
+
+#include <fstream>
+
+#include "rapidjson/document.h"
+
+using namespace std;
+using namespace rapidjson;
+
 Arena::Arena () {
 
 	//Create borders (TODO)
@@ -8,6 +17,41 @@ Arena::Arena () {
 	this->createWallList (new Rectangle (1.0f, 0.0f, 0.0f, 1.0f), &this->right_first, &this->right_last);
 	this->createWallList (new Rectangle (0.0f, 1.0f, 1.0f, 0.0f), &this->down_first, &this->down_last);
 	this->createWallList (new Rectangle (0.0f, 0.0f, 0.0f, 1.0f), &this->left_first, &this->left_last);
+
+}
+
+Arena::Arena (char *filename) {
+
+	FILE *f = fopen (filename, "r"); //Open file
+
+	//Gets length of file
+	fseek (f, 0, SEEK_END);
+	long f_size = ftell (f);
+	rewind (f);
+
+	char *buf = new char[f_size]; //Alocate memory
+
+	//Copy file to memory, exit if failed
+	if (!fread (buf, 1, f_size, f)) {
+
+		cout << "[-] Arena: Arena file failed to load.\n";
+
+		exit (ERROR_ARENA_LOAD_FILE);
+
+	}
+
+	fclose (f); //Close file*/
+
+	Document json;
+	json.Parse (buf);
+
+	if (!json.IsObject ()) {
+
+		cout << "[-] Arena: JSON file failed to parse.\n";
+
+		exit (ERROR_ARENA_PARSE_JSON);
+
+	}
 
 }
 
@@ -95,12 +139,6 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			ret[0] = false;
 
-			#ifdef _DEBUG
-
-			printf ("Touching Up-Wall.\n");
-
-			#endif
-
 			break;
 
 		}
@@ -116,12 +154,6 @@ bool* Arena::canMove (Rectangle hitbox) {
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
 			ret[1] = false;
-
-			#ifdef _DEBUG
-
-			printf ("Touching Right-Wall.\n");
-
-			#endif
 
 			break;
 
@@ -139,12 +171,6 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 			ret[2] = false;
 
-			#ifdef _DEBUG
-
-			printf ("Touching Down-Wall.\n");
-
-			#endif
-
 			break;
 
 		}
@@ -160,12 +186,6 @@ bool* Arena::canMove (Rectangle hitbox) {
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
 			ret[3] = false;
-
-			#ifdef _DEBUG
-
-			printf ("Touching Left-Wall.\n");
-
-			#endif
 
 			break;
 
@@ -192,6 +212,24 @@ void Arena::addWallList (Rectangle *data, Walls **last) {
 	Walls *prev = *last;
 
 	*last = new Walls (data);
+
+	prev->next = *last;
+
+}
+
+void Arena::createGameObjectsList (GameObject *data, GameObjects **first, GameObjects** last) {
+
+	*first = new GameObjects (data);
+
+	*last = *first;
+
+}
+
+void Arena::addGameObjectsList (GameObject *data, GameObjects **last) {
+
+	GameObjects *prev = *last;
+
+	*last = new GameObjects (data);
 
 	prev->next = *last;
 

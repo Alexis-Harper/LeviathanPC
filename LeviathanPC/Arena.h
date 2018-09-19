@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "GameObject.h"
 
 class Arena {
 
 public:
 
 	Arena ();
+	Arena (char*);
 	~Arena ();
 
 	bool* canMove (Rectangle);
@@ -30,6 +32,20 @@ private:
 
 	static void createWallList (Rectangle*, Walls**, Walls**);
 	static void addWallList (Rectangle*, Walls**);
+
+	struct GameObjects {
+
+		GameObject *object;
+		struct GameObjects *next;
+
+		GameObjects (GameObject *data) : object (data) { this->next = NULL; };
+
+	};
+
+	struct GameObjects *gameObject_first, *gameObject_last;
+
+	static void createGameObjectsList (GameObject*, GameObjects**, GameObjects**);
+	static void addGameObjectsList (GameObject*, GameObjects**);
 
 };
 

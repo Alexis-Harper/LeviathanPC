@@ -114,8 +114,8 @@ SpriteSheet::SpriteSheet (SDL_Renderer *renderer, char *filename, int x, int y) 
 	this->imagesX = x;
 	this->imagesY = y;
 
-	this->resX = this->sprite.getWidth() / x;
-	this->resY = this->sprite.getHeight() / y;
+	this->resX = (int) (this->sprite.getWidth() / x);
+	this->resY = (int) (this->sprite.getHeight() / y);
 
 }
 

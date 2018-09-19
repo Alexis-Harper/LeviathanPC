@@ -33,19 +33,33 @@ namespace Audio {
 
 		this->success = SDL_QueueAudio (this->device_id, this->wav_buffer, this->wav_length);
 
-
 	}
 
 	Audio::~Audio () {
 
+		SDL_ClearQueuedAudio (this->device_id);
 		SDL_CloseAudioDevice (this->device_id);
 		SDL_FreeWAV (this->wav_buffer);
+
+	}
+
+	void Audio::reQueue () {
+
+		SDL_ClearQueuedAudio (this->device_id);
+
+		this->success = SDL_QueueAudio (this->device_id, this->wav_buffer, this->wav_length);
 
 	}
 
 	void Audio::pause (int on) {
 
 		SDL_PauseAudioDevice (this->device_id, on);
+
+	}
+
+	SDL_AudioDeviceID Audio::getDeviceID () {
+
+		return this->device_id;
 
 	}
 
@@ -57,13 +71,30 @@ namespace Audio {
 
 	Music::Music (char *filename) {
 
-
+		this->audio = new Audio (filename, NULL);
 
 	}
 
 	Music::~Music () {
 
+		delete this->audio;
 
+	}
+
+	void Music::render () {
+
+		if (SDL_GetQueuedAudioSize (this->audio->getDeviceID()) <= 100000) {
+
+			this->audio->reQueue ();
+			this->audio->pause (0);
+
+		}
+
+	}
+
+	void Music::pause (int pause) {
+
+		this->audio->pause (pause);
 
 	}
 
