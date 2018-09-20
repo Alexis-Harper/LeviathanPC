@@ -3,7 +3,7 @@
 
 GameObject::GameObject () {
 
-	this->loadSound ();
+
 
 }
 

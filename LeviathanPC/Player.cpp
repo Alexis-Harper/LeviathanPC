@@ -77,7 +77,7 @@ void Player::update () {
 
 	}
 
-	this->hitbox.translate (this->vx * 0.005f, this->vy * 0.005f);
+	this->hitbox.translate (this->vx * 0.005f * Input::getDelta(), this->vy * 0.005f * Input::getDelta());
 	
 }
 

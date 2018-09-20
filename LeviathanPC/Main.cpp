@@ -123,8 +123,6 @@ int main(int argc, char *args[]) {
 
 	}
 
-	Sprite::updateScreenDimentions (windowResX, windowResY);
-
 	window = SDL_CreateWindow ("Leviathan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowResX, windowResY, SDL_WINDOW_SHOWN);
 
 	//Window options
@@ -141,6 +139,20 @@ int main(int argc, char *args[]) {
 	SDL_Renderer *renderer = SDL_CreateRenderer (window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_SetRenderDrawColor (renderer, 0x00, 0x00, 0x00, 0xFF);
 
+	//Set up viewport
+	SDL_Rect viewport;
+
+	viewport.w = windowResY * 1.33333333333f;
+	viewport.h = windowResY;
+
+	viewport.x = (windowResX - viewport.w) / 2;
+	viewport.y = 0;
+
+	SDL_RenderSetViewport (renderer, &viewport);
+
+	Sprite::updateScreenDimentions (viewport.w, viewport.h);
+
+	//Set up arena
 	Arena *activeArena = new Arena ();
 
 	Player player = Player (renderer);
@@ -175,7 +187,15 @@ int main(int argc, char *args[]) {
 					windowResX = sdlEvent.window.data1;
 					windowResY = sdlEvent.window.data2;
 
-					Sprite::updateScreenDimentions (windowResX, windowResY);
+					viewport.w = windowResY * 1.33333333333f;
+					viewport.h = windowResY;
+
+					viewport.x = (windowResX - viewport.w) / 2;
+					viewport.y = 0;
+
+					SDL_RenderSetViewport (renderer, &viewport);
+
+					Sprite::updateScreenDimentions (viewport.w, viewport.h);
 
 				}
 
@@ -205,14 +225,15 @@ int main(int argc, char *args[]) {
 
 			//Render
 
-			song->render ();
-
 			SDL_RenderClear (renderer);
 
 			//Render things
 			player.render(renderer);
 
 			SDL_RenderPresent (renderer);
+
+			//Render music
+			song->render ();
 
 		}
 
