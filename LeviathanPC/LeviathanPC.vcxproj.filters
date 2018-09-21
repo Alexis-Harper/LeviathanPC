@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Media">
       <UniqueIdentifier>{04db3f48-326e-49a0-a188-a390e643c24b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{ae18dbed-3fe6-4928-b20b-bd47884b2bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\arena">
+      <UniqueIdentifier>{c466fd76-414b-427f-b5cd-14c471dce766}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -93,6 +99,9 @@
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\arena\TestArena.json">
+      <Filter>Resource Files\assets\arena</Filter>
     </None>
   </ItemGroup>
 </Project>

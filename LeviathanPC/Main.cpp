@@ -153,7 +153,7 @@ int main(int argc, char *args[]) {
 	Sprite::updateScreenDimentions (viewport.w, viewport.h);
 
 	//Set up arena
-	Arena *activeArena = new Arena ();
+	Arena *activeArena = new Arena ((char*) "assets/arena/TestArena.json");
 
 	Player player = Player (renderer);
 

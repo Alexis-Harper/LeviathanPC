@@ -2,17 +2,17 @@
 #include "Arena.h"
 
 #include "ErrorEnum.h"
-
 #include <fstream>
 
 #include "rapidjson/document.h"
+#include "rapidjson/filereadstream.h"
 
 using namespace std;
 using namespace rapidjson;
 
 Arena::Arena () {
 
-	//Create borders (TODO)
+	//Create borders
 	this->createWallList (new Rectangle (0.0f, 0.0f, 1.0f, 0.0f), &this->up_first, &this->up_last);
 	this->createWallList (new Rectangle (1.0f, 0.0f, 0.0f, 1.0f), &this->right_first, &this->right_last);
 	this->createWallList (new Rectangle (0.0f, 1.0f, 1.0f, 0.0f), &this->down_first, &this->down_last);
@@ -22,17 +22,13 @@ Arena::Arena () {
 
 Arena::Arena (char *filename) {
 
-	FILE *f = fopen (filename, "r"); //Open file
+	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
 
-	//Gets length of file
-	fseek (f, 0, SEEK_END);
-	long f_size = ftell (f);
-	rewind (f);
-
-	char *buf = new char[f_size]; //Alocate memory
+	char buf[65536];
+	FileReadStream is (f, buf, sizeof (buf));
 
 	//Copy file to memory, exit if failed
-	if (!fread (buf, 1, f_size, f)) {
+	if (f == NULL) {
 
 		cout << "[-] Arena: Arena file failed to load.\n";
 
@@ -53,7 +49,119 @@ Arena::Arena (char *filename) {
 
 	}
 
+	int i = 0;
 
+	//Up wall stuff
+	const Value &up_walls_array = json["Up_Walls"];
+
+	for (auto &wall : up_walls_array.GetArray ()) {
+
+		Rectangle *rect = new Rectangle();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->up_first, &this->up_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->up_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	//Right wall stuff
+	const Value &right_walls_array = json["Right_Walls"];
+
+	for (auto &wall : right_walls_array.GetArray ()) {
+
+		Rectangle *rect = new Rectangle ();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->right_first, &this->right_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->right_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	//Down wall stuff
+	const Value &down_walls_array = json["Down_Walls"];
+
+	for (auto &wall : down_walls_array.GetArray ()) {
+
+		Rectangle *rect = new Rectangle ();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->down_first, &this->down_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->down_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	//Left wall stuff
+	const Value &left_walls_array = json["Left_Walls"];
+
+	for (auto &wall : left_walls_array.GetArray ()) {
+
+		Rectangle *rect = new Rectangle ();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->left_first, &this->left_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->left_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
 
 }
 
