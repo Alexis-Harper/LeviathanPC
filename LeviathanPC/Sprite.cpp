@@ -53,8 +53,8 @@ Sprite::Sprite (SDL_Renderer *renderer, char *filename) {
 
 	SDL_QueryTexture (this->texture, NULL, NULL, &w, &h);
 
-	this->width = (float) w / screenWidth;
-	this->height = (float) h / screenHeight;
+	this->width = (float) w / 960;
+	this->height = (float) h / 740;
 
 }
 

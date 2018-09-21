@@ -184,6 +184,7 @@ int main(int argc, char *args[]) {
 
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED) {
 
+					//Resize viewport to fit the aspect ratio
 					windowResX = sdlEvent.window.data1;
 					windowResY = sdlEvent.window.data2;
 
