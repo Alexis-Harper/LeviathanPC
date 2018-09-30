@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="ControllerDefines.h" />
     <ClInclude Include="ErrorEnum.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />

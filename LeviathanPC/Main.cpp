@@ -45,6 +45,19 @@ int main(int argc, char *args[]) {
 
 	}
 
+	//Initialize SDL Joystick
+	if (SDL_Init (SDL_INIT_JOYSTICK) < 0) {
+
+		cout << "[-] SDL: " << SDL_GetError () << "\n";
+
+		return ERROR_SDL_INIT_JOYSTICK;
+
+	} else {
+
+		cout << "[+] SDL: Joystick initialized.\n";
+
+	}
+
 	//Get SDL 
 	SDL_DisplayMode displayMode;
 	SDL_GetCurrentDisplayMode(0, &displayMode);
@@ -142,7 +155,7 @@ int main(int argc, char *args[]) {
 	//Set up viewport
 	SDL_Rect viewport;
 
-	viewport.w = windowResY * 1.33333333333f;
+	viewport.w = (int) (windowResY * 1.33333333333f);
 	viewport.h = windowResY;
 
 	viewport.x = (windowResX - viewport.w) / 2;
@@ -151,6 +164,29 @@ int main(int argc, char *args[]) {
 	SDL_RenderSetViewport (renderer, &viewport);
 
 	Sprite::updateScreenDimentions (viewport.w, viewport.h);
+
+	//Set up joystick
+	SDL_Joystick *gameController = NULL;
+
+	if (SDL_NumJoysticks () < 1) {
+
+		cout << "[+] SDL: No joysticks connected.\n";
+
+	} else {
+
+		gameController = SDL_JoystickOpen (0);
+
+		if (gameController == NULL) {
+
+			cout << "[-] SDL: Controller failed to open.\n";
+
+		} else {
+
+			Input::isControllerUsed (true);
+
+		}
+
+	}
 
 	//Set up arena
 	Arena *activeArena = new Arena ((char*) "assets/arena/TestArena.json");
@@ -188,7 +224,7 @@ int main(int argc, char *args[]) {
 					windowResX = sdlEvent.window.data1;
 					windowResY = sdlEvent.window.data2;
 
-					viewport.w = windowResY * 1.33333333333f;
+					viewport.w = (int) (windowResY * 1.33333333333f);
 					viewport.h = windowResY;
 
 					viewport.x = (windowResX - viewport.w) / 2;
@@ -197,6 +233,93 @@ int main(int argc, char *args[]) {
 					SDL_RenderSetViewport (renderer, &viewport);
 
 					Sprite::updateScreenDimentions (viewport.w, viewport.h);
+
+				}
+
+				break;
+
+			case SDL_JOYAXISMOTION:
+
+				if (sdlEvent.jaxis.which == 0) {
+
+					switch (sdlEvent.jaxis.axis) {
+
+					case 0: 
+
+						Input::joyAxis0X (sdlEvent.jaxis.value / 32767.0f);
+
+						break;
+
+					case 1:
+
+						Input::joyAxis0Y (sdlEvent.jaxis.value / 32767.0f);
+
+						break;
+
+					case 3:
+
+						Input::joyAxis1X (sdlEvent.jaxis.value / 32757.0f);
+
+						break;
+
+					case 4:
+
+						Input::joyAxis1Y (sdlEvent.jaxis.value / 32767.0f);
+
+						break;
+
+					}
+
+				}
+
+				break;
+
+			case SDL_JOYBUTTONDOWN:
+
+				Input::joyButtonPressed (sdlEvent.jbutton.button, true);
+				cout << "Button Pressed: " << (int) sdlEvent.jbutton.button << "\n";
+
+				break;
+
+			case SDL_JOYBUTTONUP:
+
+				Input::joyButtonPressed (sdlEvent.jbutton.button, false);
+
+				break;
+
+			case SDL_JOYDEVICEADDED:
+
+				cout << "[+] SDL: Joystick device " << sdlEvent.jdevice.which << " added.\n";
+
+				if (gameController == NULL) {
+
+					gameController = SDL_JoystickOpen (0);
+
+					if (gameController == NULL) {
+
+						cout << "[-] SDL: Controller failed to open.\n";
+
+					} else {
+
+						Input::isControllerUsed (true);
+
+					}
+
+				}
+
+				break;
+
+			case SDL_JOYDEVICEREMOVED:
+
+				cout << "[+] SDL: Joystick device " << sdlEvent.jdevice.which << " removed.\n";
+
+				if (sdlEvent.jdevice.which == 0) {
+
+					SDL_JoystickClose (gameController);
+
+					gameController = NULL;
+
+					Input::isControllerUsed (false);
 
 				}
 
@@ -243,6 +366,8 @@ int main(int argc, char *args[]) {
 	//Close program
 
 	delete song;
+
+	SDL_JoystickClose (gameController);
 
 	//Destroy window
 	SDL_DestroyWindow (window);

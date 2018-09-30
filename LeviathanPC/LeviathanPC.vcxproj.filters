@@ -95,6 +95,9 @@
     <ClInclude Include="Vector.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerDefines.h">
+      <Filter>Header Files\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
