@@ -5,7 +5,7 @@
 
 Player::Player (SDL_Renderer *render) {
 
-	this->sprite = new Sprite (render, (char*) "assets/temp.bmp");
+	this->spritesheet = new SpriteSheet (render, (char*) "assets/sprites.bmp", 2, 2);
 
 }
 
@@ -77,13 +77,13 @@ void Player::update () {
 
 	}
 
-	this->hitbox.translate (this->vx * 0.005f * Input::getDelta(), this->vy * 0.005f * Input::getDelta());
+	this->hitbox.translate ((float) (this->vx * 0.005f * Input::getDelta()), (float) (this->vy * 0.005f * Input::getDelta()));
 	
 }
 
 void Player::render (SDL_Renderer *render) {
 
-	this->sprite->render (render, this->hitbox.getX(), this->hitbox.getY(), 1.0f, NULL);
+	this->spritesheet->render (render, this->hitbox.getX (), this->hitbox.getY (), 1.0f, 0, 0);
 
 }
 

@@ -53,6 +53,9 @@ Sprite::Sprite (SDL_Renderer *renderer, char *filename) {
 
 	SDL_QueryTexture (this->texture, NULL, NULL, &w, &h);
 
+	this->pWidth = w;
+	this->pHeight = h;
+
 	this->width = (float) w / 960;
 	this->height = (float) h / 740;
 
@@ -101,6 +104,18 @@ float Sprite::getHeight () {
 
 }
 
+int Sprite::getPWidth () {
+
+	return this->pWidth;
+	
+}
+
+int Sprite::getPHeight () {
+
+	return this->pHeight;
+
+}
+
 SpriteSheet::SpriteSheet () {
 
 	//Default constructor
@@ -109,19 +124,19 @@ SpriteSheet::SpriteSheet () {
 
 SpriteSheet::SpriteSheet (SDL_Renderer *renderer, char *filename, int x, int y) {
 
-	this->sprite = Sprite (renderer, filename);
+	this->sprite = new Sprite (renderer, filename);
 
 	this->imagesX = x;
 	this->imagesY = y;
 
-	this->resX = (int) (this->sprite.getWidth() / x);
-	this->resY = (int) (this->sprite.getHeight() / y);
+	this->resX = (int) (this->sprite->getPWidth() / x);
+	this->resY = (int) (this->sprite->getPHeight() / y);
 
 }
 
 SpriteSheet::~SpriteSheet () {
 
-	this->sprite.~Sprite ();
+	delete this->sprite;
 
 }
 
@@ -134,6 +149,6 @@ void SpriteSheet::render (SDL_Renderer *render, float x, float y, float scale, i
 	clip.w = this->resX;
 	clip.h = this->resY;
 
-	this->sprite.render (render, x, y, scale, &clip);
+	this->sprite->render (render, x, y, scale, &clip);
 
 }

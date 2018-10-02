@@ -17,9 +17,76 @@ Vector::Vector (int num) {
 
 }
 
+Vector::Vector (const float *arr) {
+
+	int n = sizeof (arr) / sizeof (float);
+	this->vect = std::vector<float> (arr, arr + n);
+
+	this->size = (int) this->vect.size ();
+
+}
+
+Vector::Vector (std::vector<float> vect) {
+
+	this->vect = vect;
+
+	this->size = (int) this->vect.size ();
+
+}
+
 Vector::~Vector () {
 
 	this->vect.clear ();
+
+}
+
+Vector Vector::add (Vector a, Vector b) {
+
+	Vector ret = Vector (a.size);
+
+	if (a.size < b.size) {
+
+		a.resize (b.size);
+		ret.resize (b.size);
+
+	} else if (a.size > b.size) {
+
+		b.resize (a.size);
+
+	}
+
+	for (int i = 0; i < ret.size; i++) {
+
+		ret.vect[i] = a.vect[i] + b.vect[i];
+
+	}
+
+	return ret;
+
+}
+
+Vector Vector::sub (Vector a, Vector b) {
+
+	Vector ret = Vector (a.size);
+
+	if (a.size < b.size) {
+
+		a.resize (b.size);
+		ret.resize (b.size);
+
+	} else if (a.size > b.size) {
+
+		b.resize (a.size);
+
+	}
+
+	for (int i = 0; i < ret.size; i++) {
+
+		ret.vect[i] = a.vect[i] - b.vect[i];
+
+	}
+
+	return ret;
 
 }
 

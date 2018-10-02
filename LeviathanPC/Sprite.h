@@ -18,16 +18,22 @@ public:
 	float getWidth ();
 	float getHeight ();
 
+	int getPWidth ();
+	int getPHeight ();
+
 private:
 
 	SDL_Texture *texture;
 
 	float width, height;
+	int pWidth, pHeight;
 
 };
 
 //Automatically parses spritesheet and renders it
 class SpriteSheet {
+
+public:
 
 	SpriteSheet ();
 	SpriteSheet (SDL_Renderer*, char*, int, int);
@@ -37,7 +43,7 @@ class SpriteSheet {
 
 private:
 
-	Sprite sprite;
+	Sprite *sprite;
 
 	int imagesX, imagesY, resX, resY;
 

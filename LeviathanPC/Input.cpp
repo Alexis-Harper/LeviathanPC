@@ -11,7 +11,7 @@ namespace Input {
 		
 		const Uint8 *keyboard;
 
-		int direction;
+		int direction, fdirection;
 
 		bool controller = false;
 
@@ -23,7 +23,10 @@ namespace Input {
 
 	void update () {
 
+		//Directions
 		if (controller) {
+
+			//Movement Direction 
 
 			//Get angle
 			double angle = atan2 (-joy0Y, joy0X);
@@ -83,10 +86,67 @@ namespace Input {
 
 			}
 
+			//Facing Direction
+
+			//Get angle
+			angle = atan2 (-joy1Y, joy1X);
+
+			//Correct angle if neccessary
+			if (joy1X == 0 && joy1Y == 0) {
+
+				angle = 0;
+
+			}
+
+			//Set direction to values
+			if ((joy1X * joy1X) + (joy1Y * joy1Y) <= M_PI / 16) {
+
+				fdirection = NONE;
+
+			} else if (angle <= (5 * M_PI / 8) && angle >= (3 * M_PI / 8)) {
+
+				fdirection = UP;
+
+			} else if (angle <= (3 * M_PI / 8) && angle >= (M_PI / 8)) {
+
+				fdirection = UP_RIGHT;
+
+			} else if (angle <= (M_PI / 8) && angle >= (-M_PI / 8)) {
+
+				fdirection = RIGHT;
+
+			} else if (angle <= (-M_PI / 8) && angle >= (-3 * M_PI / 8)) {
+
+				fdirection = DOWN_RIGHT;
+
+			} else if (angle <= (-3 * M_PI / 8) && angle >= (-5 * M_PI / 8)) {
+
+				fdirection = DOWN;
+
+			} else if (angle <= (-5 * M_PI / 8) && angle >= (-7 * M_PI / 8)) {
+
+				fdirection = DOWN_LEFT;
+
+			} else if (angle <= (-7 * M_PI / 8) || angle >= (7 * M_PI / 8)) {
+
+				fdirection = LEFT;
+
+			} else if (angle <= (7 * M_PI / 8) && angle >= (5 * M_PI / 8)) {
+
+				fdirection = UP_LEFT;
+
+			} else {
+
+				fdirection = NONE;
+
+			}
+
 		} else {
 
 			//Get keybord state
 			keyboard = SDL_GetKeyboardState (NULL);
+
+			//Movement Direction
 
 			//Get keys
 			bool up = keyHeld (SDL_SCANCODE_W);
@@ -130,6 +190,53 @@ namespace Input {
 			} else {
 
 				direction = NONE;
+
+			}
+
+			//Facing Direction
+
+			//Get keys
+			up = keyHeld (SDL_SCANCODE_UP);
+			right = keyHeld (SDL_SCANCODE_RIGHT);
+			down = keyHeld (SDL_SCANCODE_DOWN);
+			left = keyHeld (SDL_SCANCODE_LEFT);
+
+			//Check direction and set it
+			if (up && !right && !down && !left) {
+
+				fdirection = UP;
+
+			} else if (up && right && !down && !left) {
+
+				fdirection = UP_RIGHT;
+
+			} else if (!up && right && !down && !left) {
+
+				fdirection = RIGHT;
+
+			} else if (!up && right && down && !left) {
+
+				fdirection = DOWN_RIGHT;
+
+			} else if (!up && !right && down && !left) {
+
+				fdirection = DOWN;
+
+			} else if (!up && !right && down && left) {
+
+				fdirection = DOWN_LEFT;
+
+			} else if (!up && !right && !down && left) {
+
+				fdirection = LEFT;
+
+			} else if (up && !right && !down && left) {
+
+				fdirection = UP_LEFT;
+
+			} else {
+
+				fdirection = NONE;
 
 			}
 
@@ -202,6 +309,12 @@ namespace Input {
 	int eightDirection () {
 
 		return direction;
+
+	}
+
+	int facingDirection () {
+
+		return fdirection;
 
 	}
 

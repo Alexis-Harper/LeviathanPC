@@ -19,5 +19,6 @@ namespace Input {
 	void joyAxis1Y (float);
 
 	int eightDirection ();
+	int facingDirection ();
 
 };

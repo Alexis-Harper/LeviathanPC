@@ -25,7 +25,7 @@ private:
 
 	bool canMove[4] = { true, true, true, true };
 
-	Sprite *sprite;
+	SpriteSheet *spritesheet;
 
 	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.1f, 0.1f);
 
