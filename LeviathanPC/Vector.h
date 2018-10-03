@@ -3,12 +3,12 @@
 class Vector {
 
 public:
-
+	
 	//Constructors and destructors
 	Vector ();
-	Vector (int);
-	Vector (const float*);
-	Vector (std::vector<float>);
+	Vector (int size);
+	Vector (const float *array);
+	Vector (std::vector<float> vector);
 	~Vector ();
 
 	//Operators
@@ -26,28 +26,28 @@ public:
 	Vector& operator *= (const Vector& rhs) { *this = crossProduct (*this, rhs); return *this; } //Cross product
 
 	//Math
-	static Vector add (Vector, Vector);
-	static Vector sub (Vector, Vector);
+	static Vector add (Vector vector1, Vector vector2);
+	static Vector sub (Vector vector1, Vector vector2);
 
-	static float dotProduct (Vector, Vector);
-	static Vector crossProduct (Vector, Vector);
+	static float dotProduct (Vector vector1, Vector vector2);
+	static Vector crossProduct (Vector vector1, Vector vector2);
 
-	static float magnitude (Vector);
+	static float magnitude (Vector vector);
 
-	Vector scalarMultiply (float);
+	Vector scalarMultiply (float scalar);
 
 	//Getters and setters
 	int getSize ();
 
-	float getValue (int);
+	float getValue (int index);
 
 	std::vector<float> getVector ();
 
-	void resize (int);
+	void resize (int size);
 
-	void setValue (int, float);
+	void setValue (int index, float value);
 
-	void setVector (std::vector<float>);
+	void setVector (std::vector<float> vector);
 
 private:
 

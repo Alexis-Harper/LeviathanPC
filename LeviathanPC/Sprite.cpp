@@ -8,6 +8,7 @@
 namespace {
 
 	int screenWidth, screenHeight;
+	float cameraX, cameraY;
 
 };
 
@@ -74,7 +75,39 @@ void Sprite::updateScreenDimentions (int w, int h) {
 
 }
 
+void Sprite::translateCamera (float x, float y) {
+
+	cameraX += x;
+	cameraY += y;
+
+}
+
+void Sprite::setCamera (float x, float y) {
+
+	cameraX = x;
+	cameraY = y;
+
+}
+
 void Sprite::render (SDL_Renderer *render, float x, float y, float scale, SDL_Rect *clip) {
+
+	SDL_Rect renderQuad = { (int) ((x + cameraX) * screenWidth), (int) ((y + cameraY) * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
+
+	if (clip != NULL) {
+
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+
+	}
+
+	renderQuad.w = (int) (renderQuad.w * scale);
+	renderQuad.h = (int) (renderQuad.h * scale);
+
+	SDL_RenderCopy (render, this->texture, clip, &renderQuad);
+
+}
+
+void Sprite::srender (SDL_Renderer *render, float x, float y, float scale, SDL_Rect *clip) {
 
 	SDL_Rect renderQuad = { (int) (x * screenWidth), (int) (y * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
 
@@ -150,5 +183,18 @@ void SpriteSheet::render (SDL_Renderer *render, float x, float y, float scale, i
 	clip.h = this->resY;
 
 	this->sprite->render (render, x, y, scale, &clip);
+
+}
+
+void SpriteSheet::srender (SDL_Renderer *render, float x, float y, float scale, int indexX, int indexY) {
+
+	SDL_Rect clip;
+
+	clip.x = this->resX * indexX;
+	clip.y = this->resY * indexY;
+	clip.w = this->resX;
+	clip.h = this->resY;
+
+	this->sprite->srender (render, x, y, scale, &clip);
 
 }

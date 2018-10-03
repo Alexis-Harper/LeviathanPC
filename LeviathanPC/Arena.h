@@ -2,18 +2,24 @@
 
 #include "Rectangle.h"
 #include "GameObject.h"
+#include "Sprite.h"
 
 class Arena {
 
 public:
 
 	Arena ();
-	Arena (char*);
+	Arena (const char *filename, SDL_Renderer *renderer);
 	~Arena ();
 
-	bool* canMove (Rectangle);
+	void render (SDL_Renderer *renderer);
+
+	bool* canMove (Rectangle playerHitbox);
 
 private:
+
+	//Visuals
+	Sprite *backgroundImage;
 
 	//Wall linked lists
 	struct Walls {
@@ -30,8 +36,8 @@ private:
 	struct Walls *down_first, *down_last;
 	struct Walls *left_first, *left_last;
 
-	static void createWallList (Rectangle*, Walls**, Walls**);
-	static void addWallList (Rectangle*, Walls**);
+	static void createWallList (Rectangle *wall, Walls **first, Walls **last);
+	static void addWallList (Rectangle *wall, Walls **last);
 
 	struct GameObjects {
 
@@ -44,8 +50,8 @@ private:
 
 	struct GameObjects *gameObject_first, *gameObject_last;
 
-	static void createGameObjectsList (GameObject*, GameObjects**, GameObjects**);
-	static void addGameObjectsList (GameObject*, GameObjects**);
+	static void createGameObjectsList (GameObject *gameObject, GameObjects **first, GameObjects **last);
+	static void addGameObjectsList (GameObject *gameObject, GameObjects **last);
 
 };
 

@@ -5,7 +5,7 @@ class Rectangle {
 public:
 
 	Rectangle ();
-	Rectangle (float, float, float, float);
+	Rectangle (float x, float y, float w, float h);
 	~Rectangle ();
 
 	static bool rectIsColliding (Rectangle r1, Rectangle r2);
@@ -17,16 +17,16 @@ public:
 	float getWidth ();
 	float getHeight ();
 
-	void setX (float);
-	void setY (float);
-	void setWidth (float);
-	void setHeight (float);
+	void setX (float x);
+	void setY (float y);
+	void setWidth (float width);
+	void setHeight (float height);
 
-	void setPos (float, float);
-	void setSize (float, float);
+	void setPos (float x, float y);
+	void setSize (float width, float height);
 
-	void translate (float, float);
-	void scale (float, float);
+	void translate (float x, float y);
+	void scale (float width, float height);
 
 	void flip ();
 

@@ -7,12 +7,12 @@ namespace Audio {
 	public:
 
 		Audio ();
-		Audio (const char*, const char*);
+		Audio (const char *filename, const char *channelName);
 		~Audio ();
 
 		void reQueue ();
 
-		void pause (int);
+		void pause (int pause);
 
 		SDL_AudioDeviceID getDeviceID ();
 
@@ -31,12 +31,12 @@ namespace Audio {
 	public:
 
 		Music ();
-		Music (const char*);
+		Music (const char* filename);
 		~Music ();
 
 		void render ();
 
-		void pause (int);
+		void pause (int pause);
 
 	private:
 
@@ -49,7 +49,7 @@ namespace Audio {
 	public:
 
 		Effect ();
-		Effect (const char*);
+		Effect (const char* filename);
 		~Effect ();
 
 		void playEffect ();

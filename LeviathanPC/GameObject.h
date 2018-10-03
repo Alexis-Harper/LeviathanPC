@@ -13,7 +13,7 @@ public:
 	virtual bool update () = 0;
 	virtual void render () = 0;
 
-	bool damage (int);
+	bool damage (int damage);
 
 	virtual void death () = 0;
 
@@ -22,10 +22,10 @@ public:
 	int getAttack ();
 	int getSpeed ();
 
-	void setHp (int);
-	void setHpMax (int);
-	void setAttack (int);
-	void setSpeed (int);
+	void setHp (int hp);
+	void setHpMax (int hpMax);
+	void setAttack (int attack);
+	void setSpeed (int speed);
 
 private:
 

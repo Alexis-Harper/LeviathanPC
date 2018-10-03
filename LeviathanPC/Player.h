@@ -10,10 +10,10 @@ public:
 	Player (SDL_Renderer*);
 	~Player ();
 
-	void eightDirection (bool*);
+	void eightDirection (bool *boolArray);
 
 	void update ();
-	void render (SDL_Renderer*);
+	void render (SDL_Renderer *renderer);
 
 	Rectangle getHixbox ();
 

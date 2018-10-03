@@ -163,7 +163,9 @@ int main(int argc, char *args[]) {
 
 	SDL_RenderSetViewport (renderer, &viewport);
 
+	//Set up sprites
 	Sprite::updateScreenDimentions (viewport.w, viewport.h);
+	Sprite::setCamera (0.0f, 0.0f);
 
 	//Set up joystick
 	SDL_Joystick *gameController = NULL;
@@ -189,11 +191,11 @@ int main(int argc, char *args[]) {
 	}
 
 	//Set up arena
-	Arena *activeArena = new Arena ((char*) "assets/arena/TestArena.json");
+	Arena *activeArena = new Arena ((const char*) "assets/arena/TestArena.json", renderer);
 
 	Player player = Player (renderer);
 
-	Audio::Music *song = new Audio::Music ((char*) "assets/Ambient_Hell.wav");
+	Audio::Music *song = new Audio::Music ((const char*) "assets/Ambient_Hell.wav");
 	song->pause (0);
 
 	//SDL Events
@@ -352,7 +354,9 @@ int main(int argc, char *args[]) {
 			SDL_RenderClear (renderer);
 
 			//Render things
-			player.render(renderer);
+			activeArena->render (renderer);
+
+			player.render (renderer);
 
 			SDL_RenderPresent (renderer);
 

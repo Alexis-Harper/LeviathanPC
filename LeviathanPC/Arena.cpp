@@ -20,7 +20,7 @@ Arena::Arena () {
 
 }
 
-Arena::Arena (char *filename) {
+Arena::Arena (const char *filename, SDL_Renderer *render) {
 
 	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
 
@@ -48,6 +48,12 @@ Arena::Arena (char *filename) {
 		exit (ERROR_ARENA_PARSE_JSON);
 
 	}
+
+	//Set up visuals
+	const Value &visuals_object = json["Visuals"];
+
+	const std::string backgroundAdress = visuals_object["Background-Image"].GetString ();
+	this->backgroundImage = new Sprite (render, (char*) backgroundAdress.c_str());
 
 	int i = 0;
 
@@ -225,6 +231,12 @@ Arena::~Arena () {
 		n = m;
 
 	}
+
+}
+
+void Arena::render (SDL_Renderer* render) {
+
+	this->backgroundImage->render (render, 0.0f, 0.0f, 1.0f, NULL);
 
 }
 

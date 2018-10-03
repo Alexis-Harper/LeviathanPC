@@ -1,6 +1,6 @@
 #pragma once
 
-SDL_Texture* loadTexture (SDL_Renderer*, char*);
+SDL_Texture* loadTexture (SDL_Renderer *renderer, char *filename);
 
 //Renders SDL Sprite 
 class Sprite {
@@ -8,12 +8,17 @@ class Sprite {
 public:
 
 	Sprite ();
-	Sprite (SDL_Renderer*, char*);
+	Sprite (SDL_Renderer *renderer, char *filename);
 	~Sprite ();
 
-	static void updateScreenDimentions (int, int);
+	static void updateScreenDimentions (int x, int y);
+	static void translateCamera (float x, float y);
+	static void setCamera (float x, float y);
 
-	void render (SDL_Renderer*, float, float, float, SDL_Rect*);
+	//Render with camera
+	void render (SDL_Renderer *renderer, float x, float y, float scale, SDL_Rect *clip);
+	//Render without camera
+	void srender (SDL_Renderer *renderer, float x, float y, float scale, SDL_Rect *clip);
 
 	float getWidth ();
 	float getHeight ();
@@ -36,10 +41,13 @@ class SpriteSheet {
 public:
 
 	SpriteSheet ();
-	SpriteSheet (SDL_Renderer*, char*, int, int);
+	SpriteSheet (SDL_Renderer *renderer, char *filename, int w, int h);
 	~SpriteSheet ();
 
-	void render (SDL_Renderer*, float, float, float, int, int);
+	//Render with camera
+	void render (SDL_Renderer *renderer, float x, float y, float scale, int indexX, int indexY);
+	//Render without camera
+	void srender (SDL_Renderer *renderer, float x, float y, float scale, int indexX, int indexY);
 
 private:
 

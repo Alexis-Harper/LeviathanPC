@@ -4,19 +4,19 @@ namespace Input {
 
 	void update ();
 
-	bool keyHeld (int);
+	bool keyHeld (int key);
 
-	void setDelta (double);
+	void setDelta (double delta);
 	double getDelta ();
 
-	void isControllerUsed (bool);
+	void isControllerUsed (bool isUsed);
 
-	void joyButtonPressed (int, bool);
+	void joyButtonPressed (int index, bool pressed);
 
-	void joyAxis0X (float);
-	void joyAxis0Y (float);
-	void joyAxis1X (float);
-	void joyAxis1Y (float);
+	void joyAxis0X (float axis0XValue);
+	void joyAxis0Y (float axis0YValue);
+	void joyAxis1X (float axis1XValue);
+	void joyAxis1Y (float axis1YValue);
 
 	int eightDirection ();
 	int facingDirection ();

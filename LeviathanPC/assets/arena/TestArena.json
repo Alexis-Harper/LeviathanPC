@@ -1,5 +1,11 @@
 {
 
+  "Visuals": {
+
+    "Background-Image": "assets/background.bmp"
+
+  },
+
   "Up_Walls": [
 
     {
