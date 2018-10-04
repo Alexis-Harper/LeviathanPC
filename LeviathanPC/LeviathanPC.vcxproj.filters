@@ -106,5 +106,8 @@
     <None Include="assets\arena\TestArena.json">
       <Filter>Resource Files\assets\arena</Filter>
     </None>
+    <None Include="assets\arena\LargeArena.json">
+      <Filter>Resource Files\assets\arena</Filter>
+    </None>
   </ItemGroup>
 </Project>

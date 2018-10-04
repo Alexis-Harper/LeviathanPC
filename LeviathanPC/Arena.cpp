@@ -345,6 +345,13 @@ void Arena::render (SDL_Renderer* render) {
 
 }
 
+void Arena::playerMoveCamera (float x, float y) {
+
+	//TODO: Do something more useful
+	Sprite::translateCamera (x, y);
+
+}
+
 bool* Arena::canMove (Rectangle hitbox) {
 
 	//Create array to return

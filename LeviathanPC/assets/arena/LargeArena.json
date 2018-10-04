@@ -1,0 +1,54 @@
+{
+
+  "Visuals": {
+
+    "Background-Image": "assets/background.bmp",
+    "Background-Scale": 5.0
+
+  },
+
+  "Up_Walls": [
+
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "w": 5.0,
+      "h": 0.0
+    }
+
+  ],
+
+  "Right_Walls": [
+
+    {
+      "x": 5.0,
+      "y": 0.0,
+      "w": 0.0,
+      "h": 5.0
+    }
+
+  ],
+
+  "Down_Walls": [
+
+    {
+      "x": 0.0,
+      "y": 5.0,
+      "w": 5.0,
+      "h": 0.0
+    }
+
+  ],
+
+  "Left_Walls": [
+
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "w": 0.0,
+      "h": 5.0
+    }
+
+  ]
+
+}

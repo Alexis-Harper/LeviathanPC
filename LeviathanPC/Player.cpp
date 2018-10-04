@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "Input.h"
+#include "Arena.h"
 
 Player::Player (SDL_Renderer *render) {
 
@@ -77,8 +78,13 @@ void Player::update () {
 
 	}
 
-	this->hitbox.translate ((float) (this->vx * 0.005f * Input::getDelta()), (float) (this->vy * 0.005f * Input::getDelta()));
+	this->vx *= (float) (0.005f *  Input::getDelta());
+	this->vy *= (float) (0.005f *  Input::getDelta());
+
+	this->hitbox.translate ((float) (this->vx), (float) (this->vy));
 	
+	Arena::playerMoveCamera (vx, -vy);
+
 }
 
 void Player::render (SDL_Renderer *render) {

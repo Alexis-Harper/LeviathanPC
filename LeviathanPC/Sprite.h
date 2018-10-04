@@ -11,8 +11,11 @@ public:
 	Sprite (SDL_Renderer *renderer, char *filename);
 	~Sprite ();
 
+	//Call on window size change to correct movement
 	static void updateScreenDimentions (int x, int y);
+	//Translate camera position
 	static void translateCamera (float x, float y);
+	//Set camera position
 	static void setCamera (float x, float y);
 
 	//Render with camera

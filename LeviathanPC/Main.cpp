@@ -191,7 +191,7 @@ int main(int argc, char *args[]) {
 	}
 
 	//Set up arena
-	Arena *activeArena = new Arena ((const char*) "assets/arena/TestArena.json", renderer);
+	Arena *activeArena = new Arena ((const char*) "assets/arena/LargeArena.json", renderer);
 
 	Player player = Player (renderer);
 
