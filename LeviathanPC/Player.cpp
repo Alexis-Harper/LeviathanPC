@@ -25,7 +25,7 @@ void Player::eightDirection (bool *move) {
 
 }
 
-void Player::update () {
+void Player::update (Arena *arena) {
 
 	this->direction = (EightDirection) Input::eightDirection ();
 
@@ -79,11 +79,11 @@ void Player::update () {
 	}
 
 	this->vx *= (float) (0.005f *  Input::getDelta());
-	this->vy *= (float) (0.005f *  Input::getDelta());
+	this->vy *= (float) (0.006f *  Input::getDelta());
 
 	this->hitbox.translate ((float) (this->vx), (float) (this->vy));
 	
-	Arena::playerMoveCamera (vx, -vy);
+	arena->playerMoveCamera (this->hitbox, vx, -vy);
 
 }
 

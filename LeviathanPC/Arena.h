@@ -16,7 +16,7 @@ public:
 	void render (SDL_Renderer *renderer);
 
 	//Call on player move to move camera in appropriate way
-	static void playerMoveCamera (float x, float y);
+	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
 
 	//See if player can move or not
 	bool* canMove (Rectangle playerHitbox);
@@ -37,11 +37,15 @@ private:
 
 	};
 
-	//Linked list pointers
+	//Linked list pointer (Movement Walls)
 	struct Walls *up_first, *up_last;
 	struct Walls *right_first, *right_last;
 	struct Walls *down_first, *down_last;
 	struct Walls *left_first, *left_last;
+
+	//Linked list pointer (Camera Walls)
+	struct Walls *choriz_first, *choriz_last;
+	struct Walls *cvert_first, *cvert_last;
 
 	//Linked list build functions
 	static void createWallList (Rectangle *wall, Walls **first, Walls **last);

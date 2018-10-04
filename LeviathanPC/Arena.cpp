@@ -180,6 +180,60 @@ Arena::Arena (const char *filename, SDL_Renderer *render) {
 
 	i = 0;
 
+	const Value &camera_h_walls = json["Camera-Walls-H"];
+
+	for (auto &wall : camera_h_walls.GetArray ()) {
+
+		Rectangle *rect = new Rectangle ();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->choriz_first, &this->choriz_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->choriz_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	const Value &camera_v_walls = json["Camera-Walls-V"];
+
+	for (auto &wall : camera_v_walls.GetArray ()) {
+
+		Rectangle *rect = new Rectangle ();
+
+		rect->setX (wall["x"].GetFloat ());
+		rect->setY (wall["y"].GetFloat ());
+		rect->setWidth (wall["w"].GetFloat ());
+		rect->setHeight (wall["h"].GetFloat ());
+
+		if (i == 0) {
+
+			Arena::createWallList (rect, &this->cvert_first, &this->cvert_last);
+
+		} else {
+
+			Arena::addWallList (rect, &this->cvert_last);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
 }
 
 Arena::~Arena () {
@@ -230,6 +284,34 @@ Arena::~Arena () {
 	}
 
 	n = this->left_first;
+
+	while (n) {
+
+		delete n->rect;
+
+		m = n->next;
+
+		delete n;
+
+		n = m;
+
+	}
+
+	n = this->choriz_first;
+
+	while (n) {
+
+		delete n->rect;
+
+		m = n->next;
+
+		delete n;
+
+		n = m;
+
+	}
+
+	n = this->cvert_first;
 
 	while (n) {
 
@@ -345,9 +427,40 @@ void Arena::render (SDL_Renderer* render) {
 
 }
 
-void Arena::playerMoveCamera (float x, float y) {
+void Arena::playerMoveCamera (Rectangle hitbox, float x, float y) {
 
-	//TODO: Do something more useful
+	struct Walls *n;
+
+	n = this->choriz_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			x = 0.0f;
+
+			break;
+
+		}
+
+		n = n->next;
+
+	}
+
+	n = this->cvert_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			y = 0.0f;
+
+		}
+
+		n = n->next;
+
+	}
+
 	Sprite::translateCamera (x, y);
 
 }
@@ -443,7 +556,7 @@ void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
 
 void Arena::addWallList (Rectangle *data, Walls **last) {
 
-	Walls *prev = *last;
+	struct Walls *prev = *last;
 
 	*last = new Walls (data);
 

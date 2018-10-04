@@ -2,6 +2,7 @@
 
 #include "Rectangle.h"
 #include "Sprite.h"
+#include "Arena.h"
 
 class Player {
 
@@ -12,7 +13,7 @@ public:
 
 	void eightDirection (bool *boolArray);
 
-	void update ();
+	void update (Arena *activeArena);
 	void render (SDL_Renderer *renderer);
 
 	Rectangle getHixbox ();

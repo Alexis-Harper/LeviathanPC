@@ -14,6 +14,14 @@ using namespace std;
 
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
 
+enum GameState {
+
+	HOME_MENU,
+	GAME,
+	PAUSED
+
+} gameState;
+
 int main(int argc, char *args[]) {
 
 	//Window pointer
@@ -191,10 +199,22 @@ int main(int argc, char *args[]) {
 	}
 
 	//Set up arena
-	Arena *activeArena = new Arena ((const char*) "assets/arena/LargeArena.json", renderer);
+	Arena *activeArena;
 
+	if (argc > 1) {
+
+		activeArena = new Arena (args[1], renderer);
+		
+	} else {
+
+		activeArena = new Arena ((const char*) "assets/arena/LargeArena.json", renderer);
+
+	}
+
+	//Set up player
 	Player player = Player (renderer);
 
+	//Set up music
 	Audio::Music *song = new Audio::Music ((const char*) "assets/Ambient_Hell.wav");
 	song->pause (0);
 
@@ -349,7 +369,7 @@ int main(int argc, char *args[]) {
 
 			player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
 
-			player.update ();
+			player.update (activeArena);
 
 			//Render
 
