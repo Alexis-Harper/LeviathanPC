@@ -2,7 +2,8 @@
 
   "Visuals": {
 
-    "Background-Image": "assets/background.bmp"
+    "Background-Image": "assets/background.bmp",
+    "Background-Scale": 1.0
 
   },
 

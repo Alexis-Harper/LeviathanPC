@@ -91,7 +91,7 @@ void Sprite::setCamera (float x, float y) {
 
 void Sprite::render (SDL_Renderer *render, float x, float y, float scale, SDL_Rect *clip) {
 
-	SDL_Rect renderQuad = { (int) ((x + cameraX) * screenWidth), (int) ((y + cameraY) * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
+	SDL_Rect renderQuad = { (int) ((x - cameraX) * screenWidth), (int) ((y + cameraY) * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
 
 	if (clip != NULL) {
 

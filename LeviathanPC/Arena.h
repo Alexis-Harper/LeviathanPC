@@ -12,6 +12,7 @@ public:
 	Arena (const char *filename, SDL_Renderer *renderer);
 	~Arena ();
 
+	void update ();
 	void render (SDL_Renderer *renderer);
 
 	bool* canMove (Rectangle playerHitbox);
@@ -20,6 +21,7 @@ private:
 
 	//Visuals
 	Sprite *backgroundImage;
+	float backgroundScale;
 
 	//Wall linked lists
 	struct Walls {

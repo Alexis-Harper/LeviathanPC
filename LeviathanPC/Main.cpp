@@ -54,7 +54,7 @@ int main(int argc, char *args[]) {
 
 	} else {
 
-		cout << "[+] SDL: Joystick initialized.\n";
+		cout << "[+] SDL: Joystick initialized.\n\n";
 
 	}
 
@@ -340,6 +340,8 @@ int main(int argc, char *args[]) {
 
 			//Input
 			Input::update ();
+
+			activeArena->update ();
 
 			//Update
 

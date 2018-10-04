@@ -7,8 +7,17 @@
 #include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
 
+#include "Input.h"
+#include "Sprite.h"
+
 using namespace std;
 using namespace rapidjson;
+
+namespace {
+
+	float playerCameraMoveX, playerCameraMoveY;
+
+}
 
 Arena::Arena () {
 
@@ -54,6 +63,8 @@ Arena::Arena (const char *filename, SDL_Renderer *render) {
 
 	const std::string backgroundAdress = visuals_object["Background-Image"].GetString ();
 	this->backgroundImage = new Sprite (render, (char*) backgroundAdress.c_str());
+
+	this->backgroundScale = visuals_object["Background-Scale"].GetFloat ();
 
 	int i = 0;
 
@@ -234,9 +245,103 @@ Arena::~Arena () {
 
 }
 
+void Arena::update () {
+
+	float cameraVX, cameraVY;
+
+	//Reset camera if hitting O, move if not
+	if (Input::keyHeld (SDL_SCANCODE_O)) {
+
+		Sprite::translateCamera (-playerCameraMoveX, -playerCameraMoveY);
+
+		playerCameraMoveX = 0.0f;
+		playerCameraMoveY = 0.0f;
+
+	} else {
+
+		//Get keys
+		bool up = Input::keyHeld (SDL_SCANCODE_I);
+		bool right = Input::keyHeld (SDL_SCANCODE_L);
+		bool down = Input::keyHeld (SDL_SCANCODE_K);
+		bool left = Input::keyHeld (SDL_SCANCODE_J);
+
+		//Check direction and set it
+		if (up && !right && !down && !left) {
+
+			cameraVX = 0.0f;
+			cameraVY = 1.0f;
+
+		} else if (up && right && !down && !left) {
+
+			cameraVX = SQRT_2;
+			cameraVY = SQRT_2;
+
+		} else if (!up && right && !down && !left) {
+
+			cameraVX = 1.0f;
+			cameraVY = 0.0f;
+
+		} else if (!up && right && down && !left) {
+
+			cameraVX = SQRT_2;
+			cameraVY = _SQRT_2;
+
+		} else if (!up && !right && down && !left) {
+
+			cameraVX = 0.0f;
+			cameraVY = -1.0f;
+
+		} else if (!up && !right && down && left) {
+
+			cameraVX = _SQRT_2;
+			cameraVY = _SQRT_2;
+
+		} else if (!up && !right && !down && left) {
+
+			cameraVX = -1.0f;
+			cameraVY = 0.0f;
+
+		} else if (up && !right && !down && left) {
+
+			cameraVX = _SQRT_2;
+			cameraVY = SQRT_2;
+
+		} else {
+
+			cameraVX = 0.0f;
+			cameraVY = 0.0f;
+
+		}
+
+		//Scale
+		cameraVX *= 0.005f;
+		cameraVY *= 0.005f;
+
+		//Make sure it's no further than 0.5 screens away from center
+		if (playerCameraMoveX > 0.5f && cameraVX > 0.0f || playerCameraMoveX < -0.5f && cameraVX < 0.0f) {
+
+			cameraVX = 0.0f;
+
+		} 
+
+		if (playerCameraMoveY > 0.5f && cameraVY > 0.0f || playerCameraMoveY < -0.5f && cameraVY < 0.0f) {
+
+			cameraVY = 0.0f;
+
+		}
+
+		//Translate position
+		playerCameraMoveX += cameraVX;
+		playerCameraMoveY += cameraVY;
+		Sprite::translateCamera (cameraVX, cameraVY);
+
+	}
+
+}
+
 void Arena::render (SDL_Renderer* render) {
 
-	this->backgroundImage->render (render, 0.0f, 0.0f, 1.0f, NULL);
+	this->backgroundImage->render (render, 0.0f, 0.0f, this->backgroundScale, NULL);
 
 }
 
