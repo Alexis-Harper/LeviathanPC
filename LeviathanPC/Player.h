@@ -16,6 +16,8 @@ public:
 	void update (Arena *activeArena);
 	void render (SDL_Renderer *renderer);
 
+	void setPosition (float x, float y);
+
 	Rectangle getHixbox ();
 
 private:

@@ -2,7 +2,6 @@
 #include "Player.h"
 
 #include "Input.h"
-#include "Arena.h"
 
 Player::Player (SDL_Renderer *render) {
 
@@ -90,6 +89,12 @@ void Player::update (Arena *arena) {
 void Player::render (SDL_Renderer *render) {
 
 	this->spritesheet->render (render, this->hitbox.getX (), this->hitbox.getY (), 1.0f, 0, 0);
+
+}
+
+void Player::setPosition (float x, float y) {
+
+	this->hitbox.setPos (x, y);
 
 }
 

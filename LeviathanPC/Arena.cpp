@@ -9,6 +9,7 @@
 
 #include "Input.h"
 #include "Sprite.h"
+#include "Exit.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -30,6 +31,8 @@ Arena::Arena () {
 }
 
 Arena::Arena (const char *filename, SDL_Renderer *render) {
+
+	cout << "Loading arena: " << filename << "\n";
 
 	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
 
@@ -234,6 +237,44 @@ Arena::Arena (const char *filename, SDL_Renderer *render) {
 
 	i = 0;
 
+	const Value &exit_wall_list = json["Exits"];
+
+	for (auto &box : exit_wall_list.GetArray ()) {
+
+		Rectangle rect;
+
+		rect.setX (box["x"].GetFloat ());
+		rect.setY (box["y"].GetFloat ());
+		rect.setWidth (box["w"].GetFloat ());
+		rect.setHeight (box["h"].GetFloat ());
+
+		Exit *exit = new Exit (
+
+			box["location"].GetString (),
+			rect,
+			box["playerX"].GetFloat (),
+			box["playerY"].GetFloat (),
+			box["coffX"].GetFloat (),
+			box["coffY"].GetFloat ()
+
+		);
+
+		if (i == 0) {
+
+			Exit::createExitList (exit);
+
+		} else {
+
+			Exit::addExitList (exit);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
 }
 
 Arena::~Arena () {
@@ -324,6 +365,8 @@ Arena::~Arena () {
 		n = m;
 
 	}
+
+	Exit::deleteExitList ();
 
 }
 

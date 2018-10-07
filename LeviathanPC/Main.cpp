@@ -7,8 +7,8 @@
 #include "Input.h"
 #include "Player.h"
 #include "Arena.h"
-
 #include "Audio.h"
+#include "Exit.h"
 
 using namespace std;
 
@@ -207,7 +207,7 @@ int main(int argc, char *args[]) {
 		
 	} else {
 
-		activeArena = new Arena ((const char*) "assets/arena/LargeArena.json", renderer);
+		activeArena = new Arena ((const char*) "assets/arena/TestArena.json", renderer);
 
 	}
 
@@ -384,6 +384,9 @@ int main(int argc, char *args[]) {
 
 			//Render music
 			song->render ();
+
+			//Test if player is exiting arena
+			Exit::testForExit (&activeArena, &player, renderer);
 
 		}
 

@@ -38,14 +38,14 @@ private:
 	};
 
 	//Linked list pointer (Movement Walls)
-	struct Walls *up_first, *up_last;
-	struct Walls *right_first, *right_last;
-	struct Walls *down_first, *down_last;
-	struct Walls *left_first, *left_last;
+	struct Walls *up_first = NULL, *up_last = NULL;
+	struct Walls *right_first = NULL, *right_last = NULL;
+	struct Walls *down_first = NULL, *down_last = NULL;
+	struct Walls *left_first = NULL, *left_last = NULL;
 
 	//Linked list pointer (Camera Walls)
-	struct Walls *choriz_first, *choriz_last;
-	struct Walls *cvert_first, *cvert_last;
+	struct Walls *choriz_first = NULL, *choriz_last = NULL;
+	struct Walls *cvert_first = NULL, *cvert_last = NULL;
 
 	//Linked list build functions
 	static void createWallList (Rectangle *wall, Walls **first, Walls **last);
@@ -61,7 +61,7 @@ private:
 	};
 
 	//Linked list pointer
-	struct GameObjects *gameObject_first, *gameObject_last;
+	struct GameObjects *gameObject_first = NULL, *gameObject_last = NULL;
 
 	//Linked list build functions
 	static void createGameObjectsList (GameObject *gameObject, GameObjects **first, GameObjects **last);

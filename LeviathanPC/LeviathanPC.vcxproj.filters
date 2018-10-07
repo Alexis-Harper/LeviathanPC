@@ -34,15 +34,18 @@
     <Filter Include="Resource Files\assets\arena">
       <UniqueIdentifier>{c466fd76-414b-427f-b5cd-14c471dce766}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Arena">
+      <UniqueIdentifier>{061f9083-9369-489c-9644-33257040abb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Arena">
+      <UniqueIdentifier>{45f32f30-f573-4261-942d-01671da651e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Arena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
@@ -63,12 +66,15 @@
     <ClCompile Include="Vector.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Arena.cpp">
+      <Filter>Source Files\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="Exit.cpp">
+      <Filter>Source Files\Arena</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Arena.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rectangle.h">
@@ -97,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="ControllerDefines.h">
       <Filter>Header Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arena.h">
+      <Filter>Header Files\Arena</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
