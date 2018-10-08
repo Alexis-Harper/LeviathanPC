@@ -88,7 +88,7 @@ void Player::update (Arena *arena) {
 
 void Player::render (SDL_Renderer *render) {
 
-	this->spritesheet->render (render, this->hitbox.getX (), this->hitbox.getY (), 1.0f, 0, 0);
+	this->spritesheet->render (render, this->hitbox.getX (), this->hitbox.getY (), 0.5f, 0, 0);
 
 }
 

@@ -198,6 +198,8 @@ int main(int argc, char *args[]) {
 
 	}
 
+	Input::init ();
+
 	//Set up arena
 	Arena *activeArena;
 

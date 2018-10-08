@@ -2,6 +2,7 @@
 
 namespace Input {
 
+	void init ();
 	void update ();
 
 	bool keyHeld (int key);

@@ -30,7 +30,7 @@ private:
 
 	SpriteSheet *spritesheet;
 
-	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.1f, 0.1f);
+	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.05f, 0.05f);
 
 };
 

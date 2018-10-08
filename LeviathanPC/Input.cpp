@@ -21,6 +21,12 @@ namespace Input {
 
 	}
 
+	void init () {
+
+		keyboard = SDL_GetKeyboardState (NULL);
+
+	}
+
 	void update () {
 
 		//Directions
