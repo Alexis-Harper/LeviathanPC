@@ -12,6 +12,8 @@ public:
 	Arena (const char *filename, SDL_Renderer *renderer);
 	~Arena ();
 
+	static void init ();
+
 	void update ();
 	void render (SDL_Renderer *renderer);
 
@@ -20,6 +22,8 @@ public:
 
 	//See if player can move or not
 	bool* canMove (Rectangle playerHitbox);
+
+	void pause (int pause);
 
 private:
 

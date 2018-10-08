@@ -10,6 +10,7 @@
 #include "Input.h"
 #include "Sprite.h"
 #include "Exit.h"
+#include "Audio.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -17,6 +18,10 @@ using namespace rapidjson;
 namespace {
 
 	float playerCameraMoveX, playerCameraMoveY;
+
+	char *lastArenaSongName;
+	Audio::Music *currentSong;
+	bool songPlaying = false;
 
 }
 
@@ -68,6 +73,38 @@ Arena::Arena (const char *filename, SDL_Renderer *render) {
 	this->backgroundImage = new Sprite (render, (char*) backgroundAdress.c_str());
 
 	this->backgroundScale = visuals_object["Background-Scale"].GetFloat ();
+
+	//See if music value exists, and if so 
+	if (json.HasMember("Music")) {
+
+		//Get music value
+		const Value &music = json["Music"];
+
+		//Create buffer containing music string
+		size_t size = music.GetStringLength () + 1;
+		char *buf = new char[size];
+		strcpy (buf, music.GetString ());
+
+		//If string is the same, delete buffer, if not replace old song with new one
+		if (!strcmp (lastArenaSongName, buf)) {
+
+			//Buf is now useless, so dealocate memory
+			delete[] buf;
+
+		} else {
+
+			//Load up new song and play it
+			delete currentSong;
+			currentSong = new Audio::Music (buf);
+			currentSong->pause (0);
+
+			//Replace old string
+			delete[] lastArenaSongName;
+			lastArenaSongName = buf;
+
+		}
+
+	}
 
 	int i = 0;
 
@@ -370,6 +407,13 @@ Arena::~Arena () {
 
 }
 
+void Arena::init () {
+
+	lastArenaSongName = new char[1];
+	lastArenaSongName[0] = '\00';
+
+}
+
 void Arena::update () {
 
 	float cameraVX, cameraVY;
@@ -467,6 +511,12 @@ void Arena::update () {
 void Arena::render (SDL_Renderer* render) {
 
 	this->backgroundImage->render (render, 0.0f, 0.0f, this->backgroundScale, NULL);
+
+	if (songPlaying) {
+
+		currentSong->render ();
+
+	}
 
 }
 
@@ -586,6 +636,12 @@ bool* Arena::canMove (Rectangle hitbox) {
 	}
 
 	return ret;
+
+}
+
+void Arena::pause (int pause) {
+
+	currentSong->pause (pause);
 
 }
 

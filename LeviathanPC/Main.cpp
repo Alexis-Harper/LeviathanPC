@@ -199,6 +199,7 @@ int main(int argc, char *args[]) {
 	}
 
 	Input::init ();
+	Arena::init ();
 
 	//Set up arena
 	Arena *activeArena;
@@ -215,10 +216,6 @@ int main(int argc, char *args[]) {
 
 	//Set up player
 	Player player = Player (renderer);
-
-	//Set up music
-	Audio::Music *song = new Audio::Music ((const char*) "assets/Ambient_Hell.wav");
-	song->pause (0);
 
 	//SDL Events
 	bool exit = false;
@@ -384,9 +381,6 @@ int main(int argc, char *args[]) {
 
 			SDL_RenderPresent (renderer);
 
-			//Render music
-			song->render ();
-
 			//Test if player is exiting arena
 			Exit::testForExit (&activeArena, &player, renderer);
 
@@ -395,8 +389,7 @@ int main(int argc, char *args[]) {
 	}
 
 	//Close program
-
-	delete song;
+	delete activeArena;
 
 	SDL_JoystickClose (gameController);
 

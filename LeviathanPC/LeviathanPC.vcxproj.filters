@@ -104,10 +104,10 @@
     <ClInclude Include="ControllerDefines.h">
       <Filter>Header Files\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Exit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Arena.h">
+      <Filter>Header Files\Arena</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
       <Filter>Header Files\Arena</Filter>
     </ClInclude>
   </ItemGroup>
