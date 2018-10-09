@@ -125,6 +125,42 @@ void Sprite::srender (SDL_Renderer *render, float x, float y, float scale, SDL_R
 
 }
 
+void Sprite::setBlendMode (SDL_BlendMode mode) {
+
+	SDL_SetTextureBlendMode (this->texture, mode);
+
+}
+
+void Sprite::setAlpha (Uint8 alpha) {
+
+	SDL_SetTextureAlphaMod (this->texture, alpha);
+
+	this->alpha = alpha;
+
+}
+
+void Sprite::crescereAlpha (int8_t alpha) {
+
+	this->alpha += alpha;
+
+	SDL_SetTextureAlphaMod (this->texture, this->alpha);
+
+}
+
+void Sprite::crescereAlpha_s (int8_t alpha) {
+
+	if (this->alpha + alpha <= 0) {
+
+		this->alpha = 0;
+
+	} else {
+
+		this->alpha += alpha;
+
+	}
+
+}
+
 float Sprite::getWidth () {
 
 	return this->width;
@@ -196,5 +232,29 @@ void SpriteSheet::srender (SDL_Renderer *render, float x, float y, float scale, 
 	clip.h = this->resY;
 
 	this->sprite->srender (render, x, y, scale, &clip);
+
+}
+
+void SpriteSheet::setBlendMode (SDL_BlendMode mode) {
+
+	this->sprite->setBlendMode (mode);
+
+}
+
+void SpriteSheet::setAlpha (Uint8 alpha) {
+
+	this->sprite->setAlpha (alpha);
+
+}
+
+void SpriteSheet::crescereAlpha (int8_t alpha) {
+
+	this->sprite->crescereAlpha (alpha);
+
+}
+
+void SpriteSheet::crescereAlpha_s (int8_t alpha) {
+
+	this->sprite->crescereAlpha_s (alpha);
 
 }

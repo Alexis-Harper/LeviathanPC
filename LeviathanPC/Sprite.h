@@ -23,6 +23,16 @@ public:
 	//Render without camera
 	void srender (SDL_Renderer *renderer, float x, float y, float scale, SDL_Rect *clip);
 
+	//Set blending
+	void setBlendMode (SDL_BlendMode mode);
+	//Set alpha
+	void setAlpha (Uint8 alpha);
+
+	//Increment or decrement (crescere) alpha value
+	void crescereAlpha (int8_t alpha);
+	//Increment or decrement (crescere) alpha value (with safety of negatives replaced with 0)
+	void crescereAlpha_s (int8_t alpha);
+
 	float getWidth ();
 	float getHeight ();
 
@@ -35,6 +45,8 @@ private:
 
 	float width, height;
 	int pWidth, pHeight;
+
+	int alpha;
 
 };
 
@@ -51,6 +63,16 @@ public:
 	void render (SDL_Renderer *renderer, float x, float y, float scale, int indexX, int indexY);
 	//Render without camera
 	void srender (SDL_Renderer *renderer, float x, float y, float scale, int indexX, int indexY);
+
+	//Set blending
+	void setBlendMode (SDL_BlendMode mode);
+	//Set alpha
+	void setAlpha (Uint8 alpha);
+
+	//Increment or decrement (crescere) alpha value
+	void crescereAlpha (int8_t alpha);
+	//Increment or decrement (crescere) alpha value (with safety of negatives replaced with 0)
+	void crescereAlpha_s (int8_t alpha);
 
 private:
 
