@@ -13,11 +13,13 @@ namespace Input {
 
 		int direction, fdirection;
 
-		bool controller = false;
+		bool controller = false, haptic = false;
 
 		bool joyButton[14] = { false };
 
 		float joy0X, joy0Y, joy1X, joy1Y;
+
+		SDL_Haptic *hapticFeedback;
 
 	}
 
@@ -274,6 +276,12 @@ namespace Input {
 
 	}
 
+	void isHapticUsed (bool isUsed) {
+	
+		haptic = isUsed;
+	
+	}
+
 	void joyButtonPressed (int index, bool value) {
 
 		joyButton[index] = value;
@@ -322,6 +330,26 @@ namespace Input {
 
 		return fdirection;
 
+	}
+
+	void setHapticFeedback (SDL_Haptic *hapticPtr) {
+	
+		hapticFeedback = hapticPtr;
+	
+	}
+
+	void rumble (float strength, int duration) {
+	
+		if (haptic) {
+
+			if (SDL_HapticRumblePlay (hapticFeedback, strength, duration) != 0) {
+
+				std::cout << "[-] SDL: Haptic feedback failed to play - " << SDL_GetError () << "\n";
+
+			}
+
+		}
+	
 	}
 
 };

@@ -62,7 +62,19 @@ int main(int argc, char *args[]) {
 
 	} else {
 
-		cout << "[+] SDL: Joystick initialized.\n\n";
+		cout << "[+] SDL: Joystick initialized.\n";
+
+	}
+
+	if (SDL_Init (SDL_INIT_HAPTIC) < 0) {
+
+		cout << "[-] SDL: " << SDL_GetError () << "\n";
+
+		return ERROR_SDL_INIT_HAPTIC;
+
+	} else {
+
+		cout << "[+] SDL: Haptic controller feedback initialized.\n\n";
 
 	}
 
@@ -177,6 +189,7 @@ int main(int argc, char *args[]) {
 
 	//Set up joystick
 	SDL_Joystick *gameController = NULL;
+	SDL_Haptic *hapticFeedback = NULL;
 
 	if (SDL_NumJoysticks () < 1) {
 
@@ -191,6 +204,29 @@ int main(int argc, char *args[]) {
 			cout << "[-] SDL: Controller failed to open.\n";
 
 		} else {
+
+			hapticFeedback = SDL_HapticOpenFromJoystick (gameController);
+
+			if (hapticFeedback == NULL) {
+
+				cout << "[+] SDL: Controller does not support haptic feedback.\n";
+
+			} else {
+
+				if (SDL_HapticRumbleInit (hapticFeedback) < 0) {
+
+					cout << "[-] SDL: " << SDL_GetError ();
+
+				} else {
+
+					cout << "[+] SDL: Haptic feedback working.\n";
+
+					Input::isHapticUsed (true);
+					Input::setHapticFeedback (hapticFeedback);
+
+				}
+
+			}
 
 			Input::isControllerUsed (true);
 
@@ -392,6 +428,7 @@ int main(int argc, char *args[]) {
 	delete activeArena;
 
 	SDL_JoystickClose (gameController);
+	SDL_HapticClose (hapticFeedback);
 
 	//Destroy window
 	SDL_DestroyWindow (window);

@@ -11,6 +11,7 @@ namespace Input {
 	double getDelta ();
 
 	void isControllerUsed (bool isUsed);
+	void isHapticUsed (bool isUsed);
 
 	void joyButtonPressed (int index, bool pressed);
 
@@ -21,5 +22,8 @@ namespace Input {
 
 	int eightDirection ();
 	int facingDirection ();
+
+	void setHapticFeedback (SDL_Haptic *haptic);
+	void rumble (float strength, int duration);
 
 };
