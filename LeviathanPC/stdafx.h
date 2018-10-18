@@ -6,6 +6,9 @@
 //Include SDL
 #include <SDL.h>
 
+//Include GPU
+#include <SDL_gpu.h>
+
 #include <math.h>
 
 #include <vector>

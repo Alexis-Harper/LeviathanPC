@@ -9,13 +9,13 @@ class Arena {
 public:
 
 	Arena ();
-	Arena (const char *filename, SDL_Renderer *renderer);
+	Arena (const char *filename);
 	~Arena ();
 
 	static void init ();
 
 	void update ();
-	void render (SDL_Renderer *renderer);
+	void render (GPU_Target *screen);
 
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);

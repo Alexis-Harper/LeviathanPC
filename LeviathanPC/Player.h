@@ -8,13 +8,13 @@ class Player {
 
 public:
 
-	Player (SDL_Renderer*);
+	Player ();
 	~Player ();
 
 	void eightDirection (bool *boolArray);
 
 	void update (Arena *activeArena);
-	void render (SDL_Renderer *renderer);
+	void render (GPU_Target *screen);
 
 	void setPosition (float x, float y);
 

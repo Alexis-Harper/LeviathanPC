@@ -7,32 +7,20 @@
 
 namespace {
 
-	int screenWidth, screenHeight;
+	float screenWidth, screenHeight;
 	float cameraX, cameraY;
 
 };
 
-SDL_Texture* loadTexture (SDL_Renderer *renderer, char *filename) {
+GPU_Image* loadTexture (char *filename) {
 
-	SDL_Texture *texture = NULL;
-
-	SDL_Surface *surface = SDL_LoadBMP(filename);
-
-	if (surface == NULL) {
-
-		std::cout << "[-] SDL: " << SDL_GetError () << "\n";
-
-		exit (ERROR_SDL_TEXTURE_LOAD_SURFACE);
-
-	}
-
-	texture = SDL_CreateTextureFromSurface (renderer, surface);
+	GPU_Image *texture = GPU_LoadImage(filename);
 
 	if (texture == NULL) {
 
 		std::cout << "[-] SDL: " << SDL_GetError () << "\n";
 
-		exit (ERROR_SDL_TEXTURE_LOAD_TEXTURE);
+		exit (ERROR_SDL_TEXTURE_LOAD);
 
 	}
 
@@ -46,29 +34,36 @@ Sprite::Sprite () {
 
 }
 
-Sprite::Sprite (SDL_Renderer *renderer, char *filename) {
+Sprite::Sprite (char *filename) {
 
-	this->texture = loadTexture (renderer, filename);
+	//Load texture
+	this->texture = loadTexture (filename);
 
+	//Get info
 	int w, h;
 
-	SDL_QueryTexture (this->texture, NULL, NULL, &w, &h);
+	w = this->texture->texture_w;
+	h = this->texture->texture_h;
 
 	this->pWidth = w;
 	this->pHeight = h;
 
-	this->width = (float) w / 960;
-	this->height = (float) h / 740;
+	this->width = w / 960.0f;
+	this->height = h / 740.0f;
+
+	//Set things
+	this->texture->anchor_x = 0.0f; //Center on edge
+	this->texture->anchor_y = 0.0f;
 
 }
 
 Sprite::~Sprite () {
 
-	SDL_DestroyTexture (this->texture);
+	GPU_FreeImage (this->texture);
 
 }
 
-void Sprite::updateScreenDimentions (int w, int h) {
+void Sprite::updateScreenDimentions (float w, float h) {
 
 	screenWidth = w;
 	screenHeight = h;
@@ -89,27 +84,9 @@ void Sprite::setCamera (float x, float y) {
 
 }
 
-void Sprite::render (SDL_Renderer *render, float x, float y, float scale, SDL_Rect *clip) {
+void Sprite::render (GPU_Target *screen, float x, float y, float scale, GPU_Rect *clip) {
 
-	SDL_Rect renderQuad = { (int) ((x - cameraX) * screenWidth), (int) ((y + cameraY) * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
-
-	if (clip != NULL) {
-
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-
-	}
-
-	renderQuad.w = (int) (renderQuad.w * scale);
-	renderQuad.h = (int) (renderQuad.h * scale);
-
-	SDL_RenderCopy (render, this->texture, clip, &renderQuad);
-
-}
-
-void Sprite::srender (SDL_Renderer *render, float x, float y, float scale, SDL_Rect *clip) {
-
-	SDL_Rect renderQuad = { (int) (x * screenWidth), (int) (y * screenHeight), (int) (this->width * screenWidth), (int) (this->height * screenHeight) };
+	GPU_Rect renderQuad = { (x - cameraX) * screenWidth, (y + cameraY) * screenHeight, this->width * screenWidth, this->height * screenHeight };
 
 	if (clip != NULL) {
 
@@ -118,22 +95,36 @@ void Sprite::srender (SDL_Renderer *render, float x, float y, float scale, SDL_R
 
 	}
 
-	renderQuad.w = (int) (renderQuad.w * scale);
-	renderQuad.h = (int) (renderQuad.h * scale);
+	renderQuad.w = renderQuad.w * scale * 1.33333333333f;
+	renderQuad.h = renderQuad.h * scale;
 
-	SDL_RenderCopy (render, this->texture, clip, &renderQuad);
-
-}
-
-void Sprite::setBlendMode (SDL_BlendMode mode) {
-
-	SDL_SetTextureBlendMode (this->texture, mode);
+	GPU_BlitRect (this->texture, clip, screen, &renderQuad);
 
 }
 
-void Sprite::setAlpha (Uint8 alpha) {
+void Sprite::srender (GPU_Target *screen, float x, float y, float scale, GPU_Rect *clip) {
 
-	SDL_SetTextureAlphaMod (this->texture, alpha);
+	GPU_BlitScale (this->texture, clip, screen, (x * screenWidth), (y * screenHeight), scale, scale);
+
+}
+
+void Sprite::setBlendMode (GPU_BlendPresetEnum mode) {
+
+	GPU_SetBlendMode (this->texture, mode);
+
+}
+
+void Sprite::setColor (Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+
+	GPU_SetRGBA (this->texture, r, g, b, a);
+
+	this->alpha = alpha;
+
+}
+
+void Sprite::setAlpha (Uint8 a) {
+
+	GPU_SetRGBA (this->texture, 255, 255, 255, a);
 
 	this->alpha = alpha;
 
@@ -143,7 +134,7 @@ void Sprite::crescereAlpha (int8_t alpha) {
 
 	this->alpha += alpha;
 
-	SDL_SetTextureAlphaMod (this->texture, this->alpha);
+	this->setAlpha (this->alpha);
 
 }
 
@@ -158,6 +149,8 @@ void Sprite::crescereAlpha_s (int8_t alpha) {
 		this->alpha += alpha;
 
 	}
+
+	this->setAlpha (this->alpha);
 
 }
 
@@ -191,9 +184,9 @@ SpriteSheet::SpriteSheet () {
 
 }
 
-SpriteSheet::SpriteSheet (SDL_Renderer *renderer, char *filename, int x, int y) {
+SpriteSheet::SpriteSheet (char *filename, int x, int y) {
 
-	this->sprite = new Sprite (renderer, filename);
+	this->sprite = new Sprite (filename);
 
 	this->imagesX = x;
 	this->imagesY = y;
@@ -209,41 +202,47 @@ SpriteSheet::~SpriteSheet () {
 
 }
 
-void SpriteSheet::render (SDL_Renderer *render, float x, float y, float scale, int indexX, int indexY) {
+void SpriteSheet::render (GPU_Target *screen, float x, float y, float scale, int indexX, int indexY) {
 
-	SDL_Rect clip;
+	GPU_Rect clip;
 
-	clip.x = this->resX * indexX;
-	clip.y = this->resY * indexY;
-	clip.w = this->resX;
-	clip.h = this->resY;
+	clip.x = (float) (this->resX * indexX);
+	clip.y = (float) (this->resY * indexY);
+	clip.w = (float) this->resX;
+	clip.h = (float) this->resY;
 
-	this->sprite->render (render, x, y, scale, &clip);
-
-}
-
-void SpriteSheet::srender (SDL_Renderer *render, float x, float y, float scale, int indexX, int indexY) {
-
-	SDL_Rect clip;
-
-	clip.x = this->resX * indexX;
-	clip.y = this->resY * indexY;
-	clip.w = this->resX;
-	clip.h = this->resY;
-
-	this->sprite->srender (render, x, y, scale, &clip);
+	this->sprite->render (screen, x, y, scale, &clip);
 
 }
 
-void SpriteSheet::setBlendMode (SDL_BlendMode mode) {
+void SpriteSheet::srender (GPU_Target *screen, float x, float y, float scale, int indexX, int indexY) {
+
+	GPU_Rect clip;
+
+	clip.x = (float) (this->resX * indexX);
+	clip.y = (float) (this->resY * indexY);
+	clip.w = (float) this->resX;
+	clip.h = (float) this->resY;
+
+	this->sprite->srender (screen, x, y, scale, &clip);
+
+}
+
+void SpriteSheet::setBlendMode (GPU_BlendPresetEnum mode) {
 
 	this->sprite->setBlendMode (mode);
 
 }
 
-void SpriteSheet::setAlpha (Uint8 alpha) {
+void SpriteSheet::setColor (Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 
-	this->sprite->setAlpha (alpha);
+	this->sprite->setColor (r, g, b, a);
+
+}
+
+void SpriteSheet::setAlpha (Uint8 a) {
+
+	this->sprite->setAlpha (a);
 
 }
 

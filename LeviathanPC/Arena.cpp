@@ -35,7 +35,7 @@ Arena::Arena () {
 
 }
 
-Arena::Arena (const char *filename, SDL_Renderer *render) {
+Arena::Arena (const char *filename) {
 
 	cout << "Loading arena: " << filename << "\n";
 
@@ -70,7 +70,7 @@ Arena::Arena (const char *filename, SDL_Renderer *render) {
 	const Value &visuals_object = json["Visuals"];
 
 	const std::string backgroundAdress = visuals_object["Background-Image"].GetString ();
-	this->backgroundImage = new Sprite (render, (char*) backgroundAdress.c_str());
+	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str());
 
 	this->backgroundScale = visuals_object["Background-Scale"].GetFloat ();
 
@@ -508,9 +508,9 @@ void Arena::update () {
 
 }
 
-void Arena::render (SDL_Renderer* render) {
+void Arena::render (GPU_Target *screen) {
 
-	this->backgroundImage->render (render, 0.0f, 0.0f, this->backgroundScale, NULL);
+	this->backgroundImage->render (screen, 0.0f, 0.0f, this->backgroundScale, NULL);
 
 	if (songPlaying) {
 

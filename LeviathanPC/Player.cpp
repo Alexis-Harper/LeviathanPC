@@ -3,9 +3,9 @@
 
 #include "Input.h"
 
-Player::Player (SDL_Renderer *render) {
+Player::Player () {
 
-	this->spritesheet = new SpriteSheet (render, (char*) "assets/sprites.bmp", 2, 2);
+	this->spritesheet = new SpriteSheet ((char*) "assets/sprites.bmp", 2, 2);
 
 }
 
@@ -86,9 +86,9 @@ void Player::update (Arena *arena) {
 
 }
 
-void Player::render (SDL_Renderer *render) {
+void Player::render (GPU_Target *screen) {
 
-	this->spritesheet->render (render, this->hitbox.getX (), this->hitbox.getY (), 0.5f, 0, 0);
+	this->spritesheet->render (screen, this->hitbox.getX (), this->hitbox.getY (), 0.5f, 0, 0);
 
 }
 

@@ -156,32 +156,33 @@ int main(int argc, char *args[]) {
 
 	}
 
-	window = SDL_CreateWindow ("Leviathan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowResX, windowResY, SDL_WINDOW_SHOWN);
+	//Tell us if any errors happen at all
+	GPU_SetDebugLevel (GPU_DEBUG_LEVEL_MAX);
+
+	GPU_Target* screen = GPU_Init (windowResX, windowResY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	//window = SDL_CreateWindow ("Leviathan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowResX, windowResY, SDL_WINDOW_SHOWN);
 
 	//Window options
-	SDL_SetWindowResizable (window, (SDL_bool) true);
+	//SDL_SetWindowResizable (window, (SDL_bool) true);
 
-	if (window == NULL) {
+	if (screen == NULL) {
 
-		cout << "[-] SDL: " << SDL_GetError () << "\n";
+		cout << "[-] GPU: " << SDL_GetError () << "\n";
 
 		return ERROR_SDL_WINDOW_FAILED_TO_LOAD;
 
 	}
 
-	SDL_Renderer *renderer = SDL_CreateRenderer (window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_SetRenderDrawColor (renderer, 0x00, 0x00, 0x00, 0xFF);
-
 	//Set up viewport
-	SDL_Rect viewport;
+	GPU_Rect viewport;
 
-	viewport.w = (int) (windowResY * 1.33333333333f);
-	viewport.h = windowResY;
+	viewport.w = windowResY * 1.33333333333f;
+	viewport.h = (float) windowResY;
 
-	viewport.x = (windowResX - viewport.w) / 2;
-	viewport.y = 0;
+	viewport.x = (windowResX - viewport.w) / 2.0f;
+	viewport.y = 0.0f;
 
-	SDL_RenderSetViewport (renderer, &viewport);
+	GPU_SetViewport (screen, viewport);
 
 	//Set up sprites
 	Sprite::updateScreenDimentions (viewport.w, viewport.h);
@@ -242,16 +243,16 @@ int main(int argc, char *args[]) {
 
 	if (argc > 1) {
 
-		activeArena = new Arena (args[1], renderer);
+		activeArena = new Arena (args[1]);
 		
 	} else {
 
-		activeArena = new Arena ((const char*) "assets/arena/TestArena.json", renderer);
+		activeArena = new Arena ((const char*) "assets/arena/TestArena.json");
 
 	}
 
 	//Set up player
-	Player player = Player (renderer);
+	Player player = Player ();
 
 	//SDL Events
 	bool exit = false;
@@ -281,13 +282,13 @@ int main(int argc, char *args[]) {
 					windowResX = sdlEvent.window.data1;
 					windowResY = sdlEvent.window.data2;
 
-					viewport.w = (int) (windowResY * 1.33333333333f);
-					viewport.h = windowResY;
+					viewport.w = windowResY * 1.33333333333f;
+					viewport.h = (float) windowResY;
 
-					viewport.x = (windowResX - viewport.w) / 2;
-					viewport.y = 0;
+					viewport.x = (windowResX - viewport.w) / 2.0f;
+					viewport.y = 0.0f;
 
-					SDL_RenderSetViewport (renderer, &viewport);
+					GPU_SetViewport (screen, viewport);
 
 					Sprite::updateScreenDimentions (viewport.w, viewport.h);
 
@@ -408,17 +409,17 @@ int main(int argc, char *args[]) {
 
 			//Render
 
-			SDL_RenderClear (renderer);
+			GPU_Clear (screen);
 
 			//Render things
-			activeArena->render (renderer);
+			activeArena->render (screen);
 
-			player.render (renderer);
+			player.render (screen);
 
-			SDL_RenderPresent (renderer);
+			GPU_Flip (screen);
 
 			//Test if player is exiting arena
-			Exit::testForExit (&activeArena, &player, renderer);
+			Exit::testForExit (&activeArena, &player);
 
 		}
 
@@ -431,7 +432,8 @@ int main(int argc, char *args[]) {
 	SDL_HapticClose (hapticFeedback);
 
 	//Destroy window
-	SDL_DestroyWindow (window);
+	GPU_Quit ();
+	//SDL_DestroyWindow (window);
 
 	//Quit SDL subsystems
 	SDL_CloseAudio ();

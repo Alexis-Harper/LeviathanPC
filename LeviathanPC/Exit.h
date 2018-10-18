@@ -31,7 +31,7 @@ public:
 	static void addExitList (Exit *exit);
 	static void deleteExitList ();
 
-	static void testForExit (Arena **arena, Player *player, SDL_Renderer *renderer);
+	static void testForExit (Arena **arena, Player *player);
 
 private:
 

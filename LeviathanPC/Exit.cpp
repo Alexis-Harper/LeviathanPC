@@ -94,7 +94,7 @@ void Exit::deleteExitList () {
 
 }
 
-void Exit::testForExit (Arena **arena, Player *player, SDL_Renderer *renderer) {
+void Exit::testForExit (Arena **arena, Player *player) {
 
 	struct ExitList *exit = first;
 
@@ -114,7 +114,7 @@ void Exit::testForExit (Arena **arena, Player *player, SDL_Renderer *renderer) {
 
 			//Replace arena
 			delete *arena;
-			*arena = new Arena (buf, renderer); 
+			*arena = new Arena (buf); 
 
 			//Delete allocated buffer (prevent mem leak)
 			delete[] buf;
