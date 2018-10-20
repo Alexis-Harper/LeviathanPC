@@ -40,6 +40,18 @@
     <Filter Include="Source Files\Arena">
       <UniqueIdentifier>{45f32f30-f573-4261-942d-01671da651e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{90e19ce5-c9dc-433f-aec3-8360a9470056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HUD">
+      <UniqueIdentifier>{fbaed016-d199-4a49-bfbf-ae1f84f83da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders">
+      <UniqueIdentifier>{d6fa0618-df5d-449e-94ce-4a458a7248c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders\HUD">
+      <UniqueIdentifier>{4a4ee51e-adcc-4305-822e-8f51f2776962}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -71,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="Exit.cpp">
       <Filter>Source Files\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Source Files\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Source Files\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +128,12 @@
     <ClInclude Include="Exit.h">
       <Filter>Header Files\Arena</Filter>
     </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Header Files\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="Health.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -120,6 +144,18 @@
     </None>
     <None Include="assets\arena\LargeArena.json">
       <Filter>Resource Files\assets\arena</Filter>
+    </None>
+    <None Include="assets\shaders\test.vert">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\test.frag">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\hud\health.vert">
+      <Filter>Resource Files\assets\shaders\HUD</Filter>
+    </None>
+    <None Include="assets\shaders\hud\health.frag">
+      <Filter>Resource Files\assets\shaders\HUD</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@
 #include "Audio.h"
 #include "Exit.h"
 
+#include "Health.h"
+
 using namespace std;
 
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
@@ -254,6 +256,8 @@ int main(int argc, char *args[]) {
 	//Set up player
 	Player player = Player ();
 
+	Health health;
+
 	//SDL Events
 	bool exit = false;
 	SDL_Event sdlEvent;
@@ -415,6 +419,8 @@ int main(int argc, char *args[]) {
 			activeArena->render (screen);
 
 			player.render (screen);
+
+			health.render (screen);
 
 			GPU_Flip (screen);
 

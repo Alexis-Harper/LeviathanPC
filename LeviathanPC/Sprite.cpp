@@ -20,7 +20,7 @@ GPU_Image* loadTexture (char *filename) {
 
 		std::cout << "[-] SDL: " << SDL_GetError () << "\n";
 
-		exit (ERROR_SDL_TEXTURE_LOAD);
+		exit (ERROR_GPU_TEXTURE_LOAD);
 
 	}
 
