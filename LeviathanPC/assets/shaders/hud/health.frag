@@ -13,11 +13,11 @@ void main (void) {
 
 	if (texColor.x <= health) {
 
-		texColor = vec4 (1.0, 0.0, 0.0, 0.8);
+		texColor = vec4 (1.0, 0.0, 0.0, texColor.w * 0.8);
 
 	} else {
 
-		texColor = vec4 (0.0, 0.0, 0.0, 0.0);
+		texColor = vec4 (0.0, 0.0, 0.0, texColor.w * 0.8);
 
 	}
 

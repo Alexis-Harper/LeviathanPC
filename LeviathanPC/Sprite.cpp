@@ -104,7 +104,19 @@ void Sprite::render (GPU_Target *screen, float x, float y, float scale, GPU_Rect
 
 void Sprite::srender (GPU_Target *screen, float x, float y, float scale, GPU_Rect *clip) {
 
-	GPU_BlitScale (this->texture, clip, screen, (x * screenWidth), (y * screenHeight), scale, scale);
+	GPU_Rect renderQuad = { x * screenWidth, y * screenHeight, this->width * screenWidth, this->height * screenHeight };
+
+	if (clip != NULL) {
+
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+
+	}
+
+	renderQuad.w = renderQuad.w * scale * 1.33333333333f;
+	renderQuad.h = renderQuad.h * scale;
+
+	GPU_BlitRect (this->texture, clip, screen, &renderQuad);
 
 }
 

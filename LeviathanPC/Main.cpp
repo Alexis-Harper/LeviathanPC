@@ -162,11 +162,7 @@ int main(int argc, char *args[]) {
 	GPU_SetDebugLevel (GPU_DEBUG_LEVEL_MAX);
 
 	GPU_Target* screen = GPU_Init (windowResX, windowResY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	//window = SDL_CreateWindow ("Leviathan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowResX, windowResY, SDL_WINDOW_SHOWN);
-
-	//Window options
-	//SDL_SetWindowResizable (window, (SDL_bool) true);
-
+	
 	if (screen == NULL) {
 
 		cout << "[-] GPU: " << SDL_GetError () << "\n";
@@ -439,7 +435,6 @@ int main(int argc, char *args[]) {
 
 	//Destroy window
 	GPU_Quit ();
-	//SDL_DestroyWindow (window);
 
 	//Quit SDL subsystems
 	SDL_CloseAudio ();
