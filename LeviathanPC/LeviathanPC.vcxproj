@@ -165,6 +165,8 @@
     <None Include="assets\arena\TestArena.json" />
     <None Include="assets\shaders\hud\health.frag" />
     <None Include="assets\shaders\hud\health.vert" />
+    <None Include="assets\shaders\player\player_db.frag" />
+    <None Include="assets\shaders\player\player_db.vert" />
     <None Include="assets\shaders\test.frag" />
     <None Include="assets\shaders\test.vert" />
   </ItemGroup>

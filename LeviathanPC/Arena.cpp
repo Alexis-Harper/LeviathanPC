@@ -487,7 +487,7 @@ void Arena::update () {
 		cameraVY *= 0.005f;
 
 		//Make sure it's no further than 0.5 screens away from center
-		if (playerCameraMoveX > 0.5f && cameraVX > 0.0f || playerCameraMoveX < -0.5f && cameraVX < 0.0f) {
+		if (playerCameraMoveX > 0.66f && cameraVX > 0.0f || playerCameraMoveX < -0.66f && cameraVX < 0.0f) {
 
 			cameraVX = 0.0f;
 

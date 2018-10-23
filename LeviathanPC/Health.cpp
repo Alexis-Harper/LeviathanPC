@@ -8,7 +8,7 @@ Health::Health () {
 	this->program = loadShaderProgram ("assets/shaders/hud/health.vert", "assets/shaders/hud/health.frag");
 
 	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
-	GPU_SetUniformf (this->uhealth, 1.0);
+	GPU_SetUniformf (this->uhealth, 1.0f);
 
 	GPU_ActivateShaderProgram (0, NULL);
 
@@ -22,18 +22,15 @@ Health::~Health () {
 
 void Health::modPlayerHealth (int health, int maxHealth) {
 
-	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
-
-	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
-	GPU_SetUniformf (this->uhealth, (float) health / maxHealth);
-
-	GPU_ActivateShaderProgram (0, NULL);
+	this->health = (float) health / maxHealth;
 
 }
 
 void Health::render (GPU_Target *screen) {
 
 	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
+
+	#ifdef _DEBUG
 
 	if (Input::keyHeld (SDL_SCANCODE_T)) {
 
@@ -44,6 +41,8 @@ void Health::render (GPU_Target *screen) {
 		this->health += 0.02f;
 
 	}
+
+	#endif
 
 	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
 	GPU_SetUniformf (this->uhealth, this->health);

@@ -52,6 +52,9 @@
     <Filter Include="Resource Files\assets\shaders\HUD">
       <UniqueIdentifier>{4a4ee51e-adcc-4305-822e-8f51f2776962}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\shaders\player">
+      <UniqueIdentifier>{bf529abd-3684-41d9-ac1c-12c55c8ea0fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -156,6 +159,12 @@
     </None>
     <None Include="assets\shaders\hud\health.frag">
       <Filter>Resource Files\assets\shaders\HUD</Filter>
+    </None>
+    <None Include="assets\shaders\player\player_db.vert">
+      <Filter>Resource Files\assets\shaders\player</Filter>
+    </None>
+    <None Include="assets\shaders\player\player_db.frag">
+      <Filter>Resource Files\assets\shaders\player</Filter>
     </None>
   </ItemGroup>
 </Project>

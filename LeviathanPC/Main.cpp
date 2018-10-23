@@ -407,6 +407,16 @@ int main(int argc, char *args[]) {
 
 			player.update (activeArena);
 
+			#ifdef _DEBUG
+
+			if (Input::keyHeld (SDL_SCANCODE_U)) {
+
+				player.damage (10, &health);
+
+			}
+
+			#endif
+
 			//Render
 
 			GPU_Clear (screen);
