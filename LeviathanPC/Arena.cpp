@@ -93,6 +93,9 @@ Arena::Arena (const char *filename) {
 
 		} else {
 
+			//Allow repeat
+			songPlaying = true;
+
 			//Load up new song and play it
 			delete currentSong;
 			currentSong = new Audio::Music (buf);
@@ -103,6 +106,19 @@ Arena::Arena (const char *filename) {
 			lastArenaSongName = buf;
 
 		}
+
+	} else {
+
+		//Disable song repeat (because there is none)
+		songPlaying = false;
+
+		//Clear buffers
+		delete currentSong;
+
+		//Give song name NULL
+		delete[] lastArenaSongName;
+		lastArenaSongName = new char [5];
+		lastArenaSongName = (char*) "NULL";
 
 	}
 
