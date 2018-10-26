@@ -118,7 +118,11 @@ Arena::Arena (const char *filename) {
 		//Give song name NULL
 		delete[] lastArenaSongName;
 		lastArenaSongName = new char [5];
-		lastArenaSongName = (char*) "NULL";
+		lastArenaSongName[0] = 'N';
+		lastArenaSongName[1] = 'U';
+		lastArenaSongName[2] = 'L';
+		lastArenaSongName[3] = 'L';
+		lastArenaSongName[4] = '\0';
 
 	}
 
