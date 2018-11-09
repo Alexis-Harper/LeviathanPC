@@ -26,8 +26,11 @@ enum GameState {
 
 int main(int argc, char *args[]) {
 
-	//Window pointer
-	SDL_Window* window = NULL;
+	#ifndef _DEBUG
+
+	freopen ("debug.log", "w", stdout);
+
+	#endif
 
 	//Initialize SDL Video
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
