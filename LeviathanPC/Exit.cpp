@@ -55,7 +55,7 @@ float Exit::getCamPosY () {
 
 void Exit::createExitList (Exit *exit) {
 
-	first = new Exit::ExitList (exit);
+	first = new ExitList (exit);
 
 	last = first;
 
@@ -63,11 +63,9 @@ void Exit::createExitList (Exit *exit) {
 
 void Exit::addExitList (Exit *exit) {
 
-	struct Exit::ExitList *prev = last;
+	last->next = new ExitList (exit);
 
-	last = new Exit::ExitList (exit);
-
-	prev->next = last;
+	last = last->next;
 
 }
 

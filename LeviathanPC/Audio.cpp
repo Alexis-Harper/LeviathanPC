@@ -106,7 +106,7 @@ namespace Audio {
 
 	Effect::Effect (const char* filename) {
 
-
+		this->audio = new Audio (filename, NULL);
 
 	}
 

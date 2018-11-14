@@ -1,0 +1,49 @@
+{
+
+  "Music": "assets/Ambient_Hell.wav",
+
+  "Tile_Array": [
+
+    {
+      "Image_Name": "assets/cutscenes/test/cutscene_test_1.png",
+
+      "Scale": 3.67,
+
+      "Fade_In": 30.0,
+      "Stay_Time": 60.0,
+      "Fade_Out": 20.0
+    },
+
+    {
+      "Image_Name": "assets/cutscenes/test/cutscene_test_2.jpg",
+
+      "Scale": 1.0,
+
+      "Fade_In": 120.0,
+      "Stay_Time": 70.0,
+      "Fade_Out": 30.0
+    },
+
+    {
+      "Image_Name": "assets/cutscenes/test/cutscene_test_3.jpg",
+
+      "Scale": 3.67,
+
+      "Fade_In": 20.0,
+      "Stay_Time": 80.0,
+      "Fade_Out": 60.0
+    }
+
+  ],
+
+  "Next_Arena": {
+
+    "location": "assets/arena/LargeArena.json",
+    "playerX": 0.5,
+    "playerY": 0.5,
+    "coffX": 0.0,
+    "coffY": 0.0
+
+  }
+
+}

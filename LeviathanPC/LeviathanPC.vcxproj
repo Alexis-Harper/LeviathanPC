@@ -136,6 +136,9 @@
   <ItemGroup>
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="CutEvent.cpp" />
+    <ClCompile Include="Cutscene.cpp" />
+    <ClCompile Include="CutTile.cpp" />
     <ClCompile Include="Exit.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Health.cpp" />
@@ -151,9 +154,13 @@
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="ControllerDefines.h" />
+    <ClInclude Include="CutEvent.h" />
+    <ClInclude Include="Cutscene.h" />
+    <ClInclude Include="CutTile.h" />
     <ClInclude Include="ErrorEnum.h" />
     <ClInclude Include="Exit.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Player.h" />
@@ -167,6 +174,7 @@
     <None Include="..\README.md" />
     <None Include="assets\arena\LargeArena.json" />
     <None Include="assets\arena\TestArena.json" />
+    <None Include="assets\cutscenes\test\cutscene_test.json" />
     <None Include="assets\shaders\hud\health.frag" />
     <None Include="assets\shaders\hud\health.vert" />
     <None Include="assets\shaders\player\player_db.frag" />

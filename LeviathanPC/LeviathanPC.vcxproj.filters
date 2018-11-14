@@ -55,6 +55,21 @@
     <Filter Include="Resource Files\assets\shaders\player">
       <UniqueIdentifier>{bf529abd-3684-41d9-ac1c-12c55c8ea0fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cutscene">
+      <UniqueIdentifier>{98432d44-e302-4176-80dd-f1a56ae61b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cutscene">
+      <UniqueIdentifier>{e70ce772-c452-4249-bedf-6ff9e3c9a822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{4505b61e-1d4a-4b9a-b256-c5d498f8146b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{3aca5c75-9159-4ee8-8eb4-8bec693d298a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\cutscenes">
+      <UniqueIdentifier>{014af9f6-4e52-44e5-a82e-b47665e9494f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -67,9 +82,6 @@
       <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
@@ -93,6 +105,18 @@
     <ClCompile Include="Health.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Cutscene.cpp">
+      <Filter>Source Files\Cutscene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CutTile.cpp">
+      <Filter>Source Files\Cutscene</Filter>
+    </ClCompile>
+    <ClCompile Include="CutEvent.cpp">
+      <Filter>Source Files\Arena</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -102,9 +126,6 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -137,6 +158,21 @@
     <ClInclude Include="Health.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="Cutscene.h">
+      <Filter>Header Files\Cutscene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CutTile.h">
+      <Filter>Header Files\Cutscene</Filter>
+    </ClInclude>
+    <ClInclude Include="CutEvent.h">
+      <Filter>Header Files\Arena</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
@@ -165,6 +201,9 @@
     </None>
     <None Include="assets\shaders\player\player_db.frag">
       <Filter>Resource Files\assets\shaders\player</Filter>
+    </None>
+    <None Include="assets\cutscenes\test\cutscene_test.json">
+      <Filter>Resource Files\assets\cutscenes</Filter>
     </None>
   </ItemGroup>
 </Project>

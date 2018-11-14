@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "ErrorEnum.h"
+#include "GameState.h"
 
 #include <chrono>
 
@@ -9,20 +10,13 @@
 #include "Arena.h"
 #include "Audio.h"
 #include "Exit.h"
-
 #include "Health.h"
+#include "Cutscene.h"
+#include "CutEvent.h"
 
 using namespace std;
 
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
-
-enum GameState {
-
-	HOME_MENU,
-	GAME,
-	PAUSED
-
-} gameState;
 
 int main(int argc, char *args[]) {
 
@@ -83,7 +77,7 @@ int main(int argc, char *args[]) {
 
 	}
 
-	//Get SDL 
+	//Get screen dimentions 
 	SDL_DisplayMode displayMode;
 	SDL_GetCurrentDisplayMode(0, &displayMode);
 
@@ -252,10 +246,17 @@ int main(int argc, char *args[]) {
 
 	}
 
+	//Create current cutscene
+	Cutscene *currentCutscene = NULL;
+
 	//Set up player
 	Player player = Player ();
 
 	Health health;
+
+	//Set game state
+	GameState gameState = GAME;
+	float pauseButtonBuffer = 0.0f;
 
 	//SDL Events
 	bool exit = false;
@@ -393,6 +394,7 @@ int main(int argc, char *args[]) {
 		//Limit FPS to 60 Hz
 		if (chrono::duration_cast<chrono::nanoseconds>(deltaTime) >= timestep) {
 
+			//Every frame
 			startTime = chrono::high_resolution_clock::now();
 
 			Input::setDelta ((double) (chrono::duration_cast<chrono::duration<double, nano>>(deltaTime) / chrono::duration_cast<chrono::duration<double, nano>>(timestep))); //Set delta
@@ -400,48 +402,114 @@ int main(int argc, char *args[]) {
 			//Input
 			Input::update ();
 
-			activeArena->update ();
+			//If pause button is pressed, pause or unpause
+			if (Input::keyHeld (SDL_SCANCODE_ESCAPE) && pauseButtonBuffer == 0.0f) {
 
-			//Update
+				if (gameState == GAME) {
 
-			//cout << "Direction: " << Input::eightDirection () << "\n\n";
+					pauseButtonBuffer = 30.0f;
 
-			player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
+					gameState = PAUSED;
 
-			player.update (activeArena);
+				} else if (gameState == PAUSED) {
 
-			#ifdef _DEBUG
+					pauseButtonBuffer = 15.0f;
 
-			if (Input::keyHeld (SDL_SCANCODE_U)) {
+					gameState = GAME;
+				}
 
-				player.damage (10, &health);
+			} else {
+
+				if (pauseButtonBuffer > 0.0f) {
+
+					if (pauseButtonBuffer <= Input::getDelta ()) {
+
+						pauseButtonBuffer = 0.0f;
+
+					} else {
+
+						pauseButtonBuffer -= (float) Input::getDelta ();
+
+					}
+
+				}
 
 			}
 
-			#endif
+			//Update
+
+			if (gameState == GameState::GAME) {
+
+				//Update arena
+				activeArena->update ();
+
+				//cout << "Direction: " << Input::eightDirection () << "\n\n";
+
+				//Update player
+				player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
+
+				player.update (activeArena); //Actually update player
+
+				//If in debug mode, allow for player hit button
+				#ifdef _DEBUG
+
+				if (Input::keyHeld (SDL_SCANCODE_U)) {
+
+					player.damage (10, &health);
+
+				}
+
+				#endif
+
+			}
 
 			//Render
 
+			//Clear screen
 			GPU_Clear (screen);
 
-			//Render things
-			activeArena->render (screen);
+			//Game and paused mode render
+			if (gameState == GameState::GAME || gameState == GameState::PAUSED) {
 
-			player.render (screen);
+				//Render things
+				activeArena->render (screen);
 
-			health.render (screen);
+				player.render (screen);
 
+				health.render (screen);
+
+			} else if (gameState = GameState::CUTSCENE) {
+
+				currentCutscene->render (screen, &activeArena, &player, &gameState);
+
+			}
+
+			//Display screen
 			GPU_Flip (screen);
 
-			//Test if player is exiting arena
-			Exit::testForExit (&activeArena, &player);
+			//If the player is in game mode, check if they are in an exit or event area
+			if (gameState == GameState::GAME) {
+
+				//Test if player is exiting arena
+				Exit::testForExit (&activeArena, &player);
+
+				//Test if player is in event area
+				CutEvent::testForEvent (&gameState, &activeArena, &currentCutscene, &player);
+
+			}
 
 		}
 
 	}
 
 	//Close program
-	delete activeArena;
+
+	//Close arena if open
+	if (activeArena != NULL) {
+
+		delete activeArena;
+
+	}
 
 	SDL_JoystickClose (gameController);
 	SDL_HapticClose (hapticFeedback);

@@ -11,6 +11,7 @@
 #include "Sprite.h"
 #include "Exit.h"
 #include "Audio.h"
+#include "CutEvent.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -22,16 +23,6 @@ namespace {
 	char *lastArenaSongName;
 	Audio::Music *currentSong;
 	bool songPlaying = false;
-
-}
-
-Arena::Arena () {
-
-	//Create borders
-	this->createWallList (new Rectangle (0.0f, 0.0f, 1.0f, 0.0f), &this->up_first, &this->up_last);
-	this->createWallList (new Rectangle (1.0f, 0.0f, 0.0f, 1.0f), &this->right_first, &this->right_last);
-	this->createWallList (new Rectangle (0.0f, 1.0f, 1.0f, 0.0f), &this->down_first, &this->down_last);
-	this->createWallList (new Rectangle (0.0f, 0.0f, 0.0f, 1.0f), &this->left_first, &this->left_last);
 
 }
 
@@ -53,7 +44,7 @@ Arena::Arena (const char *filename) {
 
 	}
 
-	fclose (f); //Close file*/
+	fclose (f); //Close file
 
 	Document json;
 	json.Parse (buf);
@@ -331,6 +322,38 @@ Arena::Arena (const char *filename) {
 	}
 
 	i = 0;
+
+	const Value &event_wall_list = json["Events"];
+
+	for (auto &eventObject : event_wall_list.GetArray ()) {
+
+		Rectangle rect;
+
+		rect.setX (eventObject["x"].GetFloat ());
+		rect.setY (eventObject["y"].GetFloat ());
+		rect.setWidth (eventObject["w"].GetFloat ());
+		rect.setHeight (eventObject["h"].GetFloat ());
+
+		CutEvent *event = new CutEvent (
+
+			eventObject["scene"].GetString (),
+			rect
+
+		);
+
+		if (i == 0) {
+
+			CutEvent::createEventList (event);
+
+		} else {
+
+			CutEvent::addEventList (event);
+
+		}
+
+		i++;
+
+	}
 
 }
 
@@ -675,11 +698,9 @@ void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
 
 void Arena::addWallList (Rectangle *data, Walls **last) {
 
-	struct Walls *prev = *last;
+	(*last)->next = new Walls (data);
 
-	*last = new Walls (data);
-
-	prev->next = *last;
+	*last = (*last)->next;
 
 }
 
@@ -693,10 +714,8 @@ void Arena::createGameObjectsList (GameObject *data, GameObjects **first, GameOb
 
 void Arena::addGameObjectsList (GameObject *data, GameObjects **last) {
 
-	GameObjects *prev = *last;
+	(*last)->next = new GameObjects (data);
 
-	*last = new GameObjects (data);
-
-	prev->next = *last;
+	*last = (*last)->next;
 
 }

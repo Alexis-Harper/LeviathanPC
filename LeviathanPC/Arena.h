@@ -8,7 +8,6 @@ class Arena {
 
 public:
 
-	Arena ();
 	Arena (const char *filename);
 	~Arena ();
 

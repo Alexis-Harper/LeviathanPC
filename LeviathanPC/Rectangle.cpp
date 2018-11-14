@@ -27,8 +27,7 @@ Rectangle::~Rectangle () {
 
 bool Rectangle::rectOnScreen () {
 
-	//TODO
-	return (this->x > 0 && this->y > 0 && this->x < 1 && this->y < 1);
+	return (this->x + this->width > 0.0f && this->y + this->height > 0.0f && this->x < 1.0f && this->y < 1.0f);
 
 }
 

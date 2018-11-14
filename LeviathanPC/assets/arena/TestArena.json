@@ -89,6 +89,20 @@
       "coffY": 0.0
     }
 
+  ],
+
+  "Events": [
+
+    {
+
+      "scene": "assets/cutscenes/test/cutscene_test.json",
+      "x": 0.0,
+      "y": 0.0,
+      "w": 0.06,
+      "h": 1.0
+
+    }
+
   ]
 
 }
