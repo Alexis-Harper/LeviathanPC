@@ -38,5 +38,5 @@ Using a filepath as the first argumant will cause that to be used as the starter
 
 * George Mason University and NASA Goddard Space Flight Center (for your 1M digits of <img src="https://latex.codecogs.com/svg.latex?\sqrt{2}" title="Square Root of Two" />)
 * SDL2 team
-* Whoever made RapidXML
+* Whoever made RapidJSON (Tencent)
 * Everone who supported us through the way (mostly friends)

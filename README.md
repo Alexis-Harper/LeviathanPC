@@ -27,7 +27,7 @@ Website homepage: https://nihilistic-furry.github.io/LeviathanPC/
 * SDL2 team
 * SDL_gpu creator (Jonathan Dearborn (grimfang4))
 * stb_image.h guy (Sean Barrett)
-* Whoever made RapidXML
+* Whoever made RapidJSON (Tencent)
 
 **Note:**
 This program uses a dual license with GNU Public License 3 for the source code and an executable license for comercial use to be determined.
