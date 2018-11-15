@@ -480,7 +480,14 @@ int main(int argc, char *args[]) {
 
 			} else if (gameState = GameState::CUTSCENE) {
 
-				currentCutscene->render (screen, &activeArena, &player, &gameState);
+				//If cutscene is done, delete it
+				if (currentCutscene->render (screen, &activeArena, &player, &gameState)) {
+
+					delete currentCutscene;
+
+					currentCutscene = NULL;
+
+				}
 
 			}
 
@@ -508,6 +515,12 @@ int main(int argc, char *args[]) {
 	if (activeArena != NULL) {
 
 		delete activeArena;
+
+	}
+
+	if (currentCutscene != NULL) {
+
+		delete currentCutscene;
 
 	}
 

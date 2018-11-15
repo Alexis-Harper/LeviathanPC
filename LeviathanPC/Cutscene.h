@@ -16,7 +16,7 @@ public:
 	~Cutscene ();
 
 	//Renderers
-	void render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState);
+	bool render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState);
 
 private:
 

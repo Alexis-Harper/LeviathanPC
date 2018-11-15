@@ -23,6 +23,7 @@ public:
 	bool* canMove (Rectangle playerHitbox);
 
 	void pause (int pause);
+	void clearMusic ();
 
 private:
 

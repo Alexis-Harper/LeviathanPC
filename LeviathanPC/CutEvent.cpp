@@ -77,8 +77,12 @@ void CutEvent::testForEvent (GameState *state, Arena **arena, Cutscene **scene, 
 			//Change game state
 			*state = GameState::CUTSCENE;
 
+			//Clears arena music
+			(*arena)->clearMusic ();
+
 			//Deletes arena
 			delete *arena;
+			*arena = NULL;
 
 			//Gets cutscene string
 			char *buf = new char[eventPtr->cutEvent->scene.length () + 1];

@@ -104,7 +104,11 @@ Arena::Arena (const char *filename) {
 		songPlaying = false;
 
 		//Clear buffers
-		delete currentSong;
+		if (currentSong != NULL) {
+
+			delete currentSong;
+
+		}
 
 		//Give song name NULL
 		delete[] lastArenaSongName;
@@ -685,6 +689,20 @@ bool* Arena::canMove (Rectangle hitbox) {
 void Arena::pause (int pause) {
 
 	currentSong->pause (pause);
+
+}
+
+void Arena::clearMusic () {
+
+	//Pause song
+	currentSong->pause (1);
+	
+	//Make sure nothing calls song
+	songPlaying = false;
+
+	//Clear song
+	delete currentSong;
+	currentSong = NULL;
 
 }
 

@@ -145,7 +145,7 @@ Cutscene::~Cutscene () {
 
 }
 
-void Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState) {
+bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState) {
 
 	//Calculate what the render should be
 
@@ -203,7 +203,7 @@ void Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 				this->current_stay_time = this->current->tile->getStayTime ();
 				this->current_fade_out = this->current->tile->getFadeOut ();
 
-				return;
+				return false;
 
 			} else {
 
@@ -219,10 +219,7 @@ void Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 				//Set game state
 				*gameState = GameState::GAME;
 
-				//Delete cutscene
-				delete this;
-
-				return;
+				return true;
 
 			}
 
@@ -239,6 +236,8 @@ void Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 	}
 
 	this->current->tile->render (screen);
+
+	return false;
 
 }
 
