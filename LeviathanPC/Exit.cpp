@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Exit.h"
 
+#include "CutEvent.h"
+
 namespace {
 
 	struct Exit::ExitList *first = NULL, *last = NULL;
@@ -113,6 +115,9 @@ void Exit::testForExit (Arena **arena, Player *player) {
 			//Replace arena
 			delete *arena;
 			*arena = new Arena (buf); 
+
+			//Clear out event list
+			CutEvent::deleteEventList ();
 
 			//Delete allocated buffer (prevent mem leak)
 			delete[] buf;
