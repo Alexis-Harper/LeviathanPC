@@ -29,7 +29,7 @@ Using a filepath as the first argumant will cause that to be used as the starter
 * Alexis Harper
 
 **Art Made By:**
-* Alice Victoria
+* N/A
 
 **Music Writen By:**
 * Alexis Harper

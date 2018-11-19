@@ -171,6 +171,7 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\docs\index.md" />
     <None Include="..\README.md" />
     <None Include="assets\arena\LargeArena.json" />
     <None Include="assets\arena\TestArena.json" />

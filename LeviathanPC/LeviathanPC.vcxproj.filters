@@ -70,6 +70,9 @@
     <Filter Include="Resource Files\assets\cutscenes">
       <UniqueIdentifier>{014af9f6-4e52-44e5-a82e-b47665e9494f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\docs">
+      <UniqueIdentifier>{4f7fbe6a-62ff-4e96-ab3e-2004d458b85b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -204,6 +207,9 @@
     </None>
     <None Include="assets\cutscenes\test\cutscene_test.json">
       <Filter>Resource Files\assets\cutscenes</Filter>
+    </None>
+    <None Include="..\docs\index.md">
+      <Filter>Resource Files\docs</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ Website homepage: https://nihilistic-furry.github.io/LeviathanPC/
 * Alexis Harper
 
 **Art Made By:**
-* Alice Victoria
+* N/A
 
 **Music Writen By:**
 * Alexis Harper
