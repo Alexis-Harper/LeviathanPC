@@ -1,5 +1,19 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   14.09.2018
+ *
+ * Description: The Arena class handles arena loading from file, including
+ *              arena rendering, hitbox detection for the player and walls,
+ *              and player controlled camera movement.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 #include "Rectangle.h"
 #include "GameObject.h"
 #include "Sprite.h"

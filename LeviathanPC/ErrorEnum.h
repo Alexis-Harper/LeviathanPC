@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   17.09.2018
+ *
+ * Description: Contains exit error codes for easier exit function readability 
+ *             and easier checking of error values.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 enum ERROR {
 
 	ERROR_SDL_INIT_VIDEO = 2,

@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   12.11.2018
+ *
+ * Description: CutTile is a class that works on the cutscene tiles, storing
+ *              the image and renders the tile itself.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 #include "Sprite.h"
 
 class CutTile {

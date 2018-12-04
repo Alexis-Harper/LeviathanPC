@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   12.11.2018
+ *
+ * Description: The Cutscene class contains the information within a cutscene
+ *              and manages the rendering of it.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 #include "GameState.h"
 
 #include "CutTile.h"

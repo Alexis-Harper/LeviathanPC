@@ -1,5 +1,20 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   16.09.2018
+ *
+ * Description: Audio.h contains classes that handle SDL audio abstractions. 
+ *              Audio handles basic audio. Music handles more advanced audio
+ *              that can loop. Effect is just a further abstraction of Audio
+ *              with almost nothing more.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 namespace Audio {
 
 	class Audio {

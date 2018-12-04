@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   12.11.2018
+ *
+ * Description: Cut Event deals with telling if the player is in an event area, 
+ *              and if they are, close the arena to load up a cutscene.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 #include "GameState.h"
 
 #include "Cutscene.h"

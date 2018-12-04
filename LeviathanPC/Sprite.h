@@ -1,5 +1,18 @@
 #pragma once
 
+/**
+ * Author:    Alexis Harper
+ * Created:   16.09.2018
+ *
+ * Description: Sprites is a class that does all the image loading and
+ *              rendering for SDL_gpu (previously SDL). 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ **/
+
 GPU_Image* loadTexture (char *filename);
 
 //Renders SDL Sprite 
