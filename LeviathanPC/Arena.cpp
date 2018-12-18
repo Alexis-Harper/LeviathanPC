@@ -359,6 +359,9 @@ Arena::Arena (const char *filename) {
 
 	}
 
+	//Set camera back
+	Sprite::translateCamera (playerCameraMoveX, playerCameraMoveY);
+
 }
 
 Arena::~Arena () {
@@ -451,6 +454,9 @@ Arena::~Arena () {
 	}
 
 	Exit::deleteExitList ();
+
+	//Reset camera
+	Sprite::translateCamera (-playerCameraMoveX, -playerCameraMoveY);
 
 }
 

@@ -20,9 +20,12 @@ namespace Input {
 	void update ();
 
 	bool keyHeld (int key);
+	bool buttonHeld (int index);
 
 	void setDelta (double delta);
 	double getDelta ();
+
+	bool controllerUsed ();
 
 	void isControllerUsed (bool isUsed);
 	void isHapticUsed (bool isUsed);

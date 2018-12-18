@@ -2,6 +2,8 @@
 #include "Cutscene.h"
 
 #include "ErrorEnum.h"
+#include "ControllerDefines.h"
+
 #include <fstream>
 
 #include "rapidjson/document.h"
@@ -120,6 +122,21 @@ Cutscene::Cutscene (const char *filename) {
 	this->current_stay_time = this->current->tile->getStayTime ();
 	this->current_fade_out = this->current->tile->getFadeOut ();
 
+	//Set 
+	if (Input::controllerUsed ()) {
+
+		this->skipButtonSprite = new Sprite ((char*) "assets/cutscenes/images/Skip_START.png");
+
+	} else {
+
+		this->skipButtonSprite = new Sprite ((char*) "assets/cutscenes/images/Skip_ENTER.png");
+
+	}
+
+	this->skipButtonSprite->setAlpha (0);
+
+	this->skipFrames = 0.0f;
+
 }
 
 Cutscene::~Cutscene () {
@@ -235,8 +252,103 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 	}
 
+	if (this->skipFrames == 0.0f) {
+
+		if (Input::controllerUsed ()) {
+
+			if (Input::buttonHeld (SDL_CONTROLLER_START)) {
+
+				this->skipFrames = 180.0f;
+
+				this->skipButtonSprite->setAlpha (255);
+
+			}
+
+		} else {
+
+			if (Input::keyHeld (SDL_SCANCODE_RETURN)) {
+
+				this->skipFrames = 180.0f;
+
+				this->skipButtonSprite->setAlpha (255);
+
+			}
+
+		}
+
+	} else {
+
+		if (this->skipFrames > Input::getDelta ()) {
+
+			this->skipFrames -= (float) Input::getDelta ();
+
+		} else {
+
+			this->skipFrames = 0.0f;
+
+		}
+
+		if (this->skipFrames < 150.0f && this->skipFrames > 0.0f) {
+
+			if (Input::controllerUsed ()) {
+
+				if (Input::buttonHeld (SDL_CONTROLLER_START)) {
+
+					//Set player position
+					player->setPosition (this->getPlayerX (), this->getPlayerY ());
+
+					//Set camera position (with offset)
+					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
+
+					//Replace arena
+					*arena = new Arena (this->nextArena);
+
+					//Set game state
+					*gameState = GameState::GAME;
+
+					return true;
+
+				}
+
+			} else {
+
+				if (Input::keyHeld (SDL_SCANCODE_RETURN)) {
+
+					//Set player position
+					player->setPosition (this->getPlayerX (), this->getPlayerY ());
+
+					//Set camera position (with offset)
+					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
+
+					//Replace arena
+					*arena = new Arena (this->nextArena);
+
+					//Set game state
+					*gameState = GameState::GAME;
+
+					return true;
+
+				}
+
+			}
+
+			if (this->skipFrames < 120.0f) {
+
+				this->skipButtonSprite->setAlpha ((int) (this->skipFrames * 255 / 120));
+
+			}
+
+		}
+
+	} 
+
+	//Render tile
 	this->current->tile->render (screen);
 
+	//Render skip button
+	this->skipButtonSprite->render (screen, 0.8f, 0.76f, 2.0f, NULL);
+
+	//Return false
 	return false;
 
 }

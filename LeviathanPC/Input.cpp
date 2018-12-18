@@ -258,6 +258,12 @@ namespace Input {
 
 	}
 
+	bool buttonHeld (int index) {
+
+		return joyButton[index];
+
+	}
+
 	void setDelta (double value) {
 
 		delta = value;
@@ -267,6 +273,12 @@ namespace Input {
 	double getDelta () {
 
 		return delta;
+
+	}
+
+	bool controllerUsed () {
+
+		return controller;
 
 	}
 

@@ -36,6 +36,11 @@ private:
 	//Audio
 	Audio::Audio *audio;
 
+	//Skip button
+	Sprite *skipButtonSprite;
+
+	float skipFrames;
+
 	//List struct
 	struct TileList {
 
