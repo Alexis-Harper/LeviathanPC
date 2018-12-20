@@ -47,7 +47,7 @@ void Health::render (GPU_Target *screen) {
 	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
 	GPU_SetUniformf (this->uhealth, this->health);
 
-	this->sprite.srender (screen, 0.2f, 0.75f, 1.0f, NULL);
+	this->spriteBase.srender (screen, 0.1f, 0.67f, 0.6f, NULL);
 
 	GPU_ActivateShaderProgram (0, NULL);
 

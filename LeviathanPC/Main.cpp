@@ -14,6 +14,8 @@
 #include "Cutscene.h"
 #include "CutEvent.h"
 
+#include "Font.h"
+
 using namespace std;
 
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
@@ -167,6 +169,9 @@ int main(int argc, char *args[]) {
 		return ERROR_SDL_WINDOW_FAILED_TO_LOAD;
 
 	}
+	
+	//Set name of window
+	SDL_SetWindowTitle (SDL_GetWindowFromID (screen->context->windowID), "The Leviathan");
 
 	//Set up viewport
 	GPU_Rect viewport;

@@ -73,6 +73,12 @@
     <Filter Include="Resource Files\docs">
       <UniqueIdentifier>{4f7fbe6a-62ff-4e96-ab3e-2004d458b85b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PauseMenu">
+      <UniqueIdentifier>{c9e7e0d6-da6d-4168-9644-a14c70876a01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PauseMenu">
+      <UniqueIdentifier>{c85e75a6-837c-4961-b1bd-5f51a8956aa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -119,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="CutEvent.cpp">
       <Filter>Source Files\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="AmmoLabel.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Media</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Header Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoLabel.h">
+      <Filter>Header Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Media</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

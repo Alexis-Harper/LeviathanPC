@@ -4,6 +4,7 @@
 #include "ErrorEnum.h"
 
 #include "Input.h"
+#include "Font.h"
 
 namespace {
 
@@ -68,6 +69,8 @@ void Sprite::updateScreenDimentions (float w, float h) {
 	screenWidth = w;
 	screenHeight = h;
 
+	Font::updateScreenDimentions (w, h);
+
 }
 
 void Sprite::translateCamera (float x, float y) {
@@ -75,12 +78,16 @@ void Sprite::translateCamera (float x, float y) {
 	cameraX += x;
 	cameraY += y;
 
+	Font::setCamera (cameraX, cameraY);
+
 }
 
 void Sprite::setCamera (float x, float y) {
 
 	cameraX = x;
 	cameraY = y;
+
+	Font::setCamera (cameraX, cameraY);
 
 }
 

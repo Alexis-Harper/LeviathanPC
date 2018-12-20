@@ -90,15 +90,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\ExternalResources\rapidjson-1.1.0\include;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\include;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\ExternalResources\SDL2_ttf-2.0.14\include;$(ProjectDir)\..\ExternalResources\nfont\include;$(ProjectDir)\..\ExternalResources\rapidjson-1.1.0\include;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\include;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\lib;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\ExternalResources\SDL2_ttf-2.0.14\lib\x64;$(ProjectDir)\..\ExternalResources\nfont\lib;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\lib;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_gpu.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_gpu.lib;SDL2_ttf.lib;nfont_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,23 +123,25 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\ExternalResources\rapidjson-1.1.0\include;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\include;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\ExternalResources\SDL2_ttf-2.0.14\include;$(ProjectDir)\..\ExternalResources\nfont\include;$(ProjectDir)\..\ExternalResources\rapidjson-1.1.0\include;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\include;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\lib;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_gpu.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\ExternalResources\SDL2_ttf-2.0.14\lib\x64;$(ProjectDir)\..\ExternalResources\nfont\lib;$(ProjectDir)\..\ExternalResources\sdl-gpu-latest-linux-gcc\lib;$(ProjectDir)\..\ExternalResources\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;SDL2_gpu.lib;SDL2_ttf.lib;nfont_release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmmoLabel.cpp" />
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="CutEvent.cpp" />
     <ClCompile Include="Cutscene.cpp" />
     <ClCompile Include="CutTile.cpp" />
     <ClCompile Include="Exit.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmmoLabel.h" />
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="ControllerDefines.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="CutTile.h" />
     <ClInclude Include="ErrorEnum.h" />
     <ClInclude Include="Exit.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Health.h" />

@@ -28,7 +28,7 @@ public:
 
 private:
 
-	Sprite sprite = Sprite ((char*) "assets/671-small.bmp");
+	Sprite spriteBase = Sprite ((char*) "assets/hud/health_base.bmp");
 
 	ShaderProgram program;
 

@@ -9,12 +9,17 @@
 //Include GPU
 #include <SDL_gpu.h>
 
+//NFont_gpu
+#include "NFont_gpu.h"
+
+//Include standard libraries
 #include <math.h>
 
 #include <vector>
 
 #include <string>
 
+//Things to include everywhere
 #include "Rectangle.h"
 #include "Vector.h"
 
