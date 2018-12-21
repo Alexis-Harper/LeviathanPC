@@ -40,6 +40,30 @@ Font::Font (const char *filename, Uint32 pointSize) {
 
 }
 
+Font::Font (const char *filename, Uint32 pointSize, NFont::Color color) {
+
+	//Calculate size
+	Uint32 point = pointSize * screenHeight / 740;
+
+	//Load font
+	this->font.load (filename, point, color);
+
+	//Copy filename string
+	if (this->filename != NULL) {
+
+		delete[] this->filename;
+
+	}
+
+	this->filename = new char[strlen (filename) + 1];
+	strcpy (this->filename, filename);
+
+	//Keep size
+	this->size = pointSize;
+	this->changes = sizeChanges;
+
+}
+
 Font::~Font () {
 
 	if (this->filename != NULL) {

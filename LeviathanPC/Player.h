@@ -34,6 +34,9 @@ public:
 	void damage (int damage, Health *healthHud);
 	void heal (int heal, Health *healthHud);
 
+	Uint16 getAmmo ();
+	Uint16 getMaxAmmo ();
+
 	void setPosition (float x, float y);
 
 	Rectangle getHixbox ();
@@ -43,6 +46,7 @@ private:
 	struct PlayerStats {
 
 		int hp, hpMax;
+		Uint16 ammo = 16, maxAmmo = 23;
 		float damageBoost = 0.0f;
 
 	} stats;

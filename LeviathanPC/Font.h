@@ -2,7 +2,7 @@
 
 /**
  * Author:    Alexis Harper
- * Created:   20.19.2018
+ * Created:   20.12.2018
  *
  * Description: Font.h deals with automatic font loading, sizing, and virtual
  *              position to window position calulations.
@@ -19,6 +19,7 @@ public:
 
 	Font ();
 	Font (const char *filename, Uint32 pointSize);
+	Font (const char *filename, Uint32 pointSize, NFont::Color color);
 	~Font ();
 
 	//Call on window size change to correct movement

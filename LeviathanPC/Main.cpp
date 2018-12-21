@@ -13,8 +13,8 @@
 #include "Health.h"
 #include "Cutscene.h"
 #include "CutEvent.h"
-
 #include "Font.h"
+#include "AmmoLabel.h"
 
 using namespace std;
 
@@ -258,6 +258,7 @@ int main(int argc, char *args[]) {
 	Player player = Player ();
 
 	Health health;
+	AmmoLabel ammoLabel;
 
 	//Set game state
 	GameState gameState = GAME;
@@ -482,6 +483,7 @@ int main(int argc, char *args[]) {
 				player.render (screen);
 
 				health.render (screen);
+				ammoLabel.render (screen, player);
 
 			} else if (gameState = GameState::CUTSCENE) {
 

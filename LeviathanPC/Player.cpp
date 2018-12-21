@@ -21,7 +21,9 @@ Player::Player () {
 
 Player::~Player () {
 
+	delete this->spritesheet;
 
+	freeShaderProgram (this->program);
 
 }
 
@@ -178,6 +180,18 @@ void Player::heal (int heal, Health *healthHud) {
 	}
 
 	healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
+
+}
+
+Uint16 Player::getAmmo () {
+
+	return this->stats.ammo;
+
+}
+
+Uint16 Player::getMaxAmmo () {
+
+	return this->stats.maxAmmo;
 
 }
 

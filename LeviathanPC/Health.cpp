@@ -30,20 +30,6 @@ void Health::render (GPU_Target *screen) {
 
 	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
-	#ifdef _DEBUG
-
-	if (Input::keyHeld (SDL_SCANCODE_T)) {
-
-		this->health -= 0.02f;
-
-	} else if (Input::keyHeld (SDL_SCANCODE_Y)) {
-
-		this->health += 0.02f;
-
-	}
-
-	#endif
-
 	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
 	GPU_SetUniformf (this->uhealth, this->health);
 
