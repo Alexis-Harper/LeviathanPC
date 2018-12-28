@@ -40,6 +40,9 @@ Sprite::Sprite (char *filename) {
 	//Load texture
 	this->texture = loadTexture (filename);
 
+	//Set to nearest
+	GPU_SetImageFilter (this->texture, GPU_FILTER_NEAREST);
+
 	//Get info
 	int w, h;
 
@@ -130,6 +133,12 @@ void Sprite::srender (GPU_Target *screen, float x, float y, float scale, GPU_Rec
 void Sprite::setBlendMode (GPU_BlendPresetEnum mode) {
 
 	GPU_SetBlendMode (this->texture, mode);
+
+}
+
+void Sprite::setFilter (GPU_FilterEnum filter) {
+
+	GPU_SetImageFilter (this->texture, filter);
 
 }
 
@@ -250,6 +259,12 @@ void SpriteSheet::srender (GPU_Target *screen, float x, float y, float scale, in
 void SpriteSheet::setBlendMode (GPU_BlendPresetEnum mode) {
 
 	this->sprite->setBlendMode (mode);
+
+}
+
+void SpriteSheet::setFilter (GPU_FilterEnum filter) {
+
+	this->sprite->setFilter (filter);
 
 }
 

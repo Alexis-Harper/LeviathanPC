@@ -5,7 +5,7 @@
 
 Player::Player () {
 
-	this->spritesheet = new SpriteSheet ((char*) "assets/sprites.bmp", 2, 2);
+	this->spritesheet = new SpriteSheet ((char*) "assets/Player_0.png", 1, 1);
 
 	this->program = loadShaderProgram ("assets/shaders/player/player_db.vert", "assets/shaders/player/player_db.frag");
 
@@ -123,7 +123,7 @@ void Player::render (GPU_Target *screen) {
 
 	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
-	this->spritesheet->render (screen, this->hitbox.getX (), this->hitbox.getY (), 0.5f, 0, 0);
+	this->spritesheet->render (screen, this->hitbox.getX (), this->hitbox.getY (), 2.0f, 0, 0);
 
 	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
 	GPU_SetUniformf (this->uboost, this->stats.damageBoost);

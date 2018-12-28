@@ -38,6 +38,8 @@ public:
 
 	//Set blending
 	void setBlendMode (GPU_BlendPresetEnum mode);
+	//Set filter
+	void setFilter (GPU_FilterEnum filter);
 	//Set color blend
 	void setColor (Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 	//Set alpha
@@ -81,6 +83,8 @@ public:
 
 	//Set blending
 	void setBlendMode (GPU_BlendPresetEnum mode);
+	//Set filter
+	void setFilter (GPU_FilterEnum filter);
 	//Set color blend
 	void setColor (Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 	//Set alpha

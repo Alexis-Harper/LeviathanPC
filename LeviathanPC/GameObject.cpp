@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
+#define tstBit(flag, bit) (flag & (1 << bit))
+#define setBit(flag, bit) flag = (flag | (1 << bit))
+#define clrBit(flag, bit) flag = (flag & ~(1 << bit))
+
 GameObject::GameObject () {
 
 
@@ -9,7 +13,7 @@ GameObject::GameObject () {
 
 GameObject::~GameObject () {
 
-
+	
 
 }
 

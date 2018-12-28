@@ -42,6 +42,21 @@ public:
 
 private:
 
+	//AI aspect
+	struct AIState {
+
+		void (GameObject::*currentAIAction) (AIState&);
+
+		int state;
+
+	};
+	
+	AIState objectAIState;
+
+	//Attacks
+	void (GameObject::*attackMele) ();
+	void (GameObject::*ranged) ();
+
 	//Stats
 	int hp;
 	int hpMax;
@@ -53,6 +68,10 @@ protected:
 	virtual void loadSound () = 0;
 
 	std::vector<Audio::Effect> soundEffects;
+
+	//AI functions
+
+	//Move functions
 
 };
 
