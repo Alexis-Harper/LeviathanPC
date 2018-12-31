@@ -14,6 +14,10 @@
  **/
 
 #include "Audio.h"
+#include "Player.h"
+#include "Health.h"
+
+class Arena;
 
 class GameObject {
 
@@ -22,9 +26,21 @@ public:
 	GameObject ();
 	~GameObject ();
 
+	//AI
+	struct AIArgs {
+
+		Arena *activeArena; //Arena for pathfinding
+		Player *player; //Player hitbox for targeting
+
+		Health *healthBar; //Health bar (for attacking the player)
+
+		AIArgs (Arena *arena, Player *player, Health *health) : activeArena (arena), player (player), healthBar (health) {};
+
+	};
+
 	//This is good
-	virtual bool update () = 0;
-	virtual void render () = 0;
+	virtual bool update (AIArgs args) = 0;
+	virtual void render (GPU_Target *screen) = 0;
 
 	bool damage (int damage);
 
@@ -40,22 +56,27 @@ public:
 	void setAttack (int attack);
 	void setSpeed (int speed);
 
-private:
+protected:
 
 	//AI aspect
 	struct AIState {
 
-		void (GameObject::*currentAIAction) (AIState&);
+		void (GameObject::*currentAIAction) (AIState&, AIArgs); //AI function pointer
 
-		int state;
+		unsigned short int state; //Int containing flag bits for various things
 
-	};
-	
-	AIState objectAIState;
+		float range; //Range of the ranged attack
+
+	} objectAIState;
+
+	void executeAI (AIState &objectAIState, AIArgs args);
 
 	//Attacks
-	void (GameObject::*attackMele) ();
-	void (GameObject::*ranged) ();
+	void (GameObject::*attackMele) () = NULL;
+	void (GameObject::*ranged) () = NULL;
+
+	//Hitbox
+	Rectangle *hitbox;
 
 	//Stats
 	int hp;
@@ -63,15 +84,20 @@ private:
 	int attack;
 	int speed;
 
-protected:
+	EightDirection direction;
+
+	float vx, vy;
+
+	bool canMove[4] = { true, true, true, true };
 
 	virtual void loadSound () = 0;
 
 	std::vector<Audio::Effect> soundEffects;
 
 	//AI functions
+	void aStar (AIState &objectAIState, AIArgs args);
+	void bodyAttack (AIState &objectAIState, AIArgs args);
 
-	//Move functions
+	//Attack functions
 
 };
-

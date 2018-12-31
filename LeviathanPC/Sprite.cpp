@@ -82,6 +82,7 @@ void Sprite::translateCamera (float x, float y) {
 	cameraY += y;
 
 	Font::setCamera (cameraX, cameraY);
+	Rectangle::setCamera (cameraX, cameraY);
 
 }
 
@@ -91,6 +92,7 @@ void Sprite::setCamera (float x, float y) {
 	cameraY = y;
 
 	Font::setCamera (cameraX, cameraY);
+	Rectangle::setCamera (cameraX, cameraY);
 
 }
 

@@ -12,6 +12,7 @@
 #include "Exit.h"
 #include "Audio.h"
 #include "CutEvent.h"
+#include "GameObject.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -611,15 +612,12 @@ void Arena::playerMoveCamera (Rectangle hitbox, float x, float y) {
 
 }
 
-bool* Arena::canMove (Rectangle hitbox) {
+void Arena::canMove (Rectangle hitbox, bool *arr) {
 
-	//Create array to return
-	static bool ret[4];
-
-	ret[0] = true;
-	ret[1] = true;
-	ret[2] = true;
-	ret[3] = true;
+	arr[0] = true;
+	arr[1] = true;
+	arr[2] = true;
+	arr[3] = true;
 
 	//Go through every linked list
 	struct Walls *n;
@@ -630,7 +628,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
-			ret[0] = false;
+			arr[0] = false;
 
 			break;
 
@@ -646,7 +644,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
-			ret[1] = false;
+			arr[1] = false;
 
 			break;
 
@@ -662,7 +660,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
-			ret[2] = false;
+			arr[2] = false;
 
 			break;
 
@@ -678,7 +676,7 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
 
-			ret[3] = false;
+			arr[3] = false;
 
 			break;
 
@@ -688,7 +686,78 @@ bool* Arena::canMove (Rectangle hitbox) {
 
 	}
 
-	return ret;
+}
+
+bool Arena::rectInWalls (Rectangle hitbox) {
+
+	//Go through every linked list
+	struct Walls *n;
+
+	n = this->up_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			return true;
+
+			break;
+
+		}
+
+		n = n->next;
+
+	}
+
+	n = this->right_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			return true;
+
+			break;
+
+		}
+
+		n = n->next;
+
+	}
+
+	n = this->down_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			return true;
+
+			break;
+
+		}
+
+		n = n->next;
+
+	}
+
+	n = this->left_first;
+
+	while (n) {
+
+		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+
+			return true;
+
+			break;
+
+		}
+
+		n = n->next;
+
+	}
+
+	return false;
 
 }
 

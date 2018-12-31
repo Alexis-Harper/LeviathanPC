@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "ControllerDefines.h"
+
 #include "Input.h"
+#include "Arena.h"
 
 Player::Player () {
 
@@ -27,19 +30,12 @@ Player::~Player () {
 
 }
 
-void Player::eightDirection (bool *move) {
-
-	this->canMove[0] = move[0];
-	this->canMove[1] = move[1];
-	this->canMove[2] = move[2];
-	this->canMove[3] = move[3];
-
-}
-
 void Player::update (Arena *arena) {
 
 	//Get direction
 	this->direction = (EightDirection) Input::eightDirection ();
+
+	arena->canMove (this->hitbox, this->canMove); //Get if player can wall
 
 	//Get player velocity
 	switch (this->direction) {
@@ -93,10 +89,18 @@ void Player::update (Arena *arena) {
 
 	//Adjust based of of delta time
 	this->vx *= (float) (0.005f *  Input::getDelta());
-	this->vy *= (float) (0.006f *  Input::getDelta());
+	this->vy *= (float) (0.005f *  Input::getDelta());
+
+	//If run button is pressed, increase speed
+	if (Input::keyHeld (SDL_SCANCODE_LALT) || Input::keyHeld (SDL_SCANCODE_RALT) || Input::buttonHeld (SDL_CONTROLLER_Y)) {
+
+		this->vx *= 1.5f;
+		this->vy *= 1.5f;
+
+	}
 
 	//Move player
-	this->hitbox.translate ((float) (this->vx), (float) (this->vy));
+	this->hitbox.translate (this->vx, this->vy);
 	
 	arena->playerMoveCamera (this->hitbox, vx, -vy);
 

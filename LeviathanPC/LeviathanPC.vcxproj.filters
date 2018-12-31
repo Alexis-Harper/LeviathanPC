@@ -79,6 +79,18 @@
     <Filter Include="Source Files\PauseMenu">
       <UniqueIdentifier>{c85e75a6-837c-4961-b1bd-5f51a8956aa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects\Enemies">
+      <UniqueIdentifier>{5f722410-1e51-42d1-b206-a3b11dabe99b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Enemies">
+      <UniqueIdentifier>{eb1f273f-658d-440b-8cc4-ae85b4cdf42e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects\Enemies\Basic">
+      <UniqueIdentifier>{683009b1-a60e-4ec7-9b59-5ee07a9cb39e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Enemies\Basic">
+      <UniqueIdentifier>{bdf7c515-9a31-4217-9517-cc7c26c5715a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -131,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="KillerShadow.cpp">
+      <Filter>Source Files\GameObjects\Enemies\Basic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="KillerShadow.h">
+      <Filter>Header Files\GameObjects\Enemies\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

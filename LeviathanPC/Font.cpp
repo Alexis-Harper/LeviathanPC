@@ -19,7 +19,7 @@ Font::Font () {
 Font::Font (const char *filename, Uint32 pointSize) {
 
 	//Calculate size
-	Uint32 point = pointSize * screenHeight / 740;
+	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
 
 	//Load font
 	this->font.load (filename, point);
@@ -43,7 +43,7 @@ Font::Font (const char *filename, Uint32 pointSize) {
 Font::Font (const char *filename, Uint32 pointSize, NFont::Color color) {
 
 	//Calculate size
-	Uint32 point = pointSize * screenHeight / 740;
+	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
 
 	//Load font
 	this->font.load (filename, point, color);
@@ -97,7 +97,7 @@ NFont* Font::getFont () {
 	if (this->changes != sizeChanges) {
 
 		//Calculate size
-		Uint32 point = this->size * screenHeight / 740;
+		Uint32 point = (Uint32) (this->size * screenHeight / 740);
 
 		//Load font
 		this->font.free ();

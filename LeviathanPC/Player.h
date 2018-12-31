@@ -15,9 +15,10 @@
 
 #include "Rectangle.h"
 #include "Sprite.h"
-#include "Arena.h"
 #include "Health.h"
 #include "Shaders.h"
+
+class Arena;
 
 class Player {
 
@@ -25,8 +26,6 @@ public:
 
 	Player ();
 	~Player ();
-
-	void eightDirection (bool *boolArray);
 
 	void update (Arena *activeArena);
 	void render (GPU_Target *screen);

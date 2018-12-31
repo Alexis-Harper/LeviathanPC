@@ -22,6 +22,9 @@ public:
 	~Rectangle ();
 
 	static bool rectIsColliding (Rectangle r1, Rectangle r2);
+	static bool pointInRect (Rectangle rect, float x, float y);
+
+	static void setCamera (float cameraX, float cameraY);
 
 	bool rectOnScreen ();
 

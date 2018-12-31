@@ -18,6 +18,8 @@
 #include "GameObject.h"
 #include "Sprite.h"
 
+class GameObject;
+
 class Arena {
 
 public:
@@ -33,9 +35,13 @@ public:
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
 
-	//See if player can move or not
-	bool* canMove (Rectangle playerHitbox);
+	//See if object can move or not
+	void canMove (Rectangle playerHitbox, bool *moveArray);
 
+	//Test if things are in walls
+	bool rectInWalls (Rectangle hitbox);
+
+	//Mussic
 	void pause (int pause);
 	void clearMusic ();
 

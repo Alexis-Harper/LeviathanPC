@@ -16,6 +16,9 @@
 #include "Font.h"
 #include "AmmoLabel.h"
 
+#include "GameObject.h"
+#include "KillerShadow.h"
+
 using namespace std;
 
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
@@ -257,6 +260,8 @@ int main(int argc, char *args[]) {
 	//Set up player
 	Player player = Player ();
 
+	KillerShadow shadow = KillerShadow (0.5f, 0.5f);
+
 	Health health;
 	AmmoLabel ammoLabel;
 
@@ -452,9 +457,9 @@ int main(int argc, char *args[]) {
 				//cout << "Direction: " << Input::eightDirection () << "\n\n";
 
 				//Update player
-				player.eightDirection (activeArena->canMove (player.getHixbox ())); //Get if player can wall
+				player.update (activeArena); //Update player
 
-				player.update (activeArena); //Actually update player
+				shadow.update (GameObject::AIArgs (activeArena, &player, &health));
 
 				//If in debug mode, allow for player hit button
 				#ifdef _DEBUG
@@ -481,6 +486,8 @@ int main(int argc, char *args[]) {
 				activeArena->render (screen);
 
 				player.render (screen);
+
+				shadow.render (screen);
 
 				health.render (screen);
 				ammoLabel.render (screen, player);

@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Rectangle.h"
 
+namespace {
+
+	float cameraX, cameraY;
+
+}
+
 Rectangle::Rectangle () {
 
 	this->x = 0.0f;
@@ -27,17 +33,17 @@ Rectangle::~Rectangle () {
 
 bool Rectangle::rectOnScreen () {
 
-	return (this->x + this->width > 0.0f && this->y + this->height > 0.0f && this->x < 1.0f && this->y < 1.0f);
+	return (this->x + this->width > cameraX && this->y + this->height > cameraY && this->x < cameraX + 1.0f && this->y < cameraY + 1.33333333f);
 
 }
 
 bool Rectangle::rectIsColliding (Rectangle r1, Rectangle r2) {
 
 	//Complicated but standard Rectangle collision algorithm
-	if (r1.x < r2.x + r2.width &&
-		r1.x + r1.width > r2.x &&
-		r1.y < r2.y + r2.height &&
-		r1.height + r1.y > r2.y) {
+	if (r1.x <= r2.x + r2.width &&
+		r1.x + r1.width >= r2.x &&
+		r1.y <= r2.y + r2.height &&
+		r1.height + r1.y >= r2.y) {
 
 		return true;
 
@@ -46,6 +52,31 @@ bool Rectangle::rectIsColliding (Rectangle r1, Rectangle r2) {
 		return false;
 
 	}
+
+}
+
+bool Rectangle::pointInRect (Rectangle rect, float x, float y) {
+
+	//Complicated but standard Rectangle collision algorithm
+	if (rect.x <= x &&
+		rect.y <= y &&
+		rect.width + rect.x >= x &&
+		rect.height + rect.y >= y) {
+
+		return true;
+
+	} else {
+
+		return false;
+
+	}
+
+}
+
+void Rectangle::setCamera (float x, float y) {
+
+	cameraX = x; 
+	cameraY = y;
 
 }
 

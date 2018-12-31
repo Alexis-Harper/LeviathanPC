@@ -145,6 +145,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="KillerShadow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rectangle.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="KillerShadow.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shaders.h" />
