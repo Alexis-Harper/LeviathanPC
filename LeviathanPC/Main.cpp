@@ -260,8 +260,6 @@ int main(int argc, char *args[]) {
 	//Set up player
 	Player player = Player ();
 
-	KillerShadow shadow = KillerShadow (0.5f, 0.5f);
-
 	Health health;
 	AmmoLabel ammoLabel;
 
@@ -459,7 +457,8 @@ int main(int argc, char *args[]) {
 				//Update player
 				player.update (activeArena); //Update player
 
-				shadow.update (GameObject::AIArgs (activeArena, &player, &health));
+				//Update game objects
+				activeArena->updateGameObjects (GameObject::AIArgs (activeArena, &player, &health));
 
 				//If in debug mode, allow for player hit button
 				#ifdef _DEBUG
@@ -487,7 +486,7 @@ int main(int argc, char *args[]) {
 
 				player.render (screen);
 
-				shadow.render (screen);
+				activeArena->renderGameObjects (screen);
 
 				health.render (screen);
 				ammoLabel.render (screen, player);

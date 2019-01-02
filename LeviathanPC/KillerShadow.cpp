@@ -13,6 +13,7 @@ KillerShadow::KillerShadow (float x, float y) {
 	//Setup AI
 	this->objectAIState.currentAIAction = &KillerShadow::aStar;
 	this->objectAIState.state = 0x0001;
+	this->objectAIState.range = 0.02f;
 
 }
 

@@ -33,7 +33,7 @@ Rectangle::~Rectangle () {
 
 bool Rectangle::rectOnScreen () {
 
-	return (this->x + this->width > cameraX && this->y + this->height > cameraY && this->x < cameraX + 1.0f && this->y < cameraY + 1.33333333f);
+	return ((this->x + this->width >= cameraX) && (this->y + this->height >= cameraY) && (this->x <= cameraX + 1.0f) && (this->y <= cameraY + 1.33333333f));
 
 }
 

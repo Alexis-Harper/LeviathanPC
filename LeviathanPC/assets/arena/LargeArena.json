@@ -97,6 +97,16 @@
 
 
 
+  ],
+
+  "Enemies": [
+
+    {
+      "Type": "KillerShadow",
+      "x": 0.5,
+      "y": 0.7
+    }
+
   ]
 
 }

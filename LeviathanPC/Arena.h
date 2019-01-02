@@ -32,6 +32,9 @@ public:
 	void update ();
 	void render (GPU_Target *screen);
 
+	void updateGameObjects (GameObject::AIArgs args);
+	void renderGameObjects (GPU_Target *screen);
+
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
 

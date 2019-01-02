@@ -65,7 +65,7 @@ protected:
 
 		unsigned short int state; //Int containing flag bits for various things
 
-		float range; //Range of the ranged attack
+		float range; //Range before pathfinding becomes attack
 
 	} objectAIState;
 

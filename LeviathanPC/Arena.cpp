@@ -14,6 +14,8 @@
 #include "CutEvent.h"
 #include "GameObject.h"
 
+#include "KillerShadow.h"
+
 using namespace std;
 using namespace rapidjson;
 
@@ -360,6 +362,48 @@ Arena::Arena (const char *filename) {
 
 	}
 
+	i = 0;
+
+	const Value &enemy_array = json["Enemies"];
+
+	for (auto &enemies : enemy_array.GetArray ()) {
+
+		//Get enemy string
+		const Value &enemyString = enemies["Type"];
+
+		size_t size = enemyString.GetStringLength () + 1;
+		char *buf = new char[size];
+		strcpy (buf, enemyString.GetString ());
+
+		//Get enemy position
+		float x = enemies["x"].GetFloat ();
+		float y = enemies["y"].GetFloat ();
+
+		//Pointer to enemy object
+		GameObject *ptr = NULL;
+
+		//Check what enemy it is
+		if (!strcmp (buf, "KillerShadow")) {
+
+			ptr = new KillerShadow (x, y);
+
+		}
+
+		//Add enemy to object list
+		if (i == 0) {
+
+			Arena::createGameObjectsList (ptr, &this->gameObject_first, &this->gameObject_last);
+
+		} else {
+
+			Arena::addGameObjectsList (ptr, &this->gameObject_last);
+
+		}
+
+		i++;
+
+	}
+
 	//Set camera back
 	Sprite::translateCamera (playerCameraMoveX, playerCameraMoveY);
 
@@ -569,6 +613,34 @@ void Arena::render (GPU_Target *screen) {
 	if (songPlaying) {
 
 		currentSong->render ();
+
+	}
+
+}
+
+void Arena::updateGameObjects (GameObject::AIArgs args) {
+
+	GameObjects *n = this->gameObject_first;
+
+	while (n) {
+
+		n->object->update (args);
+
+		n = n->next;
+
+	}
+
+}
+
+void Arena::renderGameObjects (GPU_Target *screen) {
+
+	GameObjects *n = this->gameObject_first;
+
+	while (n) {
+
+		n->object->render (screen);
+
+		n = n->next;
 
 	}
 
