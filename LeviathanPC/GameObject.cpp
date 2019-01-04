@@ -12,6 +12,7 @@
 
 enum Flags {
 
+	AI_STATE_FLAG_STILL,
 	AI_STATE_FLAG_BODY_ATTACK
 
 };
@@ -109,6 +110,7 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 	//Basic var declaration
 	double angle = 0.0f;
+	bool doDirection = true;
 
 	float xToPlayer = args.player->getHixbox ().getX () - this->hitbox->getX ();
 	float yToPlayer = args.player->getHixbox ().getY () - this->hitbox->getY ();
@@ -116,13 +118,13 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 	//Set test box rect
 	Rectangle testBox;
 
-	testBox.setX (this->hitbox->getX () + 0.25f);
-	testBox.setY (this->hitbox->getY () + 0.25f);
+	testBox.setX (this->hitbox->getX () - 0.25f);
+	testBox.setY (this->hitbox->getY () - 0.25f);
 	testBox.setWidth (0.5f);
 	testBox.setHeight (0.5f);
 
 	//If player is 
-	if (args.activeArena->rectInWalls (testBox)) {
+	if (!args.activeArena->rectInWalls (testBox)) {
 
 		//Set angle to angle to player
 		angle = atan2 (-yToPlayer, xToPlayer);
@@ -145,7 +147,7 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 			float dy2 = nodeY - startY;
 
 			//Calculate abs of cross product (tiebreaker that favors straight lines)
-			float cross = ((dx1 * dy2) - (dy1 * dx2));
+			//float cross = ((dx1 * dy2) - (dy1 * dx2));
 
 			//Use abs of derivatives
 			dx1 = (dx1 >= 0) ? dx1 : -dx1;
@@ -155,7 +157,7 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 			float heuristic = (dx1 + dy1) - (0.4142135f * ((dy1 < dx1) ? dy1 : dx1));
 
 			//Add tiebreaker (reduces number of checked tiles)
-			heuristic += cross * 0.01f; 
+			//heuristic += cross * 0.000390625f;
 
 			return heuristic;
 
@@ -177,6 +179,8 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 			float f, g;
 
+			bool start = false;
+
 			Point *lastPoint;
 
 			Point (float i, float j, float k) : x (i), y (j), g (k) { lastPoint = NULL; };
@@ -190,6 +194,7 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 		//Add starting position to openSet
 		struct Point startingPoint = Point (this->hitbox->getX (), this->hitbox->getY (), 0);
 		startingPoint.f = heuristic (this->hitbox->getX (), this->hitbox->getY (), this->hitbox->getX (), this->hitbox->getY (), args.player->getHixbox ().getX (), args.player->getHixbox ().getY ());
+		startingPoint.start = true;
 		openSet.push_back (startingPoint);
 
 		while (1) {
@@ -210,27 +215,40 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 			}
 
 			//Check if destination is found
-			if ((*lowest).x <= args.player->getHixbox ().getX () &&
-				(*lowest).y <= args.player->getHixbox ().getY () &&
-				(*lowest).x + 0.02 >= args.player->getHixbox ().getX () &&
-				(*lowest).y + 0.02 >= args.player->getHixbox ().getY ()) {
+			if (Rectangle::rectIsColliding (Rectangle ((*lowest).x, (*lowest).y, 0.031f, 0.031f), args.player->getHixbox ())) {
 
-				Point *n = (*lowest).lastPoint;
+				Point *n = (*lowest).lastPoint, *prev = NULL;
 
-				while (n && n->lastPoint && (n->lastPoint->x != this->hitbox->getX ()) && (n->lastPoint->y != this->hitbox->getY ())) {
+				std::cout << n << "\n";
 
-					n = n->lastPoint;
-
-				}
-
-				//If already on player, continue to follow, if not, follow path
 				if (n == NULL) {
 
-					angle = atan2 (-yToPlayer, xToPlayer);
+					//If on player, do what flag says to do
+					if (tstBit (objectAIState.state, AI_STATE_FLAG_STILL)) {
+
+						this->direction = NONE;
+						doDirection = false;
+
+					} else {
+
+						angle = atan2 (-yToPlayer, xToPlayer);
+
+					}
+
+				} else if (n->lastPoint->start == true) {
+
+					angle = atan2 (n->y - this->hitbox->getY (), this->hitbox->getX () - n->x);
 
 				} else {
 
-					angle = atan2 (n->y - this->hitbox->getY (), this->hitbox->getX () - n->x);
+					do {
+
+						prev = n;
+						n = n->lastPoint;
+
+					} while (n->lastPoint != NULL && n->lastPoint->start == false);
+
+					angle = atan2 (prev->y - this->hitbox->getY (), this->hitbox->getX () - prev->x);
 
 				}
 
@@ -240,28 +258,28 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 			//Move lowest from openSet to closedSet
 			Point current = *lowest;
-			openSet.erase (lowest);
+			
 			closedSet.push_back (current);
 
 			//Add neibors
 			{
 				std::list<struct Point> neibors;
 
-				neibors.push_back (Point (current.x + 0.025f, current.y, current.g + 1.0f)); //Adjacent
-				neibors.push_back (Point (current.x - 0.025f, current.y, current.g + 1.0f));
-				neibors.push_back (Point (current.x, current.y + 0.025f, current.g + 1.0f));
-				neibors.push_back (Point (current.x, current.y - 0.025f, current.g + 1.0f));
+				neibors.push_back (Point (current.x + 0.031f, current.y, current.g + 0.031f)); //Adjacent
+				neibors.push_back (Point (current.x - 0.031f, current.y, current.g + 0.031f));
+				neibors.push_back (Point (current.x, current.y + 0.031f, current.g + 0.031f));
+				neibors.push_back (Point (current.x, current.y - 0.031f, current.g + 0.031f));
 
-				neibors.push_back (Point (current.x + 0.025f, current.y + 0.025f, current.g + 1.4142135f)); //Diagonals
-				neibors.push_back (Point (current.x + 0.025f, current.y - 0.025f, current.g + 1.4142135f));
-				neibors.push_back (Point (current.x - 0.025f, current.y + 0.025f, current.g + 1.4142135f));
-				neibors.push_back (Point (current.x - 0.025f, current.y - 0.025f, current.g + 1.4142135f));
+				neibors.push_back (Point (current.x + 0.031f, current.y + 0.031f, current.g + 0.04384062043f)); //Diagonals
+				neibors.push_back (Point (current.x + 0.031f, current.y - 0.031f, current.g + 0.04384062043f));
+				neibors.push_back (Point (current.x - 0.031f, current.y + 0.031f, current.g + 0.04384062043f));
+				neibors.push_back (Point (current.x - 0.031f, current.y - 0.031f, current.g + 0.04384062043f));
 
 				//See if any neibors are in closed set, and if they are, remove them
 				for (std::list<struct Point>::iterator i = neibors.begin (); ++i != neibors.end (); ) {
 
 					//If tile is in wall, forget about it
-					if (args.activeArena->rectInWalls (Rectangle ((*i).x, (*i).y, 0.025f, 0.025f))) {
+					if (args.activeArena->rectInWalls (Rectangle ((*i).x, (*i).y, 0.031f, 0.031f))) {
 
 						neibors.erase (i);
 
@@ -312,11 +330,15 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 					//If it still exists, finish calculations
 					(*i).f = (*i).g + heuristic (this->hitbox->getX (), this->hitbox->getY (), (*i).x, (*i).y, args.player->getHixbox ().getX (), args.player->getHixbox ().getY ()); //Calc. f
 
-					(*i).lastPoint = &(closedSet.back ()); //Odd notation, but essentially have a reversed linked list as well
+					std::cout << (*i).x << ", " << (*i).y << ", " << (*i).f << "\n";
+
+					(*i).lastPoint = &(*lowest); //Odd notation, but essentially have a reversed linked list as well
 
 				}
 
 			doneChecking:
+
+				openSet.erase (lowest);
 
 				for (std::list<struct Point>::iterator i = neibors.begin (); ++i != neibors.end (); ) {
 
@@ -327,10 +349,21 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 			}
 
 			//If there have been enough checked, give up and just go to player;
-			if (closedSet.size () > 32) {
+			if (closedSet.size () >= 32) {
 
-				//Set angle to angle to player
-				angle = atan2 (-yToPlayer, xToPlayer);
+				std::cout << "Bad\n";
+
+				//If given up, do what flag says to do
+				if (tstBit (objectAIState.state, AI_STATE_FLAG_STILL)) {
+
+					this->direction = NONE;
+					doDirection = false;
+
+				} else {
+
+					angle = atan2 (-yToPlayer, xToPlayer);
+
+				}
 
 				break;
 
@@ -340,45 +373,50 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 	}
 
-	//Set direction enum
-	if ((angle <= (5 * M_PI / 8) && angle >= (3 * M_PI / 8))) {
+	//Set direction enum if necessary
+	if (doDirection) {
 
-		this->direction = UP;
+		if ((angle <= (5 * M_PI / 8) && angle >= (3 * M_PI / 8))) {
 
-	} else if ((angle <= (3 * M_PI / 8) && angle >= (M_PI / 8))) {
+			this->direction = UP;
 
-		this->direction = UP_RIGHT;
+		} else if ((angle <= (3 * M_PI / 8) && angle >= (M_PI / 8))) {
 
-	} else if ((angle <= (M_PI / 8) && angle >= (-M_PI / 8))) {
+			this->direction = UP_RIGHT;
 
-		this->direction = RIGHT;
+		} else if ((angle <= (M_PI / 8) && angle >= (-M_PI / 8))) {
 
-	} else if ((angle <= (-M_PI / 8) && angle >= (-3 * M_PI / 8))) {
+			this->direction = RIGHT;
 
-		direction = DOWN_RIGHT;
+		} else if ((angle <= (-M_PI / 8) && angle >= (-3 * M_PI / 8))) {
 
-	} else if ((angle <= (-3 * M_PI / 8) && angle >= (-5 * M_PI / 8))) {
+			direction = DOWN_RIGHT;
 
-		this->direction = DOWN;
+		} else if ((angle <= (-3 * M_PI / 8) && angle >= (-5 * M_PI / 8))) {
 
-	} else if ((angle <= (-5 * M_PI / 8) && angle >= (-7 * M_PI / 8))) {
+			this->direction = DOWN;
 
-		this->direction = DOWN_LEFT;
+		} else if ((angle <= (-5 * M_PI / 8) && angle >= (-7 * M_PI / 8))) {
 
-	} else if ((angle <= (-7 * M_PI / 8) || angle >= (7 * M_PI / 8))) {
+			this->direction = DOWN_LEFT;
 
-		this->direction = LEFT;
+		} else if ((angle <= (-7 * M_PI / 8) || angle >= (7 * M_PI / 8))) {
 
-	} else if ((angle <= (7 * M_PI / 8) && angle >= (5 * M_PI / 8))) {
+			this->direction = LEFT;
 
-		this->direction = UP_LEFT;
+		} else if ((angle <= (7 * M_PI / 8) && angle >= (5 * M_PI / 8))) {
 
-	} else {
+			this->direction = UP_LEFT;
 
-		this->direction = NONE;
+		} else {
+
+			this->direction = NONE;
+
+		}
 
 	}
 
+	//If close to player, attack, if not, don't
 	if ((sqrt (xToPlayer * xToPlayer + yToPlayer * yToPlayer) >= objectAIState.range)) {
 
 		if (tstBit (objectAIState.state, AI_STATE_FLAG_BODY_ATTACK)) {
@@ -386,6 +424,10 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 			objectAIState.currentAIAction = &GameObject::bodyAttack;
 
 		}
+
+	} else {
+
+		objectAIState.currentAIAction = &GameObject::aStar;
 
 	}
 

@@ -8,11 +8,11 @@ KillerShadow::KillerShadow (float x, float y) {
 
 	this->spritesheet = new SpriteSheet ((char*) "assets/enemies/basic/ShadowPlayer.png", 4, 8);
 
-	this->hitbox = new Rectangle (x, y, 0.05f, 0.05f);
+	this->hitbox = new Rectangle (x, y, 0.031f, 0.082f);
 
 	//Setup AI
 	this->objectAIState.currentAIAction = &KillerShadow::aStar;
-	this->objectAIState.state = 0x0001;
+	this->objectAIState.state = 0x0003;
 	this->objectAIState.range = 0.02f;
 
 }
@@ -104,15 +104,30 @@ bool KillerShadow::update (AIArgs args) {
 
 void KillerShadow::render (GPU_Target *screen) {
 
+	//Get animation 
 	Uint8 animation = 0;
 
-	if (this->vx > 0 || this->vy > 0) {
+	if (this->vx != 0 || this->vy != 0) {
 
 		animation = (int) (SDL_GetTicks () * 0.012) % 8;
 
 	}
 
-	this->spritesheet->render (screen, this->hitbox->getX (), this->hitbox->getY (), 2.0f, this->spriteDirection, animation);
+	this->spritesheet->render (screen, this->hitbox->getX () - 0.029f, this->hitbox->getY () - 0.003f, 2.0f, this->spriteDirection, animation);
+
+	//Render hitbox if in debug mode
+	#ifdef _DEBUG
+
+	SDL_Color hitboxColor;
+
+	hitboxColor.r = 255;
+	hitboxColor.g = 20;
+	hitboxColor.b = 20;
+	hitboxColor.a = 200;
+
+	this->hitbox->renderRect (screen, hitboxColor);
+
+	#endif
 
 }
 

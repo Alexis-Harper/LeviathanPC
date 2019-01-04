@@ -62,7 +62,6 @@ private:
 
 	int uboost;
 
-	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.05f, 0.05f);
+	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.031f, 0.082f);
 
 };
-

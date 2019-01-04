@@ -3,6 +3,7 @@
 
 namespace {
 
+	float screenWidth, screenHeight;
 	float cameraX, cameraY;
 
 }
@@ -34,6 +35,19 @@ Rectangle::~Rectangle () {
 bool Rectangle::rectOnScreen () {
 
 	return ((this->x + this->width >= cameraX) && (this->y + this->height >= cameraY) && (this->x <= cameraX + 1.0f) && (this->y <= cameraY + 1.33333333f));
+
+}
+
+void Rectangle::updateScreenDimentions (float width, float height) {
+
+	screenWidth = width;
+	screenHeight = height;
+
+}
+
+void Rectangle::renderRect (GPU_Target *screen, SDL_Color color) {
+
+	GPU_Rectangle (screen, screenWidth * (this->x - cameraX), screenHeight * (this->y + cameraY), screenWidth * (this->x - cameraX + this->width), screenHeight * (this->y + cameraY + this->height), color);
 
 }
 

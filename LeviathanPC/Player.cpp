@@ -121,18 +121,35 @@ void Player::update (Arena *arena) {
 	
 	}
 
+	std::cout << "Player: " << this->hitbox.getX () << ", " << this->hitbox.getY () << "\n";
+
 }
 
 void Player::render (GPU_Target *screen) {
 
+	//Render player model
 	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
-	this->spritesheet->render (screen, this->hitbox.getX (), this->hitbox.getY (), 2.0f, 0, 0);
+	this->spritesheet->render (screen, this->hitbox.getX () - 0.029f, this->hitbox.getY () - 0.003f, 2.0f, 0, 0);
 
 	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
 	GPU_SetUniformf (this->uboost, this->stats.damageBoost);
 
 	GPU_ActivateShaderProgram (0, NULL);
+
+	//Render hitbox if in debug mode
+	#ifdef _DEBUG
+	
+	SDL_Color hitboxColor;
+
+	hitboxColor.r = 20;
+	hitboxColor.g = 255;
+	hitboxColor.b = 20;
+	hitboxColor.a = 200;
+
+	this->hitbox.renderRect (screen, hitboxColor);
+
+	#endif
 
 }
 

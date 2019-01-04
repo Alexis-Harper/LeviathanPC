@@ -73,6 +73,7 @@ void Sprite::updateScreenDimentions (float w, float h) {
 	screenHeight = h;
 
 	Font::updateScreenDimentions (w, h);
+	Rectangle::updateScreenDimentions (w, h);
 
 }
 

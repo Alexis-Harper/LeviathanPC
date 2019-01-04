@@ -66,6 +66,7 @@ protected:
 		unsigned short int state; //Int containing flag bits for various things
 
 		float range; //Range before pathfinding becomes attack
+		float timer = 0; //Timer for certain actions
 
 	} objectAIState;
 

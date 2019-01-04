@@ -25,8 +25,10 @@ public:
 	static bool pointInRect (Rectangle rect, float x, float y);
 
 	static void setCamera (float cameraX, float cameraY);
-
 	bool rectOnScreen ();
+
+	static void updateScreenDimentions (float width, float height);
+	void renderRect (GPU_Target *screen, SDL_Color color);
 
 	float getX ();
 	float getY ();
