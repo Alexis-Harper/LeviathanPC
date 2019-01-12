@@ -121,7 +121,7 @@ void Player::update (Arena *arena) {
 	
 	}
 
-	std::cout << "Player: " << this->hitbox.getX () << ", " << this->hitbox.getY () << "\n";
+	//std::cout << "Player: " << this->hitbox.getX () << ", " << this->hitbox.getY () << "\n";
 
 }
 
@@ -222,7 +222,7 @@ void Player::setPosition (float x, float y) {
 
 }
 
-Rectangle Player::getHixbox () {
+Rectangle Player::getHitbox () {
 
 	return this->hitbox;
 

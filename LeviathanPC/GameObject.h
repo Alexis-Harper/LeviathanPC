@@ -101,4 +101,8 @@ protected:
 
 	//Attack functions
 
+private:
+
+	void angleToDirection (double angle);
+
 };

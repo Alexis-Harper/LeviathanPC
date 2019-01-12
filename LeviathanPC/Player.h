@@ -38,7 +38,7 @@ public:
 
 	void setPosition (float x, float y);
 
-	Rectangle getHixbox ();
+	Rectangle getHitbox ();
 
 private:
 

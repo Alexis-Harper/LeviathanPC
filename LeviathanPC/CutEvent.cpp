@@ -72,7 +72,7 @@ void CutEvent::testForEvent (GameState *state, Arena **arena, Cutscene **scene, 
 	while (eventPtr) {
 
 		//Check if player is in event area
-		if (Rectangle::rectIsColliding (eventPtr->cutEvent->hitbox, player->getHixbox ())) {
+		if (Rectangle::rectIsColliding (eventPtr->cutEvent->hitbox, player->getHitbox ())) {
 
 			//Change game state
 			*state = GameState::CUTSCENE;

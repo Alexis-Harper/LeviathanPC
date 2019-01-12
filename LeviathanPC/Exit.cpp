@@ -100,7 +100,7 @@ void Exit::testForExit (Arena **arena, Player *player) {
 
 	while (exit) {
 
-		if (Rectangle::rectIsColliding (exit->exit->hitbox, player->getHixbox ())) {
+		if (Rectangle::rectIsColliding (exit->exit->hitbox, player->getHitbox ())) {
 
 			//Set player position
 			player->setPosition (exit->exit->getPlayerX (), exit->exit->getPlayerY ());
