@@ -57,6 +57,7 @@ private:
 	bool canMove[4] = { true, true, true, true };
 
 	SpriteSheet *spritesheet;
+	Uint8 spriteDirection = 0;
 
 	ShaderProgram program;
 

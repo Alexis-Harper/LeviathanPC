@@ -13,6 +13,12 @@
  * (at your option) any later version.
  **/
 
+namespace GameFonts {
+
+	extern const char *MAIN_FONT;
+
+};
+
 class Font {
 
 public:
@@ -20,6 +26,8 @@ public:
 	Font ();
 	Font (const char *filename, Uint32 pointSize);
 	Font (const char *filename, Uint32 pointSize, NFont::Color color);
+	Font (const char *filename, Uint32 pointSize, int style);
+	Font (const char *filename, Uint32 pointSize, NFont::Color color, int style);
 	~Font ();
 
 	//Call on window size change to correct movement
@@ -38,8 +46,12 @@ private:
 
 	NFont font;
 
-	char *filename = NULL;
+	const char *filename = NULL;
 	Uint32 size, changes;
+
+	//Style
+	NFont::Color color;
+	int style = 0;
 
 };
 

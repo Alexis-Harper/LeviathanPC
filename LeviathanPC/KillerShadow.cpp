@@ -62,7 +62,7 @@ bool KillerShadow::update (AIArgs args) {
 		case DOWN:
 			this->vx = 0.0f;
 			this->vy = 1.0f * canMove[2];
-			spriteDirection = 2;
+			this->spriteDirection = 2;
 			break;
 
 		case DOWN_LEFT:

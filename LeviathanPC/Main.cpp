@@ -15,9 +15,7 @@
 #include "CutEvent.h"
 #include "Font.h"
 #include "AmmoLabel.h"
-
-#include "GameObject.h"
-#include "KillerShadow.h"
+#include "PauseMenu.h"
 
 using namespace std;
 

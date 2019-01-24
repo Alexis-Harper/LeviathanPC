@@ -3,7 +3,7 @@
 
 AmmoLabel::AmmoLabel () {
 
-	this->font = new Font ("assets/typefaces/helvetica.ttf", 50, NFont::Color (200, 200, 200, 204));
+	this->font = new Font (GameFonts::MAIN_FONT, 50, NFont::Color (200, 200, 200, 204), 1);
 
 }
 

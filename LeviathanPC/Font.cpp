@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Font.h"
 
+namespace GameFonts {
+
+	const char *MAIN_FONT = "assets/typefaces/helvetica.ttf";
+
+};
+
 namespace {
 
 	float screenWidth, screenHeight;
@@ -21,18 +27,23 @@ Font::Font (const char *filename, Uint32 pointSize) {
 	//Calculate size
 	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
 
+	//Color
+	this->color = NFont::Color (0, 0, 0, 255);
+
 	//Load font
 	this->font.load (filename, point);
 
 	//Copy filename string
-	if (this->filename != NULL) {
+	/*if (this->filename != NULL) {
 
 		delete[] this->filename;
 
 	}
 
 	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename);
+	strcpy (this->filename, filename); */
+
+	this->filename = filename;
 
 	//Keep size
 	this->size = pointSize;
@@ -45,18 +56,83 @@ Font::Font (const char *filename, Uint32 pointSize, NFont::Color color) {
 	//Calculate size
 	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
 
+	//Color
+	this->color = color;
+
 	//Load font
 	this->font.load (filename, point, color);
 
 	//Copy filename string
-	if (this->filename != NULL) {
+	/*if (this->filename != NULL) {
 
 		delete[] this->filename;
 
 	}
 
 	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename);
+	strcpy (this->filename, filename); */
+
+	this->filename = filename;
+
+	//Keep size
+	this->size = pointSize;
+	this->changes = sizeChanges;
+
+}
+
+Font::Font (const char *filename, Uint32 pointSize, int style) {
+
+	//Calculate size
+	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
+
+	//Style
+	this->color = NFont::Color (0, 0, 0, 255);
+	this->style = style;
+
+	//Load font
+	this->font.load (filename, point, this->color, style);
+
+	//Copy filename string
+	/*if (this->filename != NULL) {
+
+		delete[] this->filename;
+
+	}
+
+	this->filename = new char[strlen (filename) + 1];
+	strcpy (this->filename, filename); */
+
+	this->filename = filename;
+
+	//Keep size
+	this->size = pointSize;
+	this->changes = sizeChanges;
+
+}
+
+Font::Font (const char *filename, Uint32 pointSize, NFont::Color color, int style) {
+
+	//Calculate size
+	Uint32 point = (Uint32) (pointSize * screenHeight / 740);
+
+	//Style
+	this->color = color;
+	this->style = style;
+
+	//Load font
+	this->font.load (filename, point, color, style);
+
+	//Copy filename string
+	/*if (this->filename != NULL) {
+
+		delete[] this->filename;
+
+	}
+
+	this->filename = new char[strlen (filename) + 1];
+	strcpy (this->filename, filename); */
+
+	this->filename = filename;
 
 	//Keep size
 	this->size = pointSize;
@@ -66,11 +142,11 @@ Font::Font (const char *filename, Uint32 pointSize, NFont::Color color) {
 
 Font::~Font () {
 
-	if (this->filename != NULL) {
+	/*if (this->filename != NULL) {
 
 		delete[] this->filename;
 
-	}
+	}*/
 
 	this->font.free ();
 
@@ -101,7 +177,8 @@ NFont* Font::getFont () {
 
 		//Load font
 		this->font.free ();
-		this->font.load (this->filename, point);
+
+		this->font.load (this->filename, point, this->color, this->style);
 
 	}
 

@@ -73,12 +73,6 @@
     <Filter Include="Resource Files\docs">
       <UniqueIdentifier>{4f7fbe6a-62ff-4e96-ab3e-2004d458b85b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\PauseMenu">
-      <UniqueIdentifier>{c9e7e0d6-da6d-4168-9644-a14c70876a01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PauseMenu">
-      <UniqueIdentifier>{c85e75a6-837c-4961-b1bd-5f51a8956aa3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GameObjects\Enemies">
       <UniqueIdentifier>{5f722410-1e51-42d1-b206-a3b11dabe99b}</UniqueIdentifier>
     </Filter>
@@ -90,6 +84,21 @@
     </Filter>
     <Filter Include="Source Files\GameObjects\Enemies\Basic">
       <UniqueIdentifier>{bdf7c515-9a31-4217-9517-cc7c26c5715a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\arena\Hell">
+      <UniqueIdentifier>{c469f698-e0b2-4d18-8b6e-4e7f872164ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{77178553-fd7d-4af4-9c4e-4ec2d0f3f651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{98e36c2a-908c-463c-8cb4-a8e5eb228c20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu\PauseMenu">
+      <UniqueIdentifier>{c85e75a6-837c-4961-b1bd-5f51a8956aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\PauseMenu">
+      <UniqueIdentifier>{c9e7e0d6-da6d-4168-9644-a14c70876a01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="KillerShadow.cpp">
       <Filter>Source Files\GameObjects\Enemies\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Source Files\Menu\PauseMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="KillerShadow.h">
       <Filter>Header Files\GameObjects\Enemies\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Header Files\Menu\PauseMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
