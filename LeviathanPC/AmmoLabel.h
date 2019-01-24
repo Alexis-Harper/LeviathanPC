@@ -23,11 +23,12 @@ public:
 	AmmoLabel ();
 	~AmmoLabel ();
 
+	//Render ammo label (which gets plyer's ammo data)
 	void render (GPU_Target *screen, Player &player);
 
 private:
 
-	Font *font;
+	//Font for use in displaying ammo
+	Font font = Font (GameFonts::MAIN_FONT, 50, NFont::Color (200, 200, 200, 204), 1);
 
 };
-

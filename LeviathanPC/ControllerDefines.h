@@ -13,6 +13,7 @@
  * (at your option) any later version.
  **/
 
+//Enum that contains controller key codes
 enum CONTROLLER_DEFINES {
 
 	SDL_CONTROLLER_A,

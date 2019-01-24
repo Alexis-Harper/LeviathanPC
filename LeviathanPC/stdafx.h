@@ -19,9 +19,8 @@
 
 #include <string>
 
-//Things to include everywhere
+//Things to include everywhere (math)
 #include "Rectangle.h"
-#include "Vector.h"
 
 //Reciporicals of \sqrt{2}
 #define SQRT_2 0.70710678118f

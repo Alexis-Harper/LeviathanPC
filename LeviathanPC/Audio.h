@@ -15,8 +15,10 @@
  * (at your option) any later version.
  **/
 
+//Audio class namespace
 namespace Audio {
 
+	//Base Audio class
 	class Audio {
 
 	public:
@@ -25,14 +27,18 @@ namespace Audio {
 		Audio (const char *filename, const char *channelName);
 		~Audio ();
 
+		//Re-queue audio
 		void reQueue ();
 
+		//Pause audio
 		void pause (int pause);
 
+		//Get audio device ID
 		SDL_AudioDeviceID getDeviceID ();
 
 	private:
 
+		//WAV data
 		Uint32 wav_length;
 		Uint8 *wav_buffer = NULL;
 		SDL_AudioSpec wav_spec;
@@ -41,6 +47,7 @@ namespace Audio {
 
 	};
 
+	//Audio class specialized for music
 	class Music {
 
 	public:
@@ -49,16 +56,20 @@ namespace Audio {
 		Music (const char* filename);
 		~Music ();
 
+		//Render music (re-queues automatically to repeat)
 		void render ();
 
+		//Pause music
 		void pause (int pause);
 
 	private:
 
+		//Base audio object
 		Audio *audio = NULL;
 
 	};
 
+	//Audio class made for sound effects
 	class Effect {
 
 	public:
@@ -67,10 +78,12 @@ namespace Audio {
 		Effect (const char* filename);
 		~Effect ();
 
+		//Play sound effect
 		void playEffect ();
 
 	private:
 
+		//Base audio object
 		Audio *audio = NULL;
 
 	};

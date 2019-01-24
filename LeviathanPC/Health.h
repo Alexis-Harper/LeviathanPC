@@ -22,16 +22,21 @@ public:
 	Health ();
 	~Health ();
 
+	//Call on player healrth change to update shader
 	void modPlayerHealth (int health, int maxHealth);
 
+	//Render health bar
 	void render (GPU_Target *screen);
 
 private:
 
+	//Sprite
 	Sprite spriteBase = Sprite ((char*) "assets/hud/health_base.bmp");
 
+	//Shader program pointers
 	ShaderProgram program;
 
+	//Shader uniform pointer & value
 	int uhealth;
 	float health = 1.0f;
 

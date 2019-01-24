@@ -21,10 +21,12 @@ public:
 	PauseMenu ();
 	~PauseMenu ();
 
+	//Render pause menu
 	void render (GPU_Target *screen);
 
 private:
 
-	Font *font;
+	//Pause object font data
+	Font font = Font (GameFonts::MAIN_FONT, 32, NFont::Color (127, 127, 127, 255));
 
 };

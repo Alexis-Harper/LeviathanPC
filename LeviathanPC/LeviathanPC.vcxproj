@@ -152,7 +152,6 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmmoLabel.h" />
@@ -176,7 +175,6 @@
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\docs\index.md" />

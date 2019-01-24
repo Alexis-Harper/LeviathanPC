@@ -26,6 +26,7 @@ public:
 	CutEvent (std::string cutscene, Rectangle hitbox);
 	~CutEvent ();
 
+	//Event linked list structure
 	struct EventList {
 
 		CutEvent *cutEvent;
@@ -35,16 +36,20 @@ public:
 
 	};
 
+	//Linked list 
 	static void createEventList (CutEvent *event);
 	static void addEventList (CutEvent *event);
 	static void deleteEventList ();
 
+	//Tests if event should play
 	static void testForEvent (GameState *gameStateEnum, Arena **arena, Cutscene **scene, Player *player);
 
 private:
 
+	//Hitbox to cue event if touched by player
 	Rectangle hitbox;
 
+	//String location for cutscene
 	std::string scene;
 
 };

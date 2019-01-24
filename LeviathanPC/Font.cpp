@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Font.h"
 
+//Font constants
 namespace GameFonts {
 
 	const char *MAIN_FONT = "assets/typefaces/helvetica.ttf";
@@ -9,18 +10,18 @@ namespace GameFonts {
 
 namespace {
 
+	//Screen and camera dimentions
 	float screenWidth, screenHeight;
 	float cameraX, cameraY;
 
+	/*
+	* Global that measures the number of screen dimention changes over time so
+	* that when there is a dimention change, if the object's number doesn't 
+	* match, then it will know it needs to change the size and will change it
+	*/
 	Uint32 sizeChanges = 0;
 
 };
-
-Font::Font () {
-
-	//Default constructor
-
-}
 
 Font::Font (const char *filename, Uint32 pointSize) {
 
@@ -33,16 +34,7 @@ Font::Font (const char *filename, Uint32 pointSize) {
 	//Load font
 	this->font.load (filename, point);
 
-	//Copy filename string
-	/*if (this->filename != NULL) {
-
-		delete[] this->filename;
-
-	}
-
-	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename); */
-
+	//Set filename
 	this->filename = filename;
 
 	//Keep size
@@ -62,16 +54,7 @@ Font::Font (const char *filename, Uint32 pointSize, NFont::Color color) {
 	//Load font
 	this->font.load (filename, point, color);
 
-	//Copy filename string
-	/*if (this->filename != NULL) {
-
-		delete[] this->filename;
-
-	}
-
-	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename); */
-
+	//Set filename
 	this->filename = filename;
 
 	//Keep size
@@ -92,16 +75,7 @@ Font::Font (const char *filename, Uint32 pointSize, int style) {
 	//Load font
 	this->font.load (filename, point, this->color, style);
 
-	//Copy filename string
-	/*if (this->filename != NULL) {
-
-		delete[] this->filename;
-
-	}
-
-	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename); */
-
+	//Set filename
 	this->filename = filename;
 
 	//Keep size
@@ -122,16 +96,7 @@ Font::Font (const char *filename, Uint32 pointSize, NFont::Color color, int styl
 	//Load font
 	this->font.load (filename, point, color, style);
 
-	//Copy filename string
-	/*if (this->filename != NULL) {
-
-		delete[] this->filename;
-
-	}
-
-	this->filename = new char[strlen (filename) + 1];
-	strcpy (this->filename, filename); */
-
+	//Set filename
 	this->filename = filename;
 
 	//Keep size
@@ -142,27 +107,25 @@ Font::Font (const char *filename, Uint32 pointSize, NFont::Color color, int styl
 
 Font::~Font () {
 
-	/*if (this->filename != NULL) {
-
-		delete[] this->filename;
-
-	}*/
-
+	//Free font
 	this->font.free ();
 
 }
 
 void Font::updateScreenDimentions (float w, float h) {
 
+	//Update dimentions
 	screenWidth = w;
 	screenHeight = h;
 
+	//Add to size change counter on size change
 	sizeChanges++;
 
 }
 
 void Font::setCamera (float x, float y) {
 
+	//Update camera position
 	cameraX = x;
 	cameraY = y;
 
@@ -170,42 +133,49 @@ void Font::setCamera (float x, float y) {
 
 NFont* Font::getFont () {
 
+	//If the object's count doesn't match the correct number, fix it
 	if (this->changes != sizeChanges) {
 
 		//Calculate size
 		Uint32 point = (Uint32) (this->size * screenHeight / 740);
 
-		//Load font
+		//Free existing font
 		this->font.free ();
 
+		//Load new font of different size but same typeface
 		this->font.load (this->filename, point, this->color, this->style);
 
 	}
 
+	//Return pointer to object's font so that rendering can be done
 	return &this->font;
 
 }
 
 float Font::getX_d (float x) {
 
+	//Translate camera then scale to dimention
 	return (x - cameraX) * screenWidth;
 
 }
 
 float Font::getY_d (float y) {
 
+	//Translate camera then scale to dimention
 	return (y + cameraY) * screenHeight;
 
 }
 
 float Font::getX_s (float x) {
 
+	//Scale position to dimention
 	return x * screenWidth;
 
 }
 
 float Font::getY_s (float y) {
 
+	//Scale position to dimention
 	return y * screenHeight;
 
 }

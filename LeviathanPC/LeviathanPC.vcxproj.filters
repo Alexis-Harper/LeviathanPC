@@ -120,9 +120,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files\Media</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Arena.cpp">
       <Filter>Source Files\Arena</Filter>
     </ClCompile>
@@ -181,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files\Media</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="ControllerDefines.h">
       <Filter>Header Files\Headers</Filter>

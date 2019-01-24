@@ -13,6 +13,7 @@
  * (at your option) any later version.
  **/
 
+//Loads up image from file to GPU_Image
 GPU_Image* loadTexture (char *filename);
 
 //Renders SDL Sprite 
@@ -50,19 +51,24 @@ public:
 	//Increment or decrement (crescere) alpha value (with safety of negatives replaced with 0)
 	void crescereAlpha_s (int8_t alpha);
 
+	//Get screen dimentions
 	float getWidth ();
 	float getHeight ();
 
+	//Get image dimentions
 	int getPWidth ();
 	int getPHeight ();
 
 private:
 
+	//GPU_Image object pointer
 	GPU_Image *texture;
 
+	//Dimentions
 	float width, height;
 	int pWidth, pHeight;
 
+	//Alpha value
 	int alpha;
 
 };
@@ -97,8 +103,10 @@ public:
 
 private:
 
+	//Base sprite object
 	Sprite *sprite;
 
+	//Holds data on resolution and number of sprites in sheet
 	int imagesX, imagesY, resX, resY;
 
 };

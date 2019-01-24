@@ -27,21 +27,27 @@ public:
 	Player ();
 	~Player ();
 
+	//Update/render player
 	void update (Arena *activeArena);
 	void render (GPU_Target *screen);
 
+	//Damage/heal player (
 	void damage (int damage, Health *healthHud);
 	void heal (int heal, Health *healthHud);
 
+	//Ammo getters
 	Uint16 getAmmo ();
 	Uint16 getMaxAmmo ();
 
+	//Set position (used for new arenas)
 	void setPosition (float x, float y);
 
+	//Get player hitbox
 	Rectangle getHitbox ();
 
 private:
 
+	//Stat struct
 	struct PlayerStats {
 
 		int hp, hpMax;
@@ -50,19 +56,24 @@ private:
 
 	} stats;
 
+	//Player facing direction
 	EightDirection direction;
 
+	//Player velocity
 	float vx, vy;
 
+	//Holds data on what direction player can move in (from arena walls)
 	bool canMove[4] = { true, true, true, true };
 
+	//Sprite information
 	SpriteSheet *spritesheet;
-	Uint8 spriteDirection = 0;
+	Uint8 spriteDirection = 2; //Direction player is facing
 
+	//Shader data
 	ShaderProgram program;
-
 	int uboost;
 
+	//Player hitbox
 	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.031f, 0.082f);
 
 };

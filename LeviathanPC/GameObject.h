@@ -17,6 +17,7 @@
 #include "Player.h"
 #include "Health.h"
 
+//Forward declaration to prevent dependencies
 class Arena;
 
 class GameObject {
@@ -26,7 +27,7 @@ public:
 	GameObject ();
 	~GameObject ();
 
-	//AI
+	//AI information
 	struct AIArgs {
 
 		Arena *activeArena; //Arena for pathfinding
@@ -38,19 +39,23 @@ public:
 
 	};
 
-	//This is good
+	//Virtuals to update & render
 	virtual bool update (AIArgs args) = 0;
 	virtual void render (GPU_Target *screen) = 0;
 
+	//Damages game object
 	bool damage (int damage);
 
+	//Virtual called on death
 	virtual void death () = 0;
 
+	//Get stats
 	int getHp ();
 	int getHpMax ();
 	int getAttack ();
 	int getSpeed ();
 
+	//Set stats
 	void setHp (int hp);
 	void setHpMax (int hpMax);
 	void setAttack (int attack);
@@ -70,6 +75,7 @@ protected:
 
 	} objectAIState;
 
+	//Executes the AI if on screen
 	void executeAI (AIState &objectAIState, AIArgs args);
 
 	//Attacks
@@ -85,24 +91,30 @@ protected:
 	int attack;
 	int speed;
 
+	//Directional enum for direction facing
 	EightDirection direction;
 
+	//Velocities
 	float vx, vy;
 
+	//Bool array on if object can move in each direction
 	bool canMove[4] = { true, true, true, true };
 
+	//Virtual for loading sounds for object
 	virtual void loadSound () = 0;
 
+	//Array of sound effects object can play
 	std::vector<Audio::Effect> soundEffects;
 
 	//AI functions
 	void aStar (AIState &objectAIState, AIArgs args);
 	void bodyAttack (AIState &objectAIState, AIArgs args);
 
-	//Attack functions
+	//Attack functions (TODO)
 
 private:
 
+	//Converts an angle into a direction for the object (for use in AI)
 	void angleToDirection (double angle);
 
 };

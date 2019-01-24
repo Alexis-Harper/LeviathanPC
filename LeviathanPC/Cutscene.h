@@ -39,6 +39,7 @@ private:
 	//Skip button
 	Sprite *skipButtonSprite;
 
+	//Frame counter for skipping
 	float skipFrames;
 
 	//List struct
@@ -70,6 +71,7 @@ private:
 	//Next arena to go to
 	char *nextArena;
 
+	//Coords to be set when cutscene is done
 	float playerX, playerY, cameraOffsetX, cameraOffsetY;
 
 };

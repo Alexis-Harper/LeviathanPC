@@ -21,15 +21,19 @@ public:
 	KillerShadow (float x, float y);
 	~KillerShadow ();
 
+	//Update and render implementations
 	bool update (AIArgs args);
 	void render (GPU_Target *screen);
 
+	//Implimentation of death
 	void death ();
 
 private:
 
+	//Loads sounds to play
 	void loadSound ();
 
+	//Spritesheet information
 	SpriteSheet *spritesheet;
 	Uint8 spriteDirection = 0;
 

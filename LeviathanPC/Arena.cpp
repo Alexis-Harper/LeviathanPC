@@ -31,10 +31,13 @@ namespace {
 
 Arena::Arena (const char *filename) {
 
+	//Alert that arena is loading
 	cout << "Loading arena: " << filename << "\n";
 
+	//Open arena file
 	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
 
+	//Get file input
 	char buf[65536];
 	FileReadStream is (f, buf, sizeof (buf));
 
@@ -49,9 +52,11 @@ Arena::Arena (const char *filename) {
 
 	fclose (f); //Close file
 
+	//Parse JSON file
 	Document json;
 	json.Parse (buf);
 
+	//If JSON failed to load, give error
 	if (!json.IsObject ()) {
 
 		cout << "[-] Arena: JSON file failed to parse.\n";
@@ -61,12 +66,12 @@ Arena::Arena (const char *filename) {
 	}
 
 	//Set up visuals
-	const Value &visuals_object = json["Visuals"];
+	const Value &visuals_object = json["Visuals"]; //Get visuals object
 
-	const std::string backgroundAdress = visuals_object["Background-Image"].GetString ();
-	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str());
+	const std::string backgroundAdress = visuals_object["Background-Image"].GetString (); //Get background image 
+	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str()); //Create background image sprite
 
-	this->backgroundScale = visuals_object["Background-Scale"].GetFloat ();
+	this->backgroundScale = visuals_object["Background-Scale"].GetFloat (); //Get background scale
 
 	//See if music value exists, and if so 
 	if (json.HasMember("Music")) {
@@ -414,6 +419,7 @@ Arena::~Arena () {
 	//Go through every linked list and delete them all
 	struct Walls *n, *m;
 
+	//Delete all up walls
 	n = this->up_first;
 
 	while (n) {
@@ -428,6 +434,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete all right walls
 	n = this->right_first;
 
 	while (n) {
@@ -442,6 +449,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete all down walls
 	n = this->down_first;
 
 	while (n) {
@@ -456,6 +464,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete all left walls
 	n = this->left_first;
 
 	while (n) {
@@ -470,6 +479,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete camera horizontal blocker list
 	n = this->choriz_first;
 
 	while (n) {
@@ -484,6 +494,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete camera vertical blocker list
 	n = this->cvert_first;
 
 	while (n) {
@@ -498,6 +509,7 @@ Arena::~Arena () {
 
 	}
 
+	//Delete exit list
 	Exit::deleteExitList ();
 
 	//Reset camera
@@ -507,6 +519,7 @@ Arena::~Arena () {
 
 void Arena::init () {
 
+	//This needs to be done to setup the string so that the code can strcmp
 	lastArenaSongName = new char[1];
 	lastArenaSongName[0] = '\00';
 

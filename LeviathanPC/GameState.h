@@ -13,6 +13,7 @@
  * (at your option) any later version.
  **/
 
+//Enum containing game states
 enum GameState {
 
 	HOME_MENU,

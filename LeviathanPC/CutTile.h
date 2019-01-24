@@ -22,6 +22,7 @@ public:
 	CutTile (char *filename, float scale);
 	~CutTile ();
 
+	//Timing struct
 	struct Timing {
 
 		float fade_in;
@@ -30,23 +31,30 @@ public:
 
 	};
 
+	//Get timing data
 	float getFadeIn ();
 	float getStayTime ();
 	float getFadeOut ();
 
+	//Set timing data
 	void setFadeIn (float value);
 	void setStayTime (float value);
 	void setFadeOut (float value);
 
+	//Render tile
 	void render (GPU_Target *screen);
+	//Set alpha of tile
 	void setAlpha (Uint8 alpha);
 
 private:
 
+	//Tile sprite
 	Sprite *sprite;
 
+	//Scale of tile
 	float scale;
 
+	//Timing of object
 	struct Timing timing;
 
 };

@@ -23,7 +23,6 @@ class Font {
 
 public:
 
-	Font ();
 	Font (const char *filename, Uint32 pointSize);
 	Font (const char *filename, Uint32 pointSize, NFont::Color color);
 	Font (const char *filename, Uint32 pointSize, int style);
@@ -35,21 +34,30 @@ public:
 	//Set camera position
 	static void setCamera (float x, float y);
 
+	//Get raw font
 	NFont* getFont ();
 
+	//Get real X/Width from virtual coords (dynamic)
 	float getX_d (float x);
+	//Get real Y/Height from virtual coords (dynamic)
 	float getY_d (float y);
+	//Get real X/Width from virtual coords (static)
 	float getX_s (float x);
+	//Get real Y/Height from virtual coords (static)
 	float getY_s (float y);
 
 private:
 
+	//NFont object
 	NFont font;
 
+	//Filename pointer for resizing
 	const char *filename = NULL;
+
+	//Holds size and change data
 	Uint32 size, changes;
 
-	//Style
+	//Style data
 	NFont::Color color;
 	int style = 0;
 

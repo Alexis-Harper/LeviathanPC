@@ -13,9 +13,10 @@
  * (at your option) any later version.
  **/
 
+//List of errors that can be called for exits
 enum ERROR {
 
-	ERROR_SDL_INIT_VIDEO = 2,
+	ERROR_SDL_INIT_VIDEO = 4,
 	ERROR_SDL_INIT_AUDIO,
 	ERROR_SDL_INIT_JOYSTICK,
 	ERROR_SDL_INIT_HAPTIC,

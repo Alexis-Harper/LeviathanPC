@@ -15,6 +15,7 @@
  * (at your option) any later version.
  **/
 
+//Forward declaration to be used in function declarations
 struct ShaderProgram;
 
 //Creates shader program from files
@@ -29,6 +30,7 @@ void freeShaderProgram (Uint32 vertex, Uint32 fragment, Uint32 program);
 //Free struct program
 void freeShaderProgram (ShaderProgram program);
 
+//Holds shader pointers
 struct ShaderProgram {
 
 	Uint32 vertex;

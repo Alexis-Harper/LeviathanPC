@@ -27,11 +27,14 @@ public:
 	Arena (const char *filename);
 	~Arena ();
 
+	//Initiate Arena (after construction but before use)
 	static void init ();
 
+	//Update and render methods
 	void update ();
 	void render (GPU_Target *screen);
 
+	//Update/render all GameObjects in Arena
 	void updateGameObjects (GameObject::AIArgs args);
 	void renderGameObjects (GPU_Target *screen);
 
@@ -41,10 +44,10 @@ public:
 	//See if object can move or not
 	void canMove (Rectangle playerHitbox, bool *moveArray);
 
-	//Test if things are in walls
+	//Test if a rectangle is in a wall
 	bool rectInWalls (Rectangle hitbox);
 
-	//Mussic
+	//Music
 	void pause (int pause);
 	void clearMusic ();
 
@@ -78,6 +81,7 @@ private:
 	static void createWallList (Rectangle *wall, Walls **first, Walls **last);
 	static void addWallList (Rectangle *wall, Walls **last);
 
+	//GameObject linked list
 	struct GameObjects {
 
 		GameObject *object;
