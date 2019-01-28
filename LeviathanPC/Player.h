@@ -52,7 +52,9 @@ private:
 
 		int hp, hpMax;
 		Uint16 ammo = 16, maxAmmo = 23;
+
 		float damageBoost = 0.0f;
+		float sprintCounter = 0.0f;
 
 	} stats;
 
@@ -72,6 +74,7 @@ private:
 	//Shader data
 	ShaderProgram program;
 	int uboost;
+	int usprint;
 
 	//Player hitbox
 	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.031f, 0.082f);

@@ -38,13 +38,18 @@ public:
 	NFont* getFont ();
 
 	//Get real X/Width from virtual coords (dynamic)
-	float getX_d (float x);
+	static float getX_d (float x);
 	//Get real Y/Height from virtual coords (dynamic)
-	float getY_d (float y);
+	static float getY_d (float y);
 	//Get real X/Width from virtual coords (static)
-	float getX_s (float x);
+	static float getX_s (float x);
 	//Get real Y/Height from virtual coords (static)
-	float getY_s (float y);
+	static float getY_s (float y);
+
+	//Get real rectangle from virtual numbers (dynamic)
+	static NFont::Rectf getRect_d (float x, float y, float width, float height);
+	//Get real rectangle from virtual numbers (static)
+	static NFont::Rectf getRect_s (float x, float y, float width, float height);
 
 private:
 

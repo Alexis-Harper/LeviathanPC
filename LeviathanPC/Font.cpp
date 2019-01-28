@@ -179,3 +179,25 @@ float Font::getY_s (float y) {
 	return y * screenHeight;
 
 }
+
+NFont::Rectf Font::getRect_d (float x, float y, float width, float height) {
+
+	float xPos = (x - cameraX) * screenWidth;
+	float yPos = (y + cameraY) * screenHeight;
+	float wDim = width * screenWidth;
+	float hDim = height * screenHeight;
+
+	return NFont::Rectf (xPos, yPos, wDim, hDim);
+
+}
+
+NFont::Rectf Font::getRect_s (float x, float y, float width, float height) {
+
+	float xPos = x * screenWidth;
+	float yPos = y * screenHeight;
+	float wDim = width * screenWidth;
+	float hDim = height * screenHeight;
+
+	return NFont::Rectf (xPos, yPos, wDim, hDim);
+
+}

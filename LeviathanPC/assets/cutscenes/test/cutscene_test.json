@@ -36,6 +36,34 @@
 
   ],
 
+  "Text_Array": [
+
+    {
+      "Dialogue": "This is temp text.",
+
+      "Time": 120.0
+    },
+
+    {
+      "Dialogue": "Please work.\nNew line.",
+
+      "Time": 60.0
+    },
+
+    {
+      "Dialogue": "a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z",
+
+      "Time": 120
+    },
+
+    {
+      "Dialogue": "This should carry over to the next few lines. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum faucibus nunc vel consequat. Integer eu odio in nisi ullamcorper mattis eget scelerisque quam. Quisque.",
+
+      "Time": 240.0
+    }
+
+  ],
+
   "Next_Arena": {
 
     "location": "assets/arena/LargeArena.json",

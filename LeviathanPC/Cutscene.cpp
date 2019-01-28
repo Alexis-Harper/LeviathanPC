@@ -98,6 +98,48 @@ Cutscene::Cutscene (const char *filename) {
 
 	}
 
+	i = 0;
+
+	//Checks if dialogue exists
+	if (json.HasMember ("Text_Array")) {
+
+		//Set dialogue playing to true
+		this->dialogue_playing = true;
+
+		//Gets array of dialogue objects
+		const Value &text_array = json["Text_Array"];
+
+		for (auto &text_data : text_array.GetArray ()) {
+
+			const Value &dialogue_text = text_data["Dialogue"];
+
+			//Create buffer containing music string
+			size_t size = dialogue_text.GetStringLength () + 1;
+			char *text = new char[size];
+			strcpy (text, dialogue_text.GetString ());
+
+			//Add to list
+			if (i == 0) {
+
+				Cutscene::createTextList (text, text_data["Time"].GetFloat (), &this->first_text, &this->last_text);
+
+			} else {
+
+				Cutscene::addTextList (text, text_data["Time"].GetFloat (), &this->last_text);
+
+			}
+
+			i++;
+
+		}
+
+	} else {
+
+		//Tell it not to play dialogue
+		this->dialogue_playing = false;
+
+	}
+
 	//Get next arena 
 	const Value &next_arena_value = json["Next_Arena"];
 
@@ -121,6 +163,11 @@ Cutscene::Cutscene (const char *filename) {
 	this->current_fade_in = this->current->tile->getFadeIn ();
 	this->current_stay_time = this->current->tile->getStayTime ();
 	this->current_fade_out = this->current->tile->getFadeOut ();
+
+	//Set text list info
+	this->current_text = this->first_text;
+	this->dialogue_timer = this->current_text->time;
+
 
 	//Set 
 	if (Input::controllerUsed ()) {
@@ -157,6 +204,22 @@ Cutscene::~Cutscene () {
 		delete n;
 
 		n = m;
+
+	}
+
+	struct TextList *p, *o;
+
+	p = this->first_text;
+
+	while (n) {
+
+		delete[] p->text;
+
+		o = p->next;
+
+		delete p;
+
+		p = o;
 
 	}
 
@@ -219,8 +282,6 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 				this->current_fade_in = this->current->tile->getFadeIn ();
 				this->current_stay_time = this->current->tile->getStayTime ();
 				this->current_fade_out = this->current->tile->getFadeOut ();
-
-				return false;
 
 			} else {
 
@@ -348,6 +409,41 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 	//Render skip button
 	this->skipButtonSprite->render (screen, 0.8f, 0.76f, 2.0f, NULL);
 
+	//If dialogue is playing, do the calculations
+	if (this->dialogue_playing) {
+
+		//Display text box
+		this->textBox.render (screen, 0.166f, 0.655f, 1.0f, NULL);
+
+		//If dialogue timer is
+		if (this->dialogue_timer > Input::getDelta ()) {
+
+			this->font.getFont ()->drawBox (screen, Font::getRect_s (0.216f, 0.705f, 0.90133333333f, 0.25555555555f), this->current_text->text);
+
+			this->dialogue_timer -= Input::getDelta ();
+
+		} else {
+
+			//If there's no more tiles, end dialogue, otherwise, move to next
+			if (this->current_text->next != NULL) {
+
+				//Go to next text
+				this->current_text = this->current_text->next;
+
+				//Set timing
+				this->dialogue_timer = this->current_text->time;
+
+			} else {
+
+				//End dialogue
+				this->dialogue_playing = false;
+
+			}
+
+		}
+
+	}
+
 	//Return false
 	return false;
 
@@ -366,6 +462,24 @@ void Cutscene::addTileList (CutTile *data, TileList **last) {
 	struct TileList *prev = *last;
 
 	*last = new TileList (data);
+
+	prev->next = *last;
+
+}
+
+void Cutscene::createTextList (char *text, float time, TextList **first, TextList **last) {
+
+	*first = new TextList (text, time);
+
+	*last = *first;
+
+}
+
+void Cutscene::addTextList (char *text, float time, TextList **last) {
+
+	struct TextList *prev = *last;
+
+	*last = new TextList (text, time);
 
 	prev->next = *last;
 

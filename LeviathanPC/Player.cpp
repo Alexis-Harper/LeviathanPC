@@ -15,6 +15,9 @@ Player::Player () {
 	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
 	GPU_SetUniformf (this->uboost, 0.0f);
 
+	this->usprint = GPU_GetUniformLocation (this->program.program, "sprintCounter");
+	GPU_SetUniformf (this->usprint, 0.0f);
+
 	GPU_ActivateShaderProgram (0, NULL);
 
 	this->stats.hp = 100;
@@ -35,7 +38,8 @@ void Player::update (Arena *arena) {
 	//Get direction
 	this->direction = (EightDirection) Input::eightDirection ();
 
-	arena->canMove (this->hitbox, this->canMove); //Get if player can wall
+	//Get if player can wall
+	arena->canMove (this->hitbox, this->canMove); 
 
 	//Get player velocity
 	switch (this->direction) {
@@ -107,6 +111,41 @@ void Player::update (Arena *arena) {
 
 	}
 
+	//Manage sprint counter
+	if (this->stats.sprintCounter > 0.0f) {
+
+		if (this->stats.sprintCounter > Input::getDelta ()) {
+
+			//If player has more run time than delta, then remove boost time
+			this->stats.sprintCounter -= (float) Input::getDelta ();
+
+			if (this->stats.sprintCounter >= 25.0) {
+
+				//Make player run faster (stacks with sprint)
+				this->vx *= 1.5f;
+				this->vy *= 1.5f;
+
+			}
+
+		} else {
+
+			//If time is up, stop counter and allow damage
+			this->stats.sprintCounter = 0.0f;
+
+		}
+
+	} else {
+
+		//If damage boost is off, and key is held, dash sprint
+		if (this->stats.damageBoost == 0.0f && Input::keyHeld (SDL_SCANCODE_SPACE)) {
+
+			this->stats.sprintCounter = 60.0f;
+			this->stats.damageBoost = 32.0f;
+
+		}
+
+	}
+
 	//Move player
 	this->hitbox.translate (this->vx, this->vy);
 	
@@ -151,6 +190,10 @@ void Player::render (GPU_Target *screen) {
 	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
 	GPU_SetUniformf (this->uboost, this->stats.damageBoost);
 
+	//Dash sprint boost counter uniform
+	this->usprint = GPU_GetUniformLocation (this->program.program, "sprintCounter");
+	GPU_SetUniformf (this->usprint, this->stats.sprintCounter);
+
 	//Render
 	this->spritesheet->render (screen, this->hitbox.getX () - 0.029f, this->hitbox.getY () - 0.003f, 2.0f, this->spriteDirection, animation);
 
@@ -160,6 +203,7 @@ void Player::render (GPU_Target *screen) {
 	//Render hitbox if in debug mode
 	#ifdef _DEBUG
 	
+	//Set hitbox color
 	SDL_Color hitboxColor;
 
 	hitboxColor.r = 20;
@@ -167,6 +211,7 @@ void Player::render (GPU_Target *screen) {
 	hitboxColor.b = 20;
 	hitboxColor.a = 200;
 
+	//Render hitbox
 	this->hitbox.renderRect (screen, hitboxColor);
 
 	#endif
@@ -175,14 +220,17 @@ void Player::render (GPU_Target *screen) {
 
 void Player::damage (int damage, Health *healthHud) {
 
+	//If player is in damage boost, do nothing
 	if (this->stats.damageBoost > 0.0f) {
 
 		return;
 
 	} else {
 
+		//Set damage boost counter
 		this->stats.damageBoost = 60.0f;
 
+		//If it will kill player, do that, if not, damage them
 		if (damage >= this->stats.hp) {
 
 			this->stats.hp = 0;
@@ -190,6 +238,7 @@ void Player::damage (int damage, Health *healthHud) {
 			//TEMP heals player instead of killing them
 			this->stats.hp = this->stats.hpMax;
 
+			//Change health bar
 			healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
 			//TODO Kill player
@@ -198,11 +247,16 @@ void Player::damage (int damage, Health *healthHud) {
 
 		} else {
 
+			//Reduce damage
 			this->stats.hp -= damage;
 
+			//Change health bar
 			healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
+			//Rumbe if controller is used
 			Input::rumble (0.5f, 100);
+
+			return;
 
 		}
 
@@ -212,16 +266,20 @@ void Player::damage (int damage, Health *healthHud) {
 
 void Player::heal (int heal, Health *healthHud) {
 
+	//If healing more than health, set to max health, if not just heal
 	if (this->stats.hp + heal >= this->stats.hpMax) {
 
+		//Set to max health
 		this->stats.hp = this->stats.hpMax;
 
 	} else {
 
+		//Heal
 		this->stats.hp += heal;
 
 	}
 
+	//Change health bar
 	healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
 }

@@ -27,7 +27,7 @@ public:
 	Arena (const char *filename);
 	~Arena ();
 
-	//Initiate Arena (after construction but before use)
+	//Initiate Arena (before any constructors are called)
 	static void init ();
 
 	//Update and render methods

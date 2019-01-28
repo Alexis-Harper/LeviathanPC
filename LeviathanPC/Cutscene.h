@@ -19,6 +19,7 @@
 #include "Audio.h"
 #include "Arena.h"
 #include "Player.h"
+#include "Font.h"
 
 class Cutscene {
 
@@ -42,7 +43,7 @@ private:
 	//Frame counter for skipping
 	float skipFrames;
 
-	//List struct
+	//List struct (tiles)
 	struct TileList {
 
 		CutTile *tile;
@@ -61,6 +62,34 @@ private:
 	//List manipulators
 	static void createTileList (CutTile *data, TileList **first, TileList **last);
 	static void addTileList (CutTile *data, TileList **last);
+
+	//Sprite for showing text
+	Sprite textBox = Sprite ((char*) "assets/cutscenes/images/CutsceneTextBox.png");
+
+	//Text font
+	Font font = Font (GameFonts::MAIN_FONT, 32, NFont::Color (220, 220, 220, 250));
+
+	//List struct (dialogue)
+	struct TextList {
+
+		char *text;
+		float time;
+		struct TextList *next;
+
+		TextList (char *text, float time) : text (text), time (time) { this->next = NULL; };
+
+	};
+
+	//Current dialogue timing
+	float dialogue_timer;
+	bool dialogue_playing;
+
+	//Text list
+	struct TextList *first_text = NULL, *last_text = NULL, *current_text = NULL;
+
+	//List manipulators
+	static void createTextList (char *text, float time, TextList **first, TextList **last);
+	static void addTextList (char *text, float time, TextList **last);
 
 	//Get post-cutscene arena information
 	float getPlayerX ();
