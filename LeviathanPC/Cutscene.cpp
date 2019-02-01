@@ -420,7 +420,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 			this->font.getFont ()->drawBox (screen, Font::getRect_s (0.216f, 0.705f, 0.90133333333f, 0.25555555555f), this->current_text->text);
 
-			this->dialogue_timer -= Input::getDelta ();
+			this->dialogue_timer -= (float) Input::getDelta ();
 
 		} else {
 

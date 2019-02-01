@@ -16,6 +16,7 @@
 #include "Font.h"
 #include "AmmoLabel.h"
 #include "PauseMenu.h"
+#include "MainMenu.h"
 
 using namespace std;
 
@@ -195,7 +196,7 @@ int main(int argc, char *args[]) {
 
 	if (SDL_NumJoysticks () < 1) {
 
-		cout << "[+] SDL: No joysticks connected.\n";
+		cout << "[+] SDL: No joysticks connected.\n\n";
 
 	} else {
 
@@ -211,7 +212,7 @@ int main(int argc, char *args[]) {
 
 			if (hapticFeedback == NULL) {
 
-				cout << "[+] SDL: Controller does not support haptic feedback.\n";
+				cout << "[+] SDL: Controller does not support haptic feedback.\n\n";
 
 			} else {
 
@@ -221,7 +222,7 @@ int main(int argc, char *args[]) {
 
 				} else {
 
-					cout << "[+] SDL: Haptic feedback working.\n";
+					cout << "[+] SDL: Haptic feedback working.\n\n";
 
 					Input::isHapticUsed (true);
 					Input::setHapticFeedback (hapticFeedback);
@@ -262,8 +263,22 @@ int main(int argc, char *args[]) {
 	AmmoLabel ammoLabel;
 
 	//Set game state
-	GameState gameState = GAME;
+	GameState gameState = HOME_MENU;
 	float pauseButtonBuffer = 0.0f;
+
+	struct Menus {
+
+		//Menu font
+		Font font = Font (GameFonts::MAIN_FONT, 32, NFont::Color (200, 200, 200, 250));
+
+		//Menu buttons
+		SpriteSheet buttons = SpriteSheet ((char*) "assets/menu/MainButtons.png", 1, 2);
+
+		//Menu objects
+		MainMenu mainMenu = MainMenu (&this->font, &this->buttons);
+		PauseMenu pauseMenu = PauseMenu (&this->font, &this->buttons);
+
+	} menus;
 
 	//SDL Events
 	bool exit = false;
@@ -469,6 +484,14 @@ int main(int argc, char *args[]) {
 
 				#endif
 
+			} else if (gameState == GameState::PAUSED) {
+
+				menus.pauseMenu.update (gameState, windowResX, windowResY);
+
+			} else if (gameState == GameState::HOME_MENU) {
+
+				menus.mainMenu.update (gameState, windowResX, windowResY);
+
 			}
 
 			//Render
@@ -477,7 +500,7 @@ int main(int argc, char *args[]) {
 			GPU_Clear (screen);
 
 			//Game and paused mode render
-			if (gameState == GameState::GAME || gameState == GameState::PAUSED) {
+			if (gameState == GameState::GAME || gameState == GameState::PAUSED || gameState == GameState::HOME_MENU) {
 
 				//Render things
 				activeArena->render (screen);
@@ -486,8 +509,24 @@ int main(int argc, char *args[]) {
 
 				activeArena->renderGameObjects (screen);
 
-				health.render (screen);
-				ammoLabel.render (screen, player);
+				//State specific things
+				if (gameState == GameState::GAME) {
+
+					//Display HUD if in game mode
+					health.render (screen);
+					ammoLabel.render (screen, player);
+
+				} else if (gameState == GameState::PAUSED) {
+
+					//If paused, render pause menu
+					menus.pauseMenu.render (screen);
+
+				} else if (gameState == GameState::HOME_MENU) {
+
+					//If on main menu, render main menu
+					menus.mainMenu.render (screen);
+
+				}
 
 			} else if (gameState = GameState::CUTSCENE) {
 

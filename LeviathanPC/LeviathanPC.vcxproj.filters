@@ -100,6 +100,12 @@
     <Filter Include="Header Files\Menu\PauseMenu">
       <UniqueIdentifier>{c9e7e0d6-da6d-4168-9644-a14c70876a01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Menu\MainMenu">
+      <UniqueIdentifier>{343c8fb9-50c4-459f-880c-3efeb301af67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu\MainMenu">
+      <UniqueIdentifier>{7d98e0b8-549f-4516-b23e-619d76a1f334}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -155,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="PauseMenu.cpp">
       <Filter>Source Files\Menu\PauseMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\Menu\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="PauseMenu.h">
       <Filter>Header Files\Menu\PauseMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\Menu\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

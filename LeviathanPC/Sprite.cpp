@@ -53,7 +53,7 @@ Sprite::Sprite (char *filename) {
 	this->pHeight = h;
 
 	this->width = w / 960.0f;
-	this->height = h / 740.0f;
+	this->height = h / 720.0f;
 
 	//Set things
 	this->texture->anchor_x = 0.0f; //Center on edge

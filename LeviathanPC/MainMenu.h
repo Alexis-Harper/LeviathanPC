@@ -2,9 +2,9 @@
 
 /**
  * Author:    Alexis Harper
- * Created:   22.1.2019
+ * Created:   28.1.2019
  *
- * Description: A class that controls a pause menu.
+ * Description: A class that controls the main menu.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 #include "Sprite.h"
 #include "MenuButton.h"
 
-class PauseMenu {
+class MainMenu {
 
 public:
 
-	PauseMenu (Font *font, SpriteSheet *buttons);
-	~PauseMenu ();
+	MainMenu (Font *font, SpriteSheet *buttons);
+	~MainMenu ();
 
 	//Update & render functions
 	void update (GameState &gameState, int windowResX, int windowResY);
@@ -32,7 +32,7 @@ public:
 private:
 
 	//Background image
-	Sprite background = Sprite ((char*) "assets/menu/pause/Background.png");
+	Sprite background = Sprite ((char*) "assets/menu/main/Background.png");
 
 	//Pause object font data
 	Font *font;
@@ -43,9 +43,9 @@ private:
 	//Buttons
 	struct Buttons {
 
-		MenuButton continueGame = MenuButton ("Continue Game", 0.33333333333f, 0.35f);
-		MenuButton mainMenu = MenuButton ("Main Menu", 0.33333333333f, 0.5f);
+		MenuButton playGame = MenuButton ("Play Game", 0.33333333333f, 0.5f);
 
 	} menuButtons;
 
 };
+
