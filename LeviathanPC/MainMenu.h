@@ -17,6 +17,8 @@
 #include "Font.h"
 #include "Sprite.h"
 #include "MenuButton.h"
+#include "Arena.h"
+#include "Audio.h"
 
 class MainMenu {
 
@@ -26,10 +28,16 @@ public:
 	~MainMenu ();
 
 	//Update & render functions
-	void update (GameState &gameState, int windowResX, int windowResY);
+	void update (GameState &gameState, Arena *activeArena, float windowResY, float windowOffset);
 	void render (GPU_Target *screen);
 
+	//Music
+	void pause (int pause);
+
 private:
+
+	//Music
+	Audio::Music music = Audio::Music ("assets/Ambient_Hell.wav");
 
 	//Background image
 	Sprite background = Sprite ((char*) "assets/menu/main/Background.png");

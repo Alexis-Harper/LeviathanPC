@@ -17,6 +17,8 @@
 #include "Font.h"
 #include "Sprite.h"
 #include "MenuButton.h"
+#include "Arena.h"
+#include "MainMenu.h"
 
 class PauseMenu {
 
@@ -26,7 +28,7 @@ public:
 	~PauseMenu ();
 
 	//Update & render functions
-	void update (GameState &gameState, int windowResX, int windowResY);
+	void update (GameState &gameState, MainMenu &mainMenu, Arena *activeArena, float windowResY, float windowOffset);
 	void render (GPU_Target *screen);
 
 private:

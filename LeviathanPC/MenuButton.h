@@ -33,7 +33,7 @@ private:
 	const char *displayedText;
 
 	//Mouse hitbox
-	Rectangle hitbox = Rectangle (0.0f, 0.0f, 0.33333333333f, 0.091666666f);
+	Rectangle hitbox = Rectangle (0.0f, 0.0f, 0.666666666f, 0.091666666f);
 
 	//Is button is selected
 	bool selected;

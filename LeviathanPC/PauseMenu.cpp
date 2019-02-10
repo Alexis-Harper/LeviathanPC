@@ -14,7 +14,7 @@ PauseMenu::~PauseMenu () {
 
 }
 
-void PauseMenu::update (GameState &gameState, int windowResX, int windowResY) {
+void PauseMenu::update (GameState &gameState, MainMenu &mainMenu, Arena *activeArena, float windowResY, float windowOffsets) {
 
 	//X and Y ints
 	int x, y;
@@ -23,8 +23,8 @@ void PauseMenu::update (GameState &gameState, int windowResX, int windowResY) {
 	bool isPressed = (SDL_GetMouseState (&x, &y) & SDL_BUTTON (SDL_BUTTON_LEFT));
 
 	//Gets virtual mouse state
-	float virtualX = (float) x / windowResX;
-	float virtualY = (float) y / windowResY;
+	float virtualX = (x - windowOffsets) / windowResY;
+	float virtualY = y / windowResY;
 
 	//Update buttons
 	if (this->menuButtons.continueGame.update (virtualX, virtualY, isPressed) == true) {
@@ -36,6 +36,9 @@ void PauseMenu::update (GameState &gameState, int windowResX, int windowResY) {
 	if (this->menuButtons.mainMenu.update (virtualX, virtualY, isPressed) == true) {
 
 		gameState = GameState::HOME_MENU;
+
+		mainMenu.pause (0);
+		activeArena->pause (1);
 
 	}
 

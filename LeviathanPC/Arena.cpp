@@ -848,7 +848,8 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 void Arena::pause (int pause) {
 
-	currentSong->pause (pause);
+	if (songPlaying)
+		currentSong->pause (pause);
 
 }
 

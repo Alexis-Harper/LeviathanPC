@@ -249,9 +249,12 @@ int main(int argc, char *args[]) {
 		
 	} else {
 
-		activeArena = new Arena ((const char*) "assets/arena/TestArena.json");
+		activeArena = new Arena ("assets/arena/TestArena.json");
 
 	}
+
+	//Pause arena music
+	activeArena->pause (1);
 
 	//Create current cutscene
 	Cutscene *currentCutscene = NULL;
@@ -486,11 +489,11 @@ int main(int argc, char *args[]) {
 
 			} else if (gameState == GameState::PAUSED) {
 
-				menus.pauseMenu.update (gameState, windowResX, windowResY);
+				menus.pauseMenu.update (gameState, menus.mainMenu, activeArena, viewport.h, viewport.x);
 
 			} else if (gameState == GameState::HOME_MENU) {
 
-				menus.mainMenu.update (gameState, windowResX, windowResY);
+				menus.mainMenu.update (gameState, activeArena, viewport.h, viewport.x);
 
 			}
 
