@@ -114,7 +114,7 @@ void Exit::testForExit (Arena **arena, Player *player) {
 
 			//Replace arena
 			delete *arena;
-			*arena = new Arena (buf); 
+			*arena = new_Arena (buf); 
 
 			//Clear out event list
 			CutEvent::deleteEventList ();

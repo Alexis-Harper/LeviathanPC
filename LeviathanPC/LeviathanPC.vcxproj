@@ -137,6 +137,7 @@
     <ClCompile Include="AmmoLabel.cpp" />
     <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BossObject.cpp" />
     <ClCompile Include="CutEvent.cpp" />
     <ClCompile Include="Cutscene.cpp" />
     <ClCompile Include="CutTile.cpp" />
@@ -159,10 +160,12 @@
     <ClInclude Include="AmmoLabel.h" />
     <ClInclude Include="Arena.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BossObject.h" />
     <ClInclude Include="ControllerDefines.h" />
     <ClInclude Include="CutEvent.h" />
     <ClInclude Include="Cutscene.h" />
     <ClInclude Include="CutTile.h" />
+    <ClInclude Include="EnemiesList.h" />
     <ClInclude Include="ErrorEnum.h" />
     <ClInclude Include="Exit.h" />
     <ClInclude Include="Font.h" />

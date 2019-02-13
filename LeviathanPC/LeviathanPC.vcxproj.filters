@@ -168,6 +168,9 @@
     <ClCompile Include="MenuButton.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="BossObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -238,6 +241,12 @@
     </ClInclude>
     <ClInclude Include="MenuButton.h">
       <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="BossObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesList.h">
+      <Filter>Header Files\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

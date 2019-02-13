@@ -245,11 +245,11 @@ int main(int argc, char *args[]) {
 
 	if (argc > 1) {
 
-		activeArena = new Arena (args[1]);
+		activeArena = new_Arena (args[1]);
 		
 	} else {
 
-		activeArena = new Arena ("assets/arena/TestArena.json");
+		activeArena = new_Arena ("assets/arena/TestArena.json");
 
 	}
 

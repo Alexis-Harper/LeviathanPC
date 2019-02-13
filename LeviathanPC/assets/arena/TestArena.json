@@ -1,5 +1,7 @@
 {
 
+  "Boss_Arena": false,
+
   "Visuals": {
 
     "Background-Image": "assets/background.bmp",

@@ -292,7 +292,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 				Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
 
 				//Replace arena
-				*arena = new Arena (this->nextArena);
+				*arena = new_Arena (this->nextArena);
 
 				//Set game state
 				*gameState = GameState::GAME;
@@ -362,7 +362,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
 
 					//Replace arena
-					*arena = new Arena (this->nextArena);
+					*arena = new_Arena (this->nextArena);
 
 					//Set game state
 					*gameState = GameState::GAME;
@@ -382,7 +382,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
 
 					//Replace arena
-					*arena = new Arena (this->nextArena);
+					*arena = new_Arena (this->nextArena);
 
 					//Set game state
 					*gameState = GameState::GAME;
@@ -405,9 +405,6 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 	//Render tile
 	this->current->tile->render (screen);
-
-	//Render skip button
-	this->skipButtonSprite->render (screen, 0.8f, 0.76f, 2.0f, NULL);
 
 	//If dialogue is playing, do the calculations
 	if (this->dialogue_playing) {
@@ -443,6 +440,9 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 		}
 
 	}
+
+	//Render skip button
+	this->skipButtonSprite->render (screen, 0.8f, 0.76f, 2.0f, NULL);
 
 	//Return false
 	return false;

@@ -6,7 +6,9 @@
  *
  * Description: The Arena class handles arena loading from file, including
  *              arena rendering, hitbox detection for the player and walls,
- *              and player controlled camera movement.
+ *              and player controlled camera movement. There are two classes,
+ *              one for regular arenas and one for special boss arenas. They
+ *              both extend a base arena class.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,29 +16,36 @@
  * (at your option) any later version.
  **/
 
+#include "rapidjson/document.h"
+
 #include "Rectangle.h"
 #include "GameObject.h"
 #include "Sprite.h"
+#include "BossObject.h"
 
 class GameObject;
+
+//Calls correct arena based off of data in class
+Arena* new_Arena (const char *filename);
 
 class Arena {
 
 public:
 
-	Arena (const char *filename);
-	~Arena ();
+	//
+	Arena (rapidjson::Document &json);
+	virtual ~Arena ();
 
 	//Initiate Arena (before any constructors are called)
 	static void init ();
 
 	//Update and render methods
-	void update ();
-	void render (GPU_Target *screen);
+	virtual void update ();
+	virtual void render (GPU_Target *screen);
 
 	//Update/render all GameObjects in Arena
-	void updateGameObjects (GameObject::AIArgs args);
-	void renderGameObjects (GPU_Target *screen);
+	virtual void updateGameObjects (GameObject::AIArgs args) = 0;
+	virtual void renderGameObjects (GPU_Target *screen) = 0;
 
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
@@ -51,7 +60,7 @@ public:
 	void pause (int pause);
 	void clearMusic ();
 
-private:
+protected:
 
 	//Visuals
 	Sprite *backgroundImage;
@@ -100,3 +109,37 @@ private:
 
 };
 
+class NormalArena : public Arena {
+
+public:
+
+	NormalArena (rapidjson::Document &json);
+	~NormalArena ();
+
+	//Update/render all GameObjects in Arena
+	void updateGameObjects (GameObject::AIArgs args);
+	void renderGameObjects (GPU_Target *screen);
+
+private:
+
+	
+
+};
+
+class BossArena : public Arena {
+
+public:
+
+	BossArena (rapidjson::Document &json);
+	~BossArena ();
+
+	//Update/render all GameObjects in Arena
+	void updateGameObjects (GameObject::AIArgs args);
+	void renderGameObjects (GPU_Target *screen);
+
+private:
+
+	//BossObject
+	BossObject *boss;
+
+};

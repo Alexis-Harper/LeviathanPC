@@ -2,9 +2,10 @@
 #include "Arena.h"
 
 #include "ErrorEnum.h"
+#include "EnemiesList.h"
+
 #include <fstream>
 
-#include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
 
 #include "Input.h"
@@ -13,8 +14,6 @@
 #include "Audio.h"
 #include "CutEvent.h"
 #include "GameObject.h"
-
-#include "KillerShadow.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -29,52 +28,18 @@ namespace {
 
 }
 
-Arena::Arena (const char *filename) {
-
-	//Alert that arena is loading
-	cout << "Loading arena: " << filename << "\n";
-
-	//Open arena file
-	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
-
-	//Get file input
-	char buf[65536];
-	FileReadStream is (f, buf, sizeof (buf));
-
-	//Copy file to memory, exit if failed
-	if (f == NULL) {
-
-		cout << "[-] Arena: Arena file failed to load.\n";
-
-		exit (ERROR_ARENA_LOAD_FILE);
-
-	}
-
-	fclose (f); //Close file
-
-	//Parse JSON file
-	Document json;
-	json.Parse (buf);
-
-	//If JSON failed to load, give error
-	if (!json.IsObject ()) {
-
-		cout << "[-] Arena: JSON file failed to parse.\n";
-
-		exit (ERROR_ARENA_PARSE_JSON);
-
-	}
+Arena::Arena (rapidjson::Document & json) {
 
 	//Set up visuals
 	const Value &visuals_object = json["Visuals"]; //Get visuals object
 
 	const std::string backgroundAdress = visuals_object["Background-Image"].GetString (); //Get background image 
-	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str()); //Create background image sprite
+	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str ()); //Create background image sprite
 
 	this->backgroundScale = visuals_object["Background-Scale"].GetFloat (); //Get background scale
 
 	//See if music value exists, and if so 
-	if (json.HasMember("Music")) {
+	if (json.HasMember ("Music")) {
 
 		//Get music value
 		const Value &music = json["Music"];
@@ -120,7 +85,7 @@ Arena::Arena (const char *filename) {
 
 		//Give song name NULL
 		delete[] lastArenaSongName;
-		lastArenaSongName = new char [5];
+		lastArenaSongName = new char[5];
 		lastArenaSongName[0] = 'N';
 		lastArenaSongName[1] = 'U';
 		lastArenaSongName[2] = 'L';
@@ -136,7 +101,7 @@ Arena::Arena (const char *filename) {
 
 	for (auto &wall : up_walls_array.GetArray ()) {
 
-		Rectangle *rect = new Rectangle();
+		Rectangle *rect = new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -295,123 +260,6 @@ Arena::Arena (const char *filename) {
 
 	}
 
-	i = 0;
-
-	const Value &exit_wall_list = json["Exits"];
-
-	for (auto &box : exit_wall_list.GetArray ()) {
-
-		Rectangle rect;
-
-		rect.setX (box["x"].GetFloat ());
-		rect.setY (box["y"].GetFloat ());
-		rect.setWidth (box["w"].GetFloat ());
-		rect.setHeight (box["h"].GetFloat ());
-
-		Exit *exit = new Exit (
-
-			box["location"].GetString (),
-			rect,
-			box["playerX"].GetFloat (),
-			box["playerY"].GetFloat (),
-			box["coffX"].GetFloat (),
-			box["coffY"].GetFloat ()
-
-		);
-
-		if (i == 0) {
-
-			Exit::createExitList (exit);
-
-		} else {
-
-			Exit::addExitList (exit);
-
-		}
-
-		i++;
-
-	}
-
-	i = 0;
-
-	const Value &event_wall_list = json["Events"];
-
-	for (auto &eventObject : event_wall_list.GetArray ()) {
-
-		Rectangle rect;
-
-		rect.setX (eventObject["x"].GetFloat ());
-		rect.setY (eventObject["y"].GetFloat ());
-		rect.setWidth (eventObject["w"].GetFloat ());
-		rect.setHeight (eventObject["h"].GetFloat ());
-
-		CutEvent *event = new CutEvent (
-
-			eventObject["scene"].GetString (),
-			rect
-
-		);
-
-		if (i == 0) {
-
-			CutEvent::createEventList (event);
-
-		} else {
-
-			CutEvent::addEventList (event);
-
-		}
-
-		i++;
-
-	}
-
-	i = 0;
-
-	const Value &enemy_array = json["Enemies"];
-
-	for (auto &enemies : enemy_array.GetArray ()) {
-
-		//Get enemy string
-		const Value &enemyString = enemies["Type"];
-
-		size_t size = enemyString.GetStringLength () + 1;
-		char *buf = new char[size];
-		strcpy (buf, enemyString.GetString ());
-
-		//Get enemy position
-		float x = enemies["x"].GetFloat ();
-		float y = enemies["y"].GetFloat ();
-
-		//Pointer to enemy object
-		GameObject *ptr = NULL;
-
-		//Check what enemy it is
-		if (!strcmp (buf, "KillerShadow")) {
-
-			ptr = new KillerShadow (x, y);
-
-		}
-
-		//Add enemy to object list
-		if (i == 0) {
-
-			Arena::createGameObjectsList (ptr, &this->gameObject_first, &this->gameObject_last);
-
-		} else {
-
-			Arena::addGameObjectsList (ptr, &this->gameObject_last);
-
-		}
-
-		i++;
-
-	}
-
-	//Set camera back
-	Sprite::translateCamera (playerCameraMoveX, playerCameraMoveY);
-
 }
 
 Arena::~Arena () {
@@ -525,135 +373,49 @@ void Arena::init () {
 
 }
 
-void Arena::update () {
+Arena* new_Arena (const char *filename) {
 
-	float cameraVX, cameraVY;
+	//Alert that arena is loading
+	cout << "Loading arena: " << filename << "\n";
 
-	//Reset camera if hitting O, move if not
-	if (Input::keyHeld (SDL_SCANCODE_O)) {
+	//Open arena file
+	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
 
-		Sprite::translateCamera (-playerCameraMoveX, -playerCameraMoveY);
+	//Get file input
+	char buf[65536];
+	FileReadStream is (f, buf, sizeof (buf));
 
-		playerCameraMoveX = 0.0f;
-		playerCameraMoveY = 0.0f;
+	//Copy file to memory, exit if failed
+	if (f == NULL) {
+
+		cout << "[-] Arena: Arena file failed to load.\n";
+
+		exit (ERROR_ARENA_LOAD_FILE);
+
+	}
+
+	fclose (f); //Close file
+
+	//Parse JSON file
+	Document json;
+	json.Parse (buf);
+
+	//If JSON failed to load, give error
+	if (!json.IsObject ()) {
+
+		cout << "[-] Arena: JSON file failed to parse.\n";
+
+		exit (ERROR_ARENA_PARSE_JSON);
+
+	}
+
+	if (json["Boss_Arena"].GetBool ()) {
+
+		return new BossArena (json);
 
 	} else {
 
-		//Get keys
-		bool up = Input::keyHeld (SDL_SCANCODE_I);
-		bool right = Input::keyHeld (SDL_SCANCODE_L);
-		bool down = Input::keyHeld (SDL_SCANCODE_K);
-		bool left = Input::keyHeld (SDL_SCANCODE_J);
-
-		//Check direction and set it
-		if (up && !right && !down && !left) {
-
-			cameraVX = 0.0f;
-			cameraVY = 1.0f;
-
-		} else if (up && right && !down && !left) {
-
-			cameraVX = SQRT_2;
-			cameraVY = SQRT_2;
-
-		} else if (!up && right && !down && !left) {
-
-			cameraVX = 1.0f;
-			cameraVY = 0.0f;
-
-		} else if (!up && right && down && !left) {
-
-			cameraVX = SQRT_2;
-			cameraVY = _SQRT_2;
-
-		} else if (!up && !right && down && !left) {
-
-			cameraVX = 0.0f;
-			cameraVY = -1.0f;
-
-		} else if (!up && !right && down && left) {
-
-			cameraVX = _SQRT_2;
-			cameraVY = _SQRT_2;
-
-		} else if (!up && !right && !down && left) {
-
-			cameraVX = -1.0f;
-			cameraVY = 0.0f;
-
-		} else if (up && !right && !down && left) {
-
-			cameraVX = _SQRT_2;
-			cameraVY = SQRT_2;
-
-		} else {
-
-			cameraVX = 0.0f;
-			cameraVY = 0.0f;
-
-		}
-
-		//Scale
-		cameraVX *= 0.005f;
-		cameraVY *= 0.005f;
-
-		//Make sure it's no further than 0.5 screens away from center
-		if (playerCameraMoveX > 0.66f && cameraVX > 0.0f || playerCameraMoveX < -0.66f && cameraVX < 0.0f) {
-
-			cameraVX = 0.0f;
-
-		} 
-
-		if (playerCameraMoveY > 0.5f && cameraVY > 0.0f || playerCameraMoveY < -0.5f && cameraVY < 0.0f) {
-
-			cameraVY = 0.0f;
-
-		}
-
-		//Translate position
-		playerCameraMoveX += cameraVX;
-		playerCameraMoveY += cameraVY;
-		Sprite::translateCamera (cameraVX, cameraVY);
-
-	}
-
-}
-
-void Arena::render (GPU_Target *screen) {
-
-	this->backgroundImage->render (screen, 0.0f, 0.0f, this->backgroundScale, NULL);
-
-	if (songPlaying) {
-
-		currentSong->render ();
-
-	}
-
-}
-
-void Arena::updateGameObjects (GameObject::AIArgs args) {
-
-	GameObjects *n = this->gameObject_first;
-
-	while (n) {
-
-		n->object->update (args);
-
-		n = n->next;
-
-	}
-
-}
-
-void Arena::renderGameObjects (GPU_Target *screen) {
-
-	GameObjects *n = this->gameObject_first;
-
-	while (n) {
-
-		n->object->render (screen);
-
-		n = n->next;
+		return new NormalArena (json);
 
 	}
 
@@ -846,6 +608,112 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 }
 
+void Arena::update () {
+
+	float cameraVX, cameraVY;
+
+	//Reset camera if hitting O, move if not
+	if (Input::keyHeld (SDL_SCANCODE_O)) {
+
+		Sprite::translateCamera (-playerCameraMoveX, -playerCameraMoveY);
+
+		playerCameraMoveX = 0.0f;
+		playerCameraMoveY = 0.0f;
+
+	} else {
+
+		//Get keys
+		bool up = Input::keyHeld (SDL_SCANCODE_I);
+		bool right = Input::keyHeld (SDL_SCANCODE_L);
+		bool down = Input::keyHeld (SDL_SCANCODE_K);
+		bool left = Input::keyHeld (SDL_SCANCODE_J);
+
+		//Check direction and set it
+		if (up && !right && !down && !left) {
+
+			cameraVX = 0.0f;
+			cameraVY = 1.0f;
+
+		} else if (up && right && !down && !left) {
+
+			cameraVX = SQRT_2;
+			cameraVY = SQRT_2;
+
+		} else if (!up && right && !down && !left) {
+
+			cameraVX = 1.0f;
+			cameraVY = 0.0f;
+
+		} else if (!up && right && down && !left) {
+
+			cameraVX = SQRT_2;
+			cameraVY = _SQRT_2;
+
+		} else if (!up && !right && down && !left) {
+
+			cameraVX = 0.0f;
+			cameraVY = -1.0f;
+
+		} else if (!up && !right && down && left) {
+
+			cameraVX = _SQRT_2;
+			cameraVY = _SQRT_2;
+
+		} else if (!up && !right && !down && left) {
+
+			cameraVX = -1.0f;
+			cameraVY = 0.0f;
+
+		} else if (up && !right && !down && left) {
+
+			cameraVX = _SQRT_2;
+			cameraVY = SQRT_2;
+
+		} else {
+
+			cameraVX = 0.0f;
+			cameraVY = 0.0f;
+
+		}
+
+		//Scale
+		cameraVX *= 0.005f;
+		cameraVY *= 0.005f;
+
+		//Make sure it's no further than 0.5 screens away from center
+		if (playerCameraMoveX > 0.66f && cameraVX > 0.0f || playerCameraMoveX < -0.66f && cameraVX < 0.0f) {
+
+			cameraVX = 0.0f;
+
+		}
+
+		if (playerCameraMoveY > 0.5f && cameraVY > 0.0f || playerCameraMoveY < -0.5f && cameraVY < 0.0f) {
+
+			cameraVY = 0.0f;
+
+		}
+
+		//Translate position
+		playerCameraMoveX += cameraVX;
+		playerCameraMoveY += cameraVY;
+		Sprite::translateCamera (cameraVX, cameraVY);
+
+	}
+
+}
+
+void Arena::render (GPU_Target *screen) {
+
+	this->backgroundImage->render (screen, 0.0f, 0.0f, this->backgroundScale, NULL);
+
+	if (songPlaying) {
+
+		currentSong->render ();
+
+	}
+
+}
+
 void Arena::pause (int pause) {
 
 	if (songPlaying)
@@ -857,7 +725,7 @@ void Arena::clearMusic () {
 
 	//Pause song
 	currentSong->pause (1);
-	
+
 	//Make sure nothing calls song
 	songPlaying = false;
 
@@ -896,5 +764,184 @@ void Arena::addGameObjectsList (GameObject *data, GameObjects **last) {
 	(*last)->next = new GameObjects (data);
 
 	*last = (*last)->next;
+
+}
+
+NormalArena::NormalArena (Document &json) : Arena (json) {
+
+	int i = 0;
+
+	const Value &exit_wall_list = json["Exits"];
+
+	for (auto &box : exit_wall_list.GetArray ()) {
+
+		Rectangle rect;
+
+		rect.setX (box["x"].GetFloat ());
+		rect.setY (box["y"].GetFloat ());
+		rect.setWidth (box["w"].GetFloat ());
+		rect.setHeight (box["h"].GetFloat ());
+
+		Exit *exit = new Exit (
+
+			box["location"].GetString (),
+			rect,
+			box["playerX"].GetFloat (),
+			box["playerY"].GetFloat (),
+			box["coffX"].GetFloat (),
+			box["coffY"].GetFloat ()
+
+		);
+
+		if (i == 0) {
+
+			Exit::createExitList (exit);
+
+		} else {
+
+			Exit::addExitList (exit);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	const Value &event_wall_list = json["Events"];
+
+	for (auto &eventObject : event_wall_list.GetArray ()) {
+
+		Rectangle rect;
+
+		rect.setX (eventObject["x"].GetFloat ());
+		rect.setY (eventObject["y"].GetFloat ());
+		rect.setWidth (eventObject["w"].GetFloat ());
+		rect.setHeight (eventObject["h"].GetFloat ());
+
+		CutEvent *event = new CutEvent (
+
+			eventObject["scene"].GetString (),
+			rect
+
+		);
+
+		if (i == 0) {
+
+			CutEvent::createEventList (event);
+
+		} else {
+
+			CutEvent::addEventList (event);
+
+		}
+
+		i++;
+
+	}
+
+	i = 0;
+
+	const Value &enemy_array = json["Enemies"];
+
+	for (auto &enemies : enemy_array.GetArray ()) {
+
+		//Get enemy string
+		const Value &enemyString = enemies["Type"];
+
+		size_t size = enemyString.GetStringLength () + 1;
+		char *buf = new char[size];
+		strcpy (buf, enemyString.GetString ());
+
+		//Get enemy position
+		float x = enemies["x"].GetFloat ();
+		float y = enemies["y"].GetFloat ();
+
+		//Pointer to enemy object
+		GameObject *ptr = NULL;
+
+		//Check what enemy it is
+		if (!strcmp (buf, "KillerShadow")) {
+
+			ptr = new KillerShadow (x, y);
+
+		}
+
+		//Add enemy to object list
+		if (i == 0) {
+
+			Arena::createGameObjectsList (ptr, &this->gameObject_first, &this->gameObject_last);
+
+		} else {
+
+			Arena::addGameObjectsList (ptr, &this->gameObject_last);
+
+		}
+
+		i++;
+
+	}
+
+	//Set camera back
+	Sprite::translateCamera (playerCameraMoveX, playerCameraMoveY);
+
+}
+
+NormalArena::~NormalArena () {
+
+	
+
+}
+
+void NormalArena::updateGameObjects (GameObject::AIArgs args) {
+
+	GameObjects *n = this->gameObject_first;
+
+	while (n) {
+
+		n->object->update (args);
+
+		n = n->next;
+
+	}
+
+}
+
+void NormalArena::renderGameObjects (GPU_Target *screen) {
+
+	GameObjects *n = this->gameObject_first;
+
+	while (n) {
+
+		n->object->render (screen);
+
+		n = n->next;
+
+	}
+
+}
+
+BossArena::BossArena (rapidjson::Document &json) : Arena (json) {
+
+	
+
+}
+
+BossArena::~BossArena () {
+
+
+
+}
+
+void BossArena::updateGameObjects (GameObject::AIArgs args) {
+
+
+
+}
+
+void BossArena::renderGameObjects (GPU_Target *screen) {
+
+
 
 }
