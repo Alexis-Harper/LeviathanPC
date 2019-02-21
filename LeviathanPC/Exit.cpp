@@ -57,7 +57,7 @@ float Exit::getCamPosY () {
 
 void Exit::createExitList (Exit *exit) {
 
-	first = new ExitList (exit);
+	first = _new ExitList (exit);
 
 	last = first;
 
@@ -65,7 +65,7 @@ void Exit::createExitList (Exit *exit) {
 
 void Exit::addExitList (Exit *exit) {
 
-	last->next = new ExitList (exit);
+	last->next = _new ExitList (exit);
 
 	last = last->next;
 
@@ -109,7 +109,7 @@ void Exit::testForExit (Arena **arena, Player *player) {
 			Sprite::setCamera (exit->exit->getCamPosX (), exit->exit->getCamPosY ()); 
 
 			//Get location string
-			char *buf = new char[exit->exit->location.length () + 1];
+			char *buf = _new char[exit->exit->location.length () + 1];
 			strcpy (buf, exit->exit->location.c_str ());
 
 			//Replace arena

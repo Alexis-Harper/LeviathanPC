@@ -25,7 +25,7 @@ class GameObject {
 public:
 
 	GameObject ();
-	~GameObject ();
+	virtual ~GameObject ();
 
 	//AI information
 	struct AIArgs {
@@ -55,6 +55,8 @@ public:
 	int getAttack ();
 	int getSpeed ();
 
+	Rectangle* getHitbox ();
+
 	//Set stats
 	void setHp (int hp);
 	void setHpMax (int hpMax);
@@ -77,6 +79,12 @@ protected:
 
 	//Executes the AI if on screen
 	void executeAI (AIState &objectAIState, AIArgs args);
+
+	//Update damage boost
+	void updateDamageBoost ();
+
+	//Activates default shader program (for rendering)
+	void activateDefaultShaderProgram ();
 
 	//Attacks
 	void (GameObject::*attackMele) () = NULL;
@@ -116,5 +124,15 @@ private:
 
 	//Converts an angle into a direction for the object (for use in AI)
 	void angleToDirection (double angle);
+
+	//Damage boost value
+	float damageBoost = 0.0f;
+
+	//Shader data
+	ShaderProgram program;
+	int uboost;
+
+	//Object count
+	static unsigned int objectCount;
 
 };

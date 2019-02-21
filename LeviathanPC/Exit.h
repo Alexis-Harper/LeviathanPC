@@ -5,7 +5,7 @@
  * Created:   18.10.2018
  *
  * Description: Exit checks if the player is in an exit area, and if so, load
- *              up a new arena.
+ *              up a _new arena.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

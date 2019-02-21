@@ -6,9 +6,12 @@
 
 KillerShadow::KillerShadow (float x, float y) {
 
-	this->spritesheet = new SpriteSheet ((char*) "assets/enemies/basic/ShadowPlayer.png", 4, 8);
+	this->spritesheet = _new SpriteSheet ((char*) "assets/enemies/basic/ShadowPlayer.png", 4, 8);
 
-	this->hitbox = new Rectangle (x, y, 0.031f, 0.082f);
+	this->hp = 10;
+	this->hpMax = 10;
+
+	this->hitbox = _new Rectangle (x, y, 0.031f, 0.082f);
 
 	//Setup AI
 	this->objectAIState.currentAIAction = &KillerShadow::aStar;
@@ -19,7 +22,8 @@ KillerShadow::KillerShadow (float x, float y) {
 
 KillerShadow::~KillerShadow () {
 
-
+	delete this->spritesheet;
+	delete this->hitbox;
 
 }
 
@@ -98,36 +102,54 @@ bool KillerShadow::update (AIArgs args) {
 
 	}
 
+	if (Input::keyHeld (SDL_SCANCODE_Y))
+		this->damage (5);
+
+	//Calculate damageBoost
+	this->updateDamageBoost ();
+
 	return false;
 
 }
 
 void KillerShadow::render (GPU_Target *screen) {
 
-	//Get animation 
-	Uint8 animation = 0;
+	//If on screen, render
+	if (this->hitbox->rectOnScreen ()) {
 
-	if (this->vx != 0 || this->vy != 0) {
+		//Get animation frame
+		Uint8 animation = 0;
 
-		animation = (int) (SDL_GetTicks () * 0.012) % 8;
+		if (this->vx != 0 || this->vy != 0) {
+
+			animation = (int) (SDL_GetTicks () * 0.012) % 8;
+
+		}
+
+		//Activate damage boost shader
+		this->activateDefaultShaderProgram ();
+
+		//Render sprite
+		this->spritesheet->render (screen, this->hitbox->getX () - 0.029f, this->hitbox->getY () - 0.003f, 2.0f, this->spriteDirection, animation);
+
+		//Deactivate
+		GPU_ActivateShaderProgram (0, NULL);
+
+		//Render hitbox if in debug mode
+		#ifdef _DEBUG
+
+		SDL_Color hitboxColor;
+
+		hitboxColor.r = 255;
+		hitboxColor.g = 20;
+		hitboxColor.b = 20;
+		hitboxColor.a = 200;
+
+		this->hitbox->renderRect (screen, hitboxColor);
+
+		#endif
 
 	}
-
-	this->spritesheet->render (screen, this->hitbox->getX () - 0.029f, this->hitbox->getY () - 0.003f, 2.0f, this->spriteDirection, animation);
-
-	//Render hitbox if in debug mode
-	#ifdef _DEBUG
-
-	SDL_Color hitboxColor;
-
-	hitboxColor.r = 255;
-	hitboxColor.g = 20;
-	hitboxColor.b = 20;
-	hitboxColor.a = 200;
-
-	this->hitbox->renderRect (screen, hitboxColor);
-
-	#endif
 
 }
 

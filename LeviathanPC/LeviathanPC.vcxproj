@@ -189,6 +189,8 @@
     <None Include="assets\arena\LargeArena.json" />
     <None Include="assets\arena\TestArena.json" />
     <None Include="assets\cutscenes\test\cutscene_test.json" />
+    <None Include="assets\shaders\enemies\enemy_default.frag" />
+    <None Include="assets\shaders\enemies\enemy_default.vert" />
     <None Include="assets\shaders\hud\health.frag" />
     <None Include="assets\shaders\hud\health.vert" />
     <None Include="assets\shaders\player\player_db.frag" />

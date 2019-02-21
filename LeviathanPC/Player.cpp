@@ -8,7 +8,7 @@
 
 Player::Player () {
 
-	this->spritesheet = new SpriteSheet ((char*) "assets/player/Player.png", 4, 8);
+	this->spritesheet = _new SpriteSheet ((char*) "assets/player/Player.png", 4, 8);
 
 	this->program = loadShaderProgram ("assets/shaders/player/player_db.vert", "assets/shaders/player/player_db.frag");
 
@@ -166,6 +166,19 @@ void Player::update (Arena *arena) {
 
 		}
 	
+	} else {
+
+		if (Input::keyHeld (SDL_SCANCODE_RSHIFT)) {
+
+			float offX = this->hitbox.getX () - 0.063f; //0.125 - 2.0 * 0.31
+			float offY = this->hitbox.getY () - 0.039f; //0.125 - 2.0 * 0.82
+
+			Rectangle attackbox = Rectangle (offX, offY, 0.125f, 0.125f);
+
+			arena->damageGameObjects (this->hitbox, 5, false);
+
+		}
+
 	}
 
 	//std::cout << "Player: " << this->hitbox.getX () << ", " << this->hitbox.getY () << "\n";
@@ -173,9 +186,6 @@ void Player::update (Arena *arena) {
 }
 
 void Player::render (GPU_Target *screen) {
-
-	//Render player model
-	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
 	//Player walking animation
 	Uint8 animation = 0;
@@ -185,6 +195,9 @@ void Player::render (GPU_Target *screen) {
 		animation = (int) (SDL_GetTicks () * 0.012) % 8;
 
 	}
+
+	//Render player model
+	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
 	//Damage boost shader uniform
 	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
@@ -227,9 +240,6 @@ void Player::damage (int damage, Health *healthHud) {
 
 	} else {
 
-		//Set damage boost counter
-		this->stats.damageBoost = 60.0f;
-
 		//If it will kill player, do that, if not, damage them
 		if (damage >= this->stats.hp) {
 
@@ -247,7 +257,10 @@ void Player::damage (int damage, Health *healthHud) {
 
 		} else {
 
-			//Reduce damage
+			//Set damage boost counter
+			this->stats.damageBoost = 60.0f;
+
+			//Reduce HP
 			this->stats.hp -= damage;
 
 			//Change health bar

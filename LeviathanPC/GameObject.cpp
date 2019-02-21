@@ -5,6 +5,7 @@
 #include <list>
 
 #include "Arena.h"
+#include "Input.h"
 
 #define tstBit(flag, bit) (flag & (1 << bit))
 #define setBit(flag, bit) flag = (flag | (1 << bit))
@@ -17,31 +18,71 @@ enum Flags {
 
 };
 
+//Initialize count to 0
+unsigned int GameObject::objectCount = 0;
+
 GameObject::GameObject () {
 
+	//If there are no objects already, set up shaders
+	if (GameObject::objectCount == 0) {
 
+		//Load program
+		this->program = loadShaderProgram ("assets/shaders/enemies/enemy_default.vert", "assets/shaders/enemies/enemy_default.frag");
+
+		//Set uniforms
+		this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
+		GPU_SetUniformf (this->uboost, 0.0f);
+
+		//Deactivate shader program
+		GPU_ActivateShaderProgram (0, NULL);
+
+	}
+
+	//Incriment counter
+	GameObject::objectCount++;
 
 }
 
 GameObject::~GameObject () {
 
-	
+	//If this is the last object, clear shaders
+	if (GameObject::objectCount == 1) {
+
+		//Free program
+		freeShaderProgram (this->program);
+
+	}
+
+	//Decriment counter
+	GameObject::objectCount--;
 
 }
 
 bool GameObject::damage (int attack) {
 
-	if (attack >= this->hp) {
+	if (this->damageBoost > 0.0f) {
 
-		this->death ();
-
-		return true;
+		return false;
 
 	} else {
 
-		this->hp -= attack;
+		if (attack >= this->hp) {
 
-		return false;
+			this->death ();
+
+			return true;
+
+		} else {
+
+			//Set damage boost counter
+			this->damageBoost = 60.0f;
+
+			//Reduce HP
+			this->hp -= attack;
+
+			return false;
+
+		}
 
 	}
 
@@ -68,6 +109,12 @@ int GameObject::getAttack () {
 int GameObject::getSpeed () {
 
 	return this->speed;
+
+}
+
+Rectangle* GameObject::getHitbox () {
+
+	return this->hitbox;
 
 }
 
@@ -106,6 +153,38 @@ void GameObject::executeAI (AIState &objectAIState, AIArgs args) {
 
 }
 
+void GameObject::updateDamageBoost () {
+
+	//If object is damage boosting, check timer
+	if (this->damageBoost > 0) {
+
+		if (this->damageBoost > Input::getDelta ()) {
+
+			//If player has more boost than delta, then remove boost time
+			this->damageBoost -= (float) Input::getDelta ();
+
+		} else {
+
+			//If time is up, stop counter and allow damage
+			this->damageBoost = 0.0f;
+
+		}
+
+	}
+
+}
+
+void GameObject::activateDefaultShaderProgram () {
+
+	//Render player model
+	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
+
+	//Damage boost shader uniform
+	this->uboost = GPU_GetUniformLocation (this->program.program, "damageBoost");
+	GPU_SetUniformf (this->uboost, this->damageBoost);
+
+}
+
 void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 	//Basic var declaration
@@ -131,7 +210,7 @@ void GameObject::aStar (AIState &objectAIState, AIArgs args) {
 
 	} else {
 
-		//TODO Implement A* pathfinding algorithm to find new angle
+		//TODO Implement A* pathfinding algorithm to find _new angle
 
 		//std::cout << "Player: " << args.player->getHitbox ().getX () << ", " << args.player->getHitbox ().getY () << "\n";
 

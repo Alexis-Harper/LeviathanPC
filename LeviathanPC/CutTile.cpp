@@ -3,7 +3,7 @@
 
 CutTile::CutTile (char *filename, float scale) {
 
-	this->sprite = new Sprite (filename);
+	this->sprite = _new Sprite (filename);
 	this->sprite->setFilter (GPU_FILTER_LINEAR);
 
 	this->scale = scale;

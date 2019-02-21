@@ -217,7 +217,7 @@ SpriteSheet::SpriteSheet () {
 
 SpriteSheet::SpriteSheet (char *filename, int x, int y) {
 
-	this->sprite = new Sprite (filename);
+	this->sprite = _new Sprite (filename);
 
 	this->imagesX = x;
 	this->imagesY = y;

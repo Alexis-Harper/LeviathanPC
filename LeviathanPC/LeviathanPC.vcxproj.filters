@@ -106,6 +106,9 @@
     <Filter Include="Source Files\Menu\MainMenu">
       <UniqueIdentifier>{7d98e0b8-549f-4516-b23e-619d76a1f334}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\shaders\enemies">
+      <UniqueIdentifier>{441fa746-8d76-403c-b0bd-e14069cc20d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -212,9 +215,6 @@
     <ClInclude Include="Cutscene.h">
       <Filter>Header Files\Cutscene</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CutTile.h">
       <Filter>Header Files\Cutscene</Filter>
     </ClInclude>
@@ -247,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="EnemiesList.h">
       <Filter>Header Files\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +285,12 @@
     </None>
     <None Include="..\docs\index.md">
       <Filter>Resource Files\docs</Filter>
+    </None>
+    <None Include="assets\shaders\enemies\enemy_default.vert">
+      <Filter>Resource Files\assets\shaders\enemies</Filter>
+    </None>
+    <None Include="assets\shaders\enemies\enemy_default.frag">
+      <Filter>Resource Files\assets\shaders\enemies</Filter>
     </None>
   </ItemGroup>
 </Project>

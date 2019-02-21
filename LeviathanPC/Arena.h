@@ -32,12 +32,13 @@ class Arena {
 
 public:
 
-	//
+	//Arena base constructors and deconstructors
 	Arena (rapidjson::Document &json);
 	virtual ~Arena ();
 
 	//Initiate Arena (before any constructors are called)
 	static void init ();
+	static void exit ();
 
 	//Update and render methods
 	virtual void update ();
@@ -46,6 +47,9 @@ public:
 	//Update/render all GameObjects in Arena
 	virtual void updateGameObjects (GameObject::AIArgs args) = 0;
 	virtual void renderGameObjects (GPU_Target *screen) = 0;
+
+	//Check for damage for all GameObjects in Arena
+	virtual bool damageGameObjects (Rectangle hitbox, int damage, bool destructable) = 0;
 
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
@@ -120,6 +124,8 @@ public:
 	void updateGameObjects (GameObject::AIArgs args);
 	void renderGameObjects (GPU_Target *screen);
 
+	bool damageGameObjects (Rectangle hitbox, int damage, bool destructable);
+
 private:
 
 	
@@ -136,6 +142,8 @@ public:
 	//Update/render all GameObjects in Arena
 	void updateGameObjects (GameObject::AIArgs args);
 	void renderGameObjects (GPU_Target *screen);
+
+	bool damageGameObjects (Rectangle hitbox, int damage, bool destructable);
 
 private:
 

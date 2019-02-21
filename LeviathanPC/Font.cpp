@@ -142,7 +142,7 @@ NFont* Font::getFont () {
 		//Free existing font
 		this->font.free ();
 
-		//Load new font of different size but same typeface
+		//Load _new font of different size but same typeface
 		this->font.load (this->filename, point, this->color, this->style);
 
 	}

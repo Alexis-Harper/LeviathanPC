@@ -39,7 +39,7 @@ public:
 	Uint16 getAmmo ();
 	Uint16 getMaxAmmo ();
 
-	//Set position (used for new arenas)
+	//Set position (used for _new arenas)
 	void setPosition (float x, float y);
 
 	//Get player hitbox

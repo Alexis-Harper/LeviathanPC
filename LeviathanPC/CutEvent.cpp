@@ -27,7 +27,7 @@ CutEvent::~CutEvent () {
 
 void CutEvent::createEventList (CutEvent *eventObject) {
 
-	first = new EventList (eventObject);
+	first = _new EventList (eventObject);
 
 	last = first;
 
@@ -35,7 +35,7 @@ void CutEvent::createEventList (CutEvent *eventObject) {
 
 void CutEvent::addEventList (CutEvent *eventObject) {
 
-	last->next = new EventList (eventObject);
+	last->next = _new EventList (eventObject);
 
 	last = last->next;
 
@@ -85,7 +85,7 @@ void CutEvent::testForEvent (GameState *state, Arena **arena, Cutscene **scene, 
 			*arena = NULL;
 
 			//Gets cutscene string
-			char *buf = new char[eventPtr->cutEvent->scene.length () + 1];
+			char *buf = _new char[eventPtr->cutEvent->scene.length () + 1];
 			strcpy (buf, eventPtr->cutEvent->scene.c_str ());
 
 			//TODO: If cutscene doesn't exist, delete it (this may not be necessary after I finish cutscene code)
@@ -96,7 +96,7 @@ void CutEvent::testForEvent (GameState *state, Arena **arena, Cutscene **scene, 
 			}
 
 			//Loads up cutscene
-			*scene = new Cutscene (buf);
+			*scene = _new Cutscene (buf);
 
 			//Clear event list now
 			deleteEventList ();

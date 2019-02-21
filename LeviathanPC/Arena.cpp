@@ -28,13 +28,61 @@ namespace {
 
 }
 
-Arena::Arena (rapidjson::Document & json) {
+Arena* new_Arena (const char *filename) {
+
+	//Alert that arena is loading
+	cout << "Loading arena: " << filename << "\n";
+
+	//Open arena file
+	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
+
+	//Get file input
+	char buf[65536];
+	FileReadStream is (f, buf, sizeof (buf));
+
+	//Copy file to memory, exit if failed
+	if (f == NULL) {
+
+		cout << "[-] Arena: Arena file failed to load.\n";
+
+		exit (ERROR_ARENA_LOAD_FILE);
+
+	}
+
+	fclose (f); //Close file
+
+	//Parse JSON file
+	Document json;
+	json.Parse (buf);
+
+	//If JSON failed to load, give error
+	if (!json.IsObject ()) {
+
+		cout << "[-] Arena: JSON file failed to parse.\n";
+
+		exit (ERROR_ARENA_PARSE_JSON);
+
+	}
+
+	if (json["Boss_Arena"].GetBool ()) {
+
+		return _new BossArena (json);
+
+	} else {
+
+		return _new NormalArena (json);
+
+	}
+
+}
+
+Arena::Arena (rapidjson::Document &json) {
 
 	//Set up visuals
 	const Value &visuals_object = json["Visuals"]; //Get visuals object
 
 	const std::string backgroundAdress = visuals_object["Background-Image"].GetString (); //Get background image 
-	this->backgroundImage = new Sprite ((char*) backgroundAdress.c_str ()); //Create background image sprite
+	this->backgroundImage = _new Sprite ((char*) backgroundAdress.c_str ()); //Create background image sprite
 
 	this->backgroundScale = visuals_object["Background-Scale"].GetFloat (); //Get background scale
 
@@ -46,10 +94,10 @@ Arena::Arena (rapidjson::Document & json) {
 
 		//Create buffer containing music string
 		size_t size = music.GetStringLength () + 1;
-		char *buf = new char[size];
+		char *buf = _new char[size];
 		strcpy (buf, music.GetString ());
 
-		//If string is the same, delete buffer, if not replace old song with new one
+		//If string is the same, delete buffer, if not replace old song with _new one
 		if (!strcmp (lastArenaSongName, buf)) {
 
 			//Buf is now useless, so dealocate memory
@@ -60,9 +108,9 @@ Arena::Arena (rapidjson::Document & json) {
 			//Allow repeat
 			songPlaying = true;
 
-			//Load up new song and play it
+			//Load up _new song and play it
 			delete currentSong;
-			currentSong = new Audio::Music (buf);
+			currentSong = _new Audio::Music (buf);
 			currentSong->pause (0);
 
 			//Replace old string
@@ -80,12 +128,13 @@ Arena::Arena (rapidjson::Document & json) {
 		if (currentSong != NULL) {
 
 			delete currentSong;
+			currentSong = NULL;
 
 		}
 
 		//Give song name NULL
 		delete[] lastArenaSongName;
-		lastArenaSongName = new char[5];
+		lastArenaSongName = _new char[5];
 		lastArenaSongName[0] = 'N';
 		lastArenaSongName[1] = 'U';
 		lastArenaSongName[2] = 'L';
@@ -101,7 +150,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : up_walls_array.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -129,7 +178,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : right_walls_array.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -157,7 +206,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : down_walls_array.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -185,7 +234,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : left_walls_array.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -212,7 +261,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : camera_h_walls.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -239,7 +288,7 @@ Arena::Arena (rapidjson::Document & json) {
 
 	for (auto &wall : camera_v_walls.GetArray ()) {
 
-		Rectangle *rect = new Rectangle ();
+		Rectangle *rect = _new Rectangle ();
 
 		rect->setX (wall["x"].GetFloat ());
 		rect->setY (wall["y"].GetFloat ());
@@ -263,6 +312,8 @@ Arena::Arena (rapidjson::Document & json) {
 }
 
 Arena::~Arena () {
+
+	delete this->backgroundImage;
 
 	//Go through every linked list and delete them all
 	struct Walls *n, *m;
@@ -368,54 +419,18 @@ Arena::~Arena () {
 void Arena::init () {
 
 	//This needs to be done to setup the string so that the code can strcmp
-	lastArenaSongName = new char[1];
+	lastArenaSongName = _new char[1];
 	lastArenaSongName[0] = '\00';
 
 }
 
-Arena* new_Arena (const char *filename) {
+void Arena::exit () {
 
-	//Alert that arena is loading
-	cout << "Loading arena: " << filename << "\n";
+	delete[] lastArenaSongName;
 
-	//Open arena file
-	FILE* f = fopen (filename, "rb"); // non-Windows use "r"
+	if (currentSong != NULL) {
 
-	//Get file input
-	char buf[65536];
-	FileReadStream is (f, buf, sizeof (buf));
-
-	//Copy file to memory, exit if failed
-	if (f == NULL) {
-
-		cout << "[-] Arena: Arena file failed to load.\n";
-
-		exit (ERROR_ARENA_LOAD_FILE);
-
-	}
-
-	fclose (f); //Close file
-
-	//Parse JSON file
-	Document json;
-	json.Parse (buf);
-
-	//If JSON failed to load, give error
-	if (!json.IsObject ()) {
-
-		cout << "[-] Arena: JSON file failed to parse.\n";
-
-		exit (ERROR_ARENA_PARSE_JSON);
-
-	}
-
-	if (json["Boss_Arena"].GetBool ()) {
-
-		return new BossArena (json);
-
-	} else {
-
-		return new NormalArena (json);
+		delete currentSong;
 
 	}
 
@@ -737,7 +752,7 @@ void Arena::clearMusic () {
 
 void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
 
-	*first = new Walls (data);
+	*first = _new Walls (data);
 
 	*last = *first;
 
@@ -745,7 +760,7 @@ void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
 
 void Arena::addWallList (Rectangle *data, Walls **last) {
 
-	(*last)->next = new Walls (data);
+	(*last)->next = _new Walls (data);
 
 	*last = (*last)->next;
 
@@ -753,7 +768,7 @@ void Arena::addWallList (Rectangle *data, Walls **last) {
 
 void Arena::createGameObjectsList (GameObject *data, GameObjects **first, GameObjects** last) {
 
-	*first = new GameObjects (data);
+	*first = _new GameObjects (data);
 
 	*last = *first;
 
@@ -761,7 +776,7 @@ void Arena::createGameObjectsList (GameObject *data, GameObjects **first, GameOb
 
 void Arena::addGameObjectsList (GameObject *data, GameObjects **last) {
 
-	(*last)->next = new GameObjects (data);
+	(*last)->next = _new GameObjects (data);
 
 	*last = (*last)->next;
 
@@ -782,7 +797,7 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 		rect.setWidth (box["w"].GetFloat ());
 		rect.setHeight (box["h"].GetFloat ());
 
-		Exit *exit = new Exit (
+		Exit *exit = _new Exit (
 
 			box["location"].GetString (),
 			rect,
@@ -820,7 +835,7 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 		rect.setWidth (eventObject["w"].GetFloat ());
 		rect.setHeight (eventObject["h"].GetFloat ());
 
-		CutEvent *event = new CutEvent (
+		CutEvent *event = _new CutEvent (
 
 			eventObject["scene"].GetString (),
 			rect
@@ -851,7 +866,7 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 		const Value &enemyString = enemies["Type"];
 
 		size_t size = enemyString.GetStringLength () + 1;
-		char *buf = new char[size];
+		char *buf = _new char[size];
 		strcpy (buf, enemyString.GetString ());
 
 		//Get enemy position
@@ -864,9 +879,12 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 		//Check what enemy it is
 		if (!strcmp (buf, "KillerShadow")) {
 
-			ptr = new KillerShadow (x, y);
+			ptr = _new KillerShadow (x, y);
 
 		}
+
+		//Clear buffer
+		delete[] buf;
 
 		//Add enemy to object list
 		if (i == 0) {
@@ -890,7 +908,27 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 
 NormalArena::~NormalArena () {
 
-	
+	//Go through exit lists and delete
+	Exit::deleteExitList ();
+	CutEvent::deleteEventList ();
+
+	//Go through every linked list and delete them all
+	struct GameObjects *n, *m;
+
+	//Delete all game objects
+	n = this->gameObject_first;
+
+	while (n) {
+
+		delete n->object;
+
+		m = n->next;
+
+		delete n;
+
+		n = m;
+
+	}
 
 }
 
@@ -922,6 +960,57 @@ void NormalArena::renderGameObjects (GPU_Target *screen) {
 
 }
 
+bool NormalArena::damageGameObjects (Rectangle hitbox, int damage, bool destructable) {
+
+	GameObjects *n = this->gameObject_first, *prev = NULL;
+
+	//Go through every object to check
+	while (n) {
+
+		//If attack hitbox hits, damage object
+		if (Rectangle::rectIsColliding (hitbox, *n->object->getHitbox ())) {
+
+			//Damage object
+			if (n->object->damage (damage)) {
+
+				delete n->object;
+
+				if (prev == NULL) {
+
+					this->gameObject_first = n->next;
+
+				} else {
+
+					prev->next = n->next;
+
+				}
+
+				delete n;
+				n = NULL;
+
+			}
+
+			//If attack is a one time hit, return true
+			if (destructable)
+				return true;
+
+		}
+
+		if (n != NULL) {
+
+			prev = n;
+			n = n->next;
+
+		}
+
+	}
+
+	this->gameObject_last = n;
+
+	return false;
+
+}
+
 BossArena::BossArena (rapidjson::Document &json) : Arena (json) {
 
 	
@@ -943,5 +1032,11 @@ void BossArena::updateGameObjects (GameObject::AIArgs args) {
 void BossArena::renderGameObjects (GPU_Target *screen) {
 
 
+
+}
+
+bool BossArena::damageGameObjects (Rectangle hitbox, int damage, bool destructable) {
+
+	return false;
 
 }

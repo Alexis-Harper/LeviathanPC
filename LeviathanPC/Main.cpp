@@ -24,7 +24,11 @@ constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
 
 int main(int argc, char *args[]) {
 
-	#ifndef _DEBUG
+	#ifdef _DEBUG
+
+	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	#else
 
 	freopen ("debug.log", "w", stdout);
 
@@ -570,6 +574,9 @@ int main(int argc, char *args[]) {
 		delete activeArena;
 
 	}
+
+	//Stop mem leak
+	Arena::exit ();
 
 	if (currentCutscene != NULL) {
 

@@ -53,11 +53,11 @@ Cutscene::Cutscene (const char *filename) {
 
 	//Create buffer containing music string
 	size_t size = music_object.GetStringLength () + 1;
-	char *musicBuf = new char[size];
+	char *musicBuf = _new char[size];
 	strcpy (musicBuf, music_object.GetString ());
 
 	//Load up audio file and play it
-	this->audio = new Audio::Audio (musicBuf, NULL);
+	this->audio = _new Audio::Audio (musicBuf, NULL);
 	this->audio->pause (0);
 
 	//Iterator
@@ -72,11 +72,11 @@ Cutscene::Cutscene (const char *filename) {
 
 		//Create buffer containing music string
 		size_t size = tile_image_name.GetStringLength () + 1;
-		char *image_name = new char[size];
+		char *image_name = _new char[size];
 		strcpy (image_name, tile_image_name.GetString ());
 
 		//Create cutscene tile
-		CutTile *newTile = new CutTile (image_name, wall["Scale"].GetFloat ());
+		CutTile *newTile = _new CutTile (image_name, wall["Scale"].GetFloat ());
 
 		//Set timing
 		newTile->setFadeIn (wall["Fade_In"].GetFloat ());
@@ -115,7 +115,7 @@ Cutscene::Cutscene (const char *filename) {
 
 			//Create buffer containing music string
 			size_t size = dialogue_text.GetStringLength () + 1;
-			char *text = new char[size];
+			char *text = _new char[size];
 			strcpy (text, dialogue_text.GetString ());
 
 			//Add to list
@@ -147,7 +147,7 @@ Cutscene::Cutscene (const char *filename) {
 	const Value &location = next_arena_value["location"];
 
 	size = location.GetStringLength () + 1;
-	this->nextArena = new char[size];
+	this->nextArena = _new char[size];
 	strcpy (this->nextArena, location.GetString ());
 
 	//Get location offsets
@@ -172,11 +172,11 @@ Cutscene::Cutscene (const char *filename) {
 	//Set 
 	if (Input::controllerUsed ()) {
 
-		this->skipButtonSprite = new Sprite ((char*) "assets/cutscenes/images/Skip_START.png");
+		this->skipButtonSprite = _new Sprite ((char*) "assets/cutscenes/images/Skip_START.png");
 
 	} else {
 
-		this->skipButtonSprite = new Sprite ((char*) "assets/cutscenes/images/Skip_ENTER.png");
+		this->skipButtonSprite = _new Sprite ((char*) "assets/cutscenes/images/Skip_ENTER.png");
 
 	}
 
@@ -187,6 +187,11 @@ Cutscene::Cutscene (const char *filename) {
 }
 
 Cutscene::~Cutscene () {
+
+	cout << "Deleted cutscene";
+
+	delete this->skipButtonSprite;
+	delete[] this->nextArena;
 
 	//Make sure it's alive before killing (to prevent repeats causing memory problems)
 	delete this->audio;
@@ -243,7 +248,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 		} else {
 
-			//Set fade in to new time
+			//Set fade in to _new time
 			this->current_fade_in -= (float) Input::getDelta ();
 
 			//Set alpha to new
@@ -262,7 +267,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 		} else {
 
-			//Set stay time to new time
+			//Set stay time to _new time
 			this->current_stay_time -= (float) Input::getDelta ();
 
 		}
@@ -293,6 +298,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 				//Replace arena
 				*arena = new_Arena (this->nextArena);
+				delete[] this->nextArena;
 
 				//Set game state
 				*gameState = GameState::GAME;
@@ -303,7 +309,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 		} else {
 
-			//Set fade in to new time
+			//Set fade in to _new time
 			this->current_fade_out -= (float) Input::getDelta ();
 
 			//Set alpha to new
@@ -451,7 +457,7 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 void Cutscene::createTileList (CutTile *data, TileList **first, TileList **last) {
 
-	*first = new TileList (data);
+	*first = _new TileList (data);
 
 	*last = *first;
 
@@ -461,7 +467,7 @@ void Cutscene::addTileList (CutTile *data, TileList **last) {
 
 	struct TileList *prev = *last;
 
-	*last = new TileList (data);
+	*last = _new TileList (data);
 
 	prev->next = *last;
 
@@ -469,7 +475,7 @@ void Cutscene::addTileList (CutTile *data, TileList **last) {
 
 void Cutscene::createTextList (char *text, float time, TextList **first, TextList **last) {
 
-	*first = new TextList (text, time);
+	*first = _new TextList (text, time);
 
 	*last = *first;
 
@@ -479,7 +485,7 @@ void Cutscene::addTextList (char *text, float time, TextList **last) {
 
 	struct TextList *prev = *last;
 
-	*last = new TextList (text, time);
+	*last = _new TextList (text, time);
 
 	prev->next = *last;
 

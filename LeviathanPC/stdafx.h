@@ -1,6 +1,7 @@
 #pragma once
 
 #define _CRT_SECURE_NO_DEPRECATE
+
 #include <iostream>
 
 //Include SDL
@@ -11,6 +12,21 @@
 
 //NFont_gpu
 #include "NFont_gpu.h"
+
+//Add memory map info in Debug mode
+#ifdef _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>  
+#include <crtdbg.h> 
+
+#define _new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
+#else
+
+#define _new new
+
+#endif
 
 //Include standard libraries
 #include <math.h>
