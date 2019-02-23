@@ -50,6 +50,7 @@ public:
 
 	//Check for damage for all GameObjects in Arena
 	virtual bool damageGameObjects (Rectangle hitbox, int damage, bool destructable) = 0;
+	virtual bool damageGameObjects (float cx, float cy, float cradius, int damage, bool destructable) = 0;
 
 	//Call on player move to move camera in appropriate way
 	void playerMoveCamera (Rectangle playerHitbox, float x, float y);
@@ -125,6 +126,7 @@ public:
 	void renderGameObjects (GPU_Target *screen);
 
 	bool damageGameObjects (Rectangle hitbox, int damage, bool destructable);
+	bool damageGameObjects (float cx, float cy, float cradius, int damage, bool destructable);
 
 private:
 
@@ -144,6 +146,7 @@ public:
 	void renderGameObjects (GPU_Target *screen);
 
 	bool damageGameObjects (Rectangle hitbox, int damage, bool destructable);
+	bool damageGameObjects (float cx, float cy, float cradius, int damage, bool destructable);
 
 private:
 

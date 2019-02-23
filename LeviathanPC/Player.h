@@ -53,8 +53,11 @@ private:
 		int hp, hpMax;
 		Uint16 ammo = 16, maxAmmo = 23;
 
+		int strength = 5;
+
 		float damageBoost = 0.0f;
 		float sprintCounter = 0.0f;
+		float auraCounter = 0.0f;
 
 	} stats;
 

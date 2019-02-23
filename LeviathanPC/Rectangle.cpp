@@ -69,6 +69,39 @@ bool Rectangle::rectIsColliding (Rectangle r1, Rectangle r2) {
 
 }
 
+bool Rectangle::rectInCircle (Rectangle rect, float cx, float cy, float cr) {
+
+	//If circle in 
+	float testX = cx, testY = cy;
+
+	//Figures out which edge to check
+	if (cx < rect.x)
+		testX = rect.x;
+
+	else if (cx > rect.x + rect.width) 
+		testX = rect.x + rect.width;
+
+	if (cy < rect.y)         
+		testY = rect.y;
+
+	else if (cy > rect.y + rect.height) 
+		testY = rect.y + rect.height;
+
+	//If circle center is in rect, return true (saves time)
+	if (testX == cx && testY == cy)
+		return true;
+
+	//Figure out distance from test points and 
+	float distX = cx - testX;
+	float distY = cy - testY;
+
+	float distance = sqrt ((distX * distX) + (distY * distY));
+
+	//Return if distance is within radius
+	return (distance <= cr);
+
+}
+
 bool Rectangle::pointInRect (Rectangle rect, float x, float y) {
 
 	//Complicated but standard Rectangle collision algorithm

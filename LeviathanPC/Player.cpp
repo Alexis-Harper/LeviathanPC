@@ -6,6 +6,17 @@
 #include "Input.h"
 #include "Arena.h"
 
+#ifdef _DEBUG
+
+//Bools for hitboxes
+namespace {
+
+	
+
+}
+
+#endif
+
 Player::Player () {
 
 	this->spritesheet = _new SpriteSheet ((char*) "assets/player/Player.png", 4, 8);
@@ -166,20 +177,47 @@ void Player::update (Arena *arena) {
 
 		}
 	
+	}
+
+	//If player is damage boosting, check timer
+	if (this->stats.auraCounter > 0) {
+
+		if (this->stats.auraCounter > Input::getDelta ()) {
+
+			//If player has more boost than delta, then remove boost time
+			this->stats.auraCounter -= (float) Input::getDelta ();
+
+		} else {
+
+			//If time is up, stop counter and allow damage
+			this->stats.auraCounter = 0.0f;
+
+		}
+
 	} else {
 
-		if (Input::keyHeld (SDL_SCANCODE_RSHIFT)) {
+		//If player presses button, 
+		if (this->stats.damageBoost == 0.0f && this->stats.sprintCounter == 0.0f && Input::keyHeld (SDL_SCANCODE_RSHIFT)) {
 
-			float offX = this->hitbox.getX () - 0.063f; //0.125 - 2.0 * 0.31
-			float offY = this->hitbox.getY () - 0.039f; //0.125 - 2.0 * 0.82
+			this->stats.auraCounter = 60.0f;
 
-			Rectangle attackbox = Rectangle (offX, offY, 0.125f, 0.125f);
+			float offX = this->hitbox.getX () - 0.01f; //(0.051 - 0.031) / 2.0
+			float offY = this->hitbox.getY () - 0.01f; //(0.102 - 0.082) / 2.0
 
-			arena->damageGameObjects (this->hitbox, 5, false);
+			Rectangle attackbox = Rectangle (offX, offY, 0.051f, 0.102f);
+
+			//Deals good damage, plus
+			int damage = this->stats.strength + this->stats.hpMax - this->stats.hp;
+
+			arena->damageGameObjects (this->hitbox, damage, false);
 
 		}
 
 	}
+
+	//Make it to where you can't just hold the button
+	if (Input::keyHeld (SDL_SCANCODE_RSHIFT))
+		this->stats.auraCounter = 60.0f;
 
 	//std::cout << "Player: " << this->hitbox.getX () << ", " << this->hitbox.getY () << "\n";
 
@@ -216,16 +254,33 @@ void Player::render (GPU_Target *screen) {
 	//Render hitbox if in debug mode
 	#ifdef _DEBUG
 	
-	//Set hitbox color
-	SDL_Color hitboxColor;
+	//Player Hitbox
+	{
+		SDL_Color hitboxColor;
 
-	hitboxColor.r = 20;
-	hitboxColor.g = 255;
-	hitboxColor.b = 20;
-	hitboxColor.a = 200;
+		hitboxColor.r = 20;
+		hitboxColor.g = 255;
+		hitboxColor.b = 20;
+		hitboxColor.a = 200;
+		this->hitbox.renderRect (screen, hitboxColor);
+	}
 
-	//Render hitbox
-	this->hitbox.renderRect (screen, hitboxColor);
+	//Player aura box
+	{
+		float offX = this->hitbox.getX () - 0.01f; //(0.051 - 0.031) / 2.0
+		float offY = this->hitbox.getY () - 0.01f; //(0.102 - 0.082) / 2.0
+
+		Rectangle attackbox = Rectangle (offX, offY, 0.051f, 0.102f);
+
+		SDL_Color hitboxColor;
+
+		hitboxColor.r = 20;
+		hitboxColor.g = 20;
+		hitboxColor.b = 255;
+		hitboxColor.a = 200;
+
+		attackbox.renderRect (screen, hitboxColor);
+	}
 
 	#endif
 

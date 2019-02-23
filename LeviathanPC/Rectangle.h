@@ -22,6 +22,7 @@ public:
 	~Rectangle ();
 
 	static bool rectIsColliding (Rectangle r1, Rectangle r2);
+	static bool rectInCircle (Rectangle rect, float cx, float cy, float cradius);
 	static bool pointInRect (Rectangle rect, float x, float y);
 
 	static void setCamera (float cameraX, float cameraY);

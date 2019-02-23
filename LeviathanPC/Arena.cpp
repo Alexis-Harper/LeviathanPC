@@ -968,7 +968,58 @@ bool NormalArena::damageGameObjects (Rectangle hitbox, int damage, bool destruct
 	while (n) {
 
 		//If attack hitbox hits, damage object
-		if (Rectangle::rectIsColliding (hitbox, *n->object->getHitbox ())) {
+		if (Rectangle::rectIsColliding (*n->object->getHitbox (), hitbox)) {
+
+			//Damage object
+			if (n->object->damage (damage)) {
+
+				delete n->object;
+
+				if (prev == NULL) {
+
+					this->gameObject_first = n->next;
+
+				} else {
+
+					prev->next = n->next;
+
+				}
+
+				delete n;
+				n = NULL;
+
+			}
+
+			//If attack is a one time hit, return true
+			if (destructable)
+				return true;
+
+		}
+
+		if (n != NULL) {
+
+			prev = n;
+			n = n->next;
+
+		}
+
+	}
+
+	this->gameObject_last = n;
+
+	return false;
+
+}
+
+bool NormalArena::damageGameObjects (float cx, float cy, float cradius, int damage, bool destructable) {
+
+	GameObjects *n = this->gameObject_first, *prev = NULL;
+
+	//Go through every object to check
+	while (n) {
+
+		//If attack hitbox hits, damage object
+		if (Rectangle::rectInCircle (*n->object->getHitbox (), cx, cy, cradius)) {
 
 			//Damage object
 			if (n->object->damage (damage)) {
@@ -1036,6 +1087,12 @@ void BossArena::renderGameObjects (GPU_Target *screen) {
 }
 
 bool BossArena::damageGameObjects (Rectangle hitbox, int damage, bool destructable) {
+
+	return false;
+
+}
+
+bool BossArena::damageGameObjects (float cx, float cy, float cradius, int damage, bool destructable) {
 
 	return false;
 
