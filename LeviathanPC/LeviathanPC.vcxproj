@@ -153,8 +153,10 @@
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AmmoLabel.h" />
@@ -179,8 +181,10 @@
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Save.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stats.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

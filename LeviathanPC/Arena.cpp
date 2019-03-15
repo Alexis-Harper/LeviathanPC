@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-#include "rapidjson/filereadstream.h"
+#include <rapidjson/filereadstream.h>
 
 #include "Input.h"
 #include "Sprite.h"
@@ -150,12 +150,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : up_walls_array.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -178,12 +178,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : right_walls_array.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -206,12 +206,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : down_walls_array.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -234,12 +234,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : left_walls_array.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -261,12 +261,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : camera_h_walls.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -288,12 +288,12 @@ Arena::Arena (rapidjson::Document &json) {
 
 	for (auto &wall : camera_v_walls.GetArray ()) {
 
-		Rectangle *rect = _new Rectangle ();
+		Rectangle rect;
 
-		rect->setX (wall["x"].GetFloat ());
-		rect->setY (wall["y"].GetFloat ());
-		rect->setWidth (wall["w"].GetFloat ());
-		rect->setHeight (wall["h"].GetFloat ());
+		rect.setX (wall["x"].GetFloat ());
+		rect.setY (wall["y"].GetFloat ());
+		rect.setWidth (wall["w"].GetFloat ());
+		rect.setHeight (wall["h"].GetFloat ());
 
 		if (i == 0) {
 
@@ -323,8 +323,6 @@ Arena::~Arena () {
 
 	while (n) {
 
-		delete n->rect;
-
 		m = n->next;
 
 		delete n;
@@ -337,8 +335,6 @@ Arena::~Arena () {
 	n = this->right_first;
 
 	while (n) {
-
-		delete n->rect;
 
 		m = n->next;
 
@@ -353,8 +349,6 @@ Arena::~Arena () {
 
 	while (n) {
 
-		delete n->rect;
-
 		m = n->next;
 
 		delete n;
@@ -367,8 +361,6 @@ Arena::~Arena () {
 	n = this->left_first;
 
 	while (n) {
-
-		delete n->rect;
 
 		m = n->next;
 
@@ -383,8 +375,6 @@ Arena::~Arena () {
 
 	while (n) {
 
-		delete n->rect;
-
 		m = n->next;
 
 		delete n;
@@ -397,8 +387,6 @@ Arena::~Arena () {
 	n = this->cvert_first;
 
 	while (n) {
-
-		delete n->rect;
 
 		m = n->next;
 
@@ -444,7 +432,7 @@ void Arena::playerMoveCamera (Rectangle hitbox, float x, float y) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			x = 0.0f;
 
@@ -460,7 +448,7 @@ void Arena::playerMoveCamera (Rectangle hitbox, float x, float y) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			y = 0.0f;
 
@@ -488,7 +476,7 @@ void Arena::canMove (Rectangle hitbox, bool *arr) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			arr[0] = false;
 
@@ -504,7 +492,7 @@ void Arena::canMove (Rectangle hitbox, bool *arr) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			arr[1] = false;
 
@@ -520,7 +508,7 @@ void Arena::canMove (Rectangle hitbox, bool *arr) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			arr[2] = false;
 
@@ -536,7 +524,7 @@ void Arena::canMove (Rectangle hitbox, bool *arr) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			arr[3] = false;
 
@@ -559,7 +547,7 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			return true;
 
@@ -575,7 +563,7 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			return true;
 
@@ -591,7 +579,7 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			return true;
 
@@ -607,7 +595,7 @@ bool Arena::rectInWalls (Rectangle hitbox) {
 
 	while (n) {
 
-		if (Rectangle::rectIsColliding (hitbox, *n->rect)) {
+		if (Rectangle::rectIsColliding (hitbox, n->rect)) {
 
 			return true;
 
@@ -750,7 +738,7 @@ void Arena::clearMusic () {
 
 }
 
-void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
+void Arena::createWallList (Rectangle data, Walls **first, Walls **last) {
 
 	*first = _new Walls (data);
 
@@ -758,7 +746,7 @@ void Arena::createWallList (Rectangle *data, Walls **first, Walls **last) {
 
 }
 
-void Arena::addWallList (Rectangle *data, Walls **last) {
+void Arena::addWallList (Rectangle data, Walls **last) {
 
 	(*last)->next = _new Walls (data);
 
@@ -835,13 +823,14 @@ NormalArena::NormalArena (Document &json) : Arena (json) {
 		rect.setWidth (eventObject["w"].GetFloat ());
 		rect.setHeight (eventObject["h"].GetFloat ());
 
-		CutEvent *event = _new CutEvent (
+		CutEvent *event  = _new CutEvent (
 
 			eventObject["scene"].GetString (),
 			rect
 
 		);
 
+		//Add event to list
 		if (i == 0) {
 
 			CutEvent::createEventList (event);

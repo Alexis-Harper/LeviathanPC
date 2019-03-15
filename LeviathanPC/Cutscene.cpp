@@ -59,6 +59,7 @@ Cutscene::Cutscene (const char *filename) {
 	//Load up audio file and play it
 	this->audio = _new Audio::Audio (musicBuf, NULL);
 	this->audio->pause (0);
+	delete[] musicBuf;
 
 	//Iterator
 	int i = 0;
@@ -77,6 +78,8 @@ Cutscene::Cutscene (const char *filename) {
 
 		//Create cutscene tile
 		CutTile *newTile = _new CutTile (image_name, wall["Scale"].GetFloat ());
+
+		delete[] image_name;
 
 		//Set timing
 		newTile->setFadeIn (wall["Fade_In"].GetFloat ());
@@ -196,35 +199,41 @@ Cutscene::~Cutscene () {
 	//Make sure it's alive before killing (to prevent repeats causing memory problems)
 	delete this->audio;
 
-	struct TileList *n, *m;
+	{
+		struct TileList *n, *m;
 
-	n = this->first_tile;
+		n = this->first_tile;
 
-	while (n) {
+		while (n) {
 
-		delete n->tile;
+			delete n->tile;
 
-		m = n->next;
+			m = n->next;
 
-		delete n;
+			delete n;
 
-		n = m;
+			n = m;
+
+		}
 
 	}
 
-	struct TextList *p, *o;
+	{
+		struct TextList *n, *m;
 
-	p = this->first_text;
+		n = this->first_text;
 
-	while (n) {
+		while (n) {
 
-		delete[] p->text;
+			delete[] n->text;
 
-		o = p->next;
+			m = n->next;
 
-		delete p;
+			delete n;
 
-		p = o;
+			n = m;
+
+		}
 
 	}
 
@@ -298,7 +307,6 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 				//Replace arena
 				*arena = new_Arena (this->nextArena);
-				delete[] this->nextArena;
 
 				//Set game state
 				*gameState = GameState::GAME;

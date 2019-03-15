@@ -163,7 +163,7 @@ void Player::update (Arena *arena) {
 	arena->playerMoveCamera (this->hitbox, vx, -vy);
 
 	//If player is damage boosting, check timer
-	if (this->stats.damageBoost > 0) {
+	if (this->stats.damageBoost > 0.0f) {
 
 		if (this->stats.damageBoost > Input::getDelta ()) {
 

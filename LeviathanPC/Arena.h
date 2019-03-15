@@ -74,10 +74,10 @@ protected:
 	//Wall linked lists
 	struct Walls {
 
-		Rectangle *rect;
+		Rectangle rect;
 		struct Walls *next;
 
-		Walls (Rectangle *data) : rect (data) { this->next = NULL; };
+		Walls (Rectangle data) : rect (data) { this->next = NULL; };
 
 	};
 
@@ -92,8 +92,8 @@ protected:
 	struct Walls *cvert_first = NULL, *cvert_last = NULL;
 
 	//Linked list build functions
-	static void createWallList (Rectangle *wall, Walls **first, Walls **last);
-	static void addWallList (Rectangle *wall, Walls **last);
+	static void createWallList (Rectangle wall, Walls **first, Walls **last);
+	static void addWallList (Rectangle wall, Walls **last);
 
 	//GameObject linked list
 	struct GameObjects {

@@ -94,20 +94,20 @@
     <Filter Include="Source Files\Menu">
       <UniqueIdentifier>{98e36c2a-908c-463c-8cb4-a8e5eb228c20}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Menu\PauseMenu">
-      <UniqueIdentifier>{c85e75a6-837c-4961-b1bd-5f51a8956aa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Menu\PauseMenu">
-      <UniqueIdentifier>{c9e7e0d6-da6d-4168-9644-a14c70876a01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Menu\MainMenu">
-      <UniqueIdentifier>{343c8fb9-50c4-459f-880c-3efeb301af67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Menu\MainMenu">
-      <UniqueIdentifier>{7d98e0b8-549f-4516-b23e-619d76a1f334}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\assets\shaders\enemies">
       <UniqueIdentifier>{441fa746-8d76-403c-b0bd-e14069cc20d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Saves">
+      <UniqueIdentifier>{8f5b25f2-81eb-4ab9-b71c-dfd725beeb8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Saves">
+      <UniqueIdentifier>{c4894535-7926-4e94-8048-985f8c67c0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{6000e723-f13f-4f9d-89bb-bb4aed757589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{bf8d215d-b7b1-4e4d-8f93-45759b35d76a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +119,6 @@
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
       <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
       <Filter>Source Files\Media</Filter>
@@ -162,17 +159,26 @@
     <ClCompile Include="KillerShadow.cpp">
       <Filter>Source Files\GameObjects\Enemies\Basic</Filter>
     </ClCompile>
-    <ClCompile Include="PauseMenu.cpp">
-      <Filter>Source Files\Menu\PauseMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Source Files\Menu\MainMenu</Filter>
-    </ClCompile>
     <ClCompile Include="MenuButton.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
     <ClCompile Include="BossObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Save.cpp">
+      <Filter>Source Files\Saves</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>Source Files\Saves</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +187,6 @@
     </ClInclude>
     <ClInclude Include="Rectangle.h">
       <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\Headers</Filter>
@@ -233,12 +236,6 @@
     <ClInclude Include="KillerShadow.h">
       <Filter>Header Files\GameObjects\Enemies\Basic</Filter>
     </ClInclude>
-    <ClInclude Include="PauseMenu.h">
-      <Filter>Header Files\Menu\PauseMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Header Files\Menu\MainMenu</Filter>
-    </ClInclude>
     <ClInclude Include="MenuButton.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
@@ -250,6 +247,21 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Save.h">
+      <Filter>Header Files\Saves</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
+      <Filter>Header Files\Saves</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
