@@ -1,60 +1,54 @@
 {
-
   "Boss_Arena": false,
 
-  "Visuals": {
-
+  "Visuals": 
+  {
     "Background-Image": "assets/background.bmp",
     "Background-Scale": 5.0
-
   },
 
-  "Up_Walls": [
-
+  "Up_Walls": 
+  [
     {
       "x": 0.0,
       "y": 0.0,
       "w": 5.33,
       "h": 0.0
     }
-
   ],
 
-  "Right_Walls": [
-
+  "Right_Walls": 
+  [
     {
       "x": 5.0,
       "y": 0.0,
       "w": 0.0,
       "h": 5.0
     }
-
   ],
 
-  "Down_Walls": [
-
+  "Down_Walls": 
+  [
     {
       "x": 0.0,
       "y": 5.33,
       "w": 5.0,
       "h": 0.0
     }
-
   ],
 
-  "Left_Walls": [
-
+  "Left_Walls":
+  [
     {
       "x": 0.0,
       "y": 0.0,
       "w": 0.0,
       "h": 5.0
     }
-
   ],
 
-  "Camera-Walls-H": [
-
+  "Camera-Walls-H": 
+  [
     {
       "x": 0.0,
       "y": 0.0,
@@ -68,11 +62,10 @@
       "w": 0.666,
       "h": 5.0
     }
-
   ],
 
-  "Camera-Walls-V": [
-
+  "Camera-Walls-V": 
+  [
     {
       "x": 0.0,
       "y": 0.0,
@@ -86,29 +79,24 @@
       "w": 6.66,
       "h": 0.5
     }
+  ],
+
+  "Exits": 
+  [
 
   ],
 
-  "Exits": [
-
-
-
-  ],
-
-  "Events": [
-
-
+  "Events": 
+  [
 
   ],
 
-  "Enemies": [
-
+  "Enemies": 
+  [
     {
       "Type": "KillerShadow",
       "x": 0.5,
       "y": 0.7
     }
-
   ]
-
 }

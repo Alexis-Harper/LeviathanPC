@@ -13,14 +13,13 @@
  * (at your option) any later version.
  **/
 
-namespace GameFonts {
-
+namespace GameFonts 
+{
 	extern const char *MAIN_FONT;
-
 };
 
-class Font {
-
+class Font 
+{
 public:
 
 	Font (const char *filename, Uint32 pointSize);
@@ -65,6 +64,4 @@ private:
 	//Style data
 	NFont::Color color;
 	int style = 0;
-
 };
-

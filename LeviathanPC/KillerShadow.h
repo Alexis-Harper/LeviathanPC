@@ -14,8 +14,8 @@
 
 #include "GameObject.h"
 
-class KillerShadow : public GameObject {
-
+class KillerShadow : public GameObject 
+{
 public:
 
 	KillerShadow (float x, float y);
@@ -36,6 +36,4 @@ private:
 	//Spritesheet information
 	SpriteSheet *spritesheet;
 	Uint8 spriteDirection = 0;
-
 };
-

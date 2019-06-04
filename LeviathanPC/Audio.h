@@ -16,11 +16,11 @@
  **/
 
 //Audio class namespace
-namespace Audio {
-
+namespace Audio 
+{
 	//Base Audio class
-	class Audio {
-
+	class Audio 
+	{
 	public:
 
 		Audio ();
@@ -44,12 +44,11 @@ namespace Audio {
 		SDL_AudioSpec wav_spec;
 		SDL_AudioDeviceID device_id;
 		int success;
-
 	};
 
 	//Audio class specialized for music
-	class Music {
-
+	class Music 
+	{
 	public:
 
 		Music ();
@@ -66,12 +65,11 @@ namespace Audio {
 
 		//Base audio object
 		Audio *audio = NULL;
-
 	};
 
 	//Audio class made for sound effects
-	class Effect {
-
+	class Effect 
+	{
 	public:
 
 		Effect ();
@@ -85,7 +83,5 @@ namespace Audio {
 
 		//Base audio object
 		Audio *audio = NULL;
-
 	};
-
 };

@@ -17,8 +17,8 @@
 GPU_Image* loadTexture (char *filename);
 
 //Renders SDL Sprite 
-class Sprite {
-
+class Sprite 
+{
 public:
 
 	Sprite ();
@@ -70,12 +70,11 @@ private:
 
 	//Alpha value
 	int alpha;
-
 };
 
 //Automatically parses spritesheet and renders it
-class SpriteSheet {
-
+class SpriteSheet 
+{
 public:
 
 	SpriteSheet ();
@@ -108,5 +107,4 @@ private:
 
 	//Holds data on resolution and number of sprites in sheet
 	int imagesX, imagesY, resX, resY;
-
 };

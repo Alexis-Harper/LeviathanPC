@@ -19,21 +19,21 @@
 #include "Player.h"
 #include "Arena.h"
 
-class CutEvent {
-
+class CutEvent 
+{
 public:
 
 	CutEvent (std::string cutscene, Rectangle hitbox);
 	~CutEvent ();
 
 	//Event linked list structure
-	struct EventList {
-
+	struct EventList 
+	{
 		CutEvent *cutEvent;
 		EventList *next;
 
-		EventList (CutEvent *cutEvent) : cutEvent (cutEvent) { this->next = NULL; };
-
+		EventList (CutEvent * cutEvent) : cutEvent (cutEvent) 
+		{ this->next = NULL; };
 	};
 
 	//Linked list 
@@ -42,7 +42,8 @@ public:
 	static void deleteEventList ();
 
 	//Tests if event should play
-	static void testForEvent (GameState *gameStateEnum, Arena **arena, Cutscene **scene, Player *player);
+	static void testForEvent (GameState & gameStateEnum, Arena *& arena, 
+							  Cutscene *& scene, Player & player);
 
 private:
 
@@ -51,6 +52,4 @@ private:
 
 	//String location for cutscene
 	std::string scene;
-
 };
-

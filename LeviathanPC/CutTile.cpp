@@ -1,65 +1,75 @@
 #include "stdafx.h"
 #include "CutTile.h"
 
-CutTile::CutTile (char *filename, float scale) {
 
+CutTile::CutTile (char *filename, float scale)
+{
 	this->sprite = _new Sprite (filename);
 	this->sprite->setFilter (GPU_FILTER_LINEAR);
 
 	this->scale = scale;
-
 }
 
-CutTile::~CutTile () {
 
+CutTile::~CutTile () 
+{
 	delete this->sprite;
-
 }
 
-float CutTile::getFadeIn () {
 
+float CutTile::getFadeIn ()
+{
 	return this->timing.fade_in;
-
 }
 
-float CutTile::getStayTime () {
 
+float CutTile::getStayTime () 
+{
 	return this->timing.stay_time;
-
 }
 
-float CutTile::getFadeOut () {
 
+float CutTile::getFadeOut () 
+{
 	return this->timing.fade_out;
-
 }
 
-void CutTile::setFadeIn (float value) {
 
+void CutTile::setFadeIn (float value) 
+{
 	this->timing.fade_in = value;
 
+	return;
 }
 
-void CutTile::setStayTime (float value) {
 
+void CutTile::setStayTime (float value)
+{
 	this->timing.stay_time = value;
 
+	return;
 }
 
-void CutTile::setFadeOut (float value) {
 
+void CutTile::setFadeOut (float value) 
+{
 	this->timing.fade_out = value;
 
+	return;
 }
 
-void CutTile::render (GPU_Target * screen) {
 
+void CutTile::render (GPU_Target * screen) 
+{
 	this->sprite->render (screen, 0.0f, 0.0f, this->scale, NULL);
 
+	return;
 }
 
-void CutTile::setAlpha (Uint8 alpha) {
 
+void CutTile::setAlpha (Uint8 alpha)
+{
 	this->sprite->setAlpha (alpha);
 
+	return;
 }

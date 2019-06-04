@@ -15,8 +15,16 @@
 
 #include <rapidjson/document.h>
 
-class Save {
+struct SaveData 
+{
+	const char *arenaFilename;
 
+	SaveData (const char *arenaFileame);
+	~SaveData ();
+};
+
+class Save 
+{
 public:
 
 	Save ();
@@ -27,6 +35,5 @@ public:
 
 private:
 
-	rapidjson::Document json;
-
+	
 };

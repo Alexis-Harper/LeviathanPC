@@ -18,21 +18,20 @@
 #include "Player.h"
 
 //Exit object
-class Exit {
-
+class Exit 
+{
 public:
 
 	Exit (std::string location, Rectangle box, float playerX, float playerY, float cameraOffsetX, float cameraOffsetY);
 	~Exit ();
 
 	//Linked list for exits
-	struct ExitList {
-
+	struct ExitList 
+	{
 		Exit *exit;
 		ExitList *next;
 
-		ExitList (Exit *exit) : exit (exit) { next = NULL; };
-
+		ExitList (Exit * exit) : exit (exit) { next = NULL; };
 	};
 
 	//Get coordinates
@@ -47,7 +46,7 @@ public:
 	static void deleteExitList ();
 
 	//Test if arena should be changed, and if so, change it
-	static void testForExit (Arena **arena, Player *player);
+	static void testForExit (Arena *& arena, Player & player);
 
 private:
 
@@ -59,6 +58,4 @@ private:
 
 	//Coordinates to set when exit is called
 	float playerX, playerY, cameraOffsetX, cameraOffsetY;
-
 };
-

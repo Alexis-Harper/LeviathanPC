@@ -17,8 +17,8 @@
 #include "Rectangle.h"
 #include "Font.h"
 
-class MenuButton {
-
+class MenuButton 
+{
 public:
 
 	MenuButton (const char *text, float x, float y);
@@ -37,6 +37,4 @@ private:
 
 	//Is button is selected
 	bool selected;
-
 };
-

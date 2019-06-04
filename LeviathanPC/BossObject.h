@@ -2,8 +2,8 @@
 
 #include "GameObject.h"
 
-class BossObject : public GameObject {
-
+class BossObject : public GameObject 
+{
 public:
 
 	BossObject ();
@@ -13,6 +13,4 @@ private:
 
 	//Boss phase (affects AI)
 	int phase;
-
 };
-

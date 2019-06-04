@@ -14,8 +14,11 @@
 using namespace std;
 using namespace rapidjson;
 
-Cutscene::Cutscene (const char *filename) {
 
+Cutscene::Cutscene (const char *filename) :
+	textBox ((char*) "assets/cutscenes/images/CutsceneTextBox.png"),
+	font (GameFonts::MAIN_FONT, 32, NFont::Color (220, 220, 220, 250))
+{
 	//Load up cutscenene file
 	cout << "Loading cutscene: " << filename << "\n";
 
@@ -26,12 +29,11 @@ Cutscene::Cutscene (const char *filename) {
 	FileReadStream is (f, buf, sizeof (buf));
 
 	//Copy file to memory, exit if failed
-	if (f == NULL) {
-
+	if (f == NULL)
+	{
 		cout << "[-] Cutscene: Cutscene JSON failed to load.\n";
 
 		exit (ERROR_CUTSCENE_LOAD_FILE);
-
 	}
 
 	fclose (f); //Close file
@@ -40,12 +42,11 @@ Cutscene::Cutscene (const char *filename) {
 	Document json;
 	json.Parse (buf);
 
-	if (!json.IsObject ()) {
-
+	if (!json.IsObject ())
+	{
 		cout << "[-] Cutscene: JSON file failed to parse.\n";
 
 		exit (ERROR_CUTSCENE_PARSE_JSON);
-
 	}
 
 	//Load up audio
@@ -67,8 +68,8 @@ Cutscene::Cutscene (const char *filename) {
 	//Gets array of tile objects
 	const Value &tile_array = json["Tile_Array"];
 
-	for (auto &wall : tile_array.GetArray ()) {
-
+	for (auto &wall : tile_array.GetArray ()) 
+	{
 		const Value &tile_image_name = wall["Image_Name"];
 
 		//Create buffer containing music string
@@ -77,7 +78,8 @@ Cutscene::Cutscene (const char *filename) {
 		strcpy (image_name, tile_image_name.GetString ());
 
 		//Create cutscene tile
-		CutTile *newTile = _new CutTile (image_name, wall["Scale"].GetFloat ());
+		CutTile *newTile = _new CutTile (image_name, wall["Scale"]
+										 .GetFloat ());
 
 		delete[] image_name;
 
@@ -87,33 +89,32 @@ Cutscene::Cutscene (const char *filename) {
 		newTile->setFadeOut (wall["Fade_Out"].GetFloat ());
 
 		//Add to list
-		if (i == 0) {
-
-			Cutscene::createTileList (newTile, &this->first_tile, &this->last_tile);
-
-		} else {
-
-			Cutscene::addTileList (newTile, &this->last_tile);
-
+		if (i == 0) 
+		{
+			Cutscene::createTileList (newTile, this->first_tile, 
+									  this->last_tile);
+		} 
+		else 
+		{
+			Cutscene::addTileList (newTile, this->last_tile);
 		}
 
 		i++;
-
 	}
 
 	i = 0;
 
 	//Checks if dialogue exists
-	if (json.HasMember ("Text_Array")) {
-
+	if (json.HasMember ("Text_Array")) 
+	{
 		//Set dialogue playing to true
 		this->dialogue_playing = true;
 
 		//Gets array of dialogue objects
 		const Value &text_array = json["Text_Array"];
 
-		for (auto &text_data : text_array.GetArray ()) {
-
+		for (auto &text_data : text_array.GetArray ())
+		{
 			const Value &dialogue_text = text_data["Dialogue"];
 
 			//Create buffer containing music string
@@ -122,25 +123,24 @@ Cutscene::Cutscene (const char *filename) {
 			strcpy (text, dialogue_text.GetString ());
 
 			//Add to list
-			if (i == 0) {
-
-				Cutscene::createTextList (text, text_data["Time"].GetFloat (), &this->first_text, &this->last_text);
-
-			} else {
-
-				Cutscene::addTextList (text, text_data["Time"].GetFloat (), &this->last_text);
-
+			if (i == 0)
+			{
+				Cutscene::createTextList (text, text_data["Time"].GetFloat (), 
+										  this->first_text, this->last_text);
+			} 
+			else
+			{
+				Cutscene::addTextList (text, text_data["Time"].GetFloat (), 
+									   this->last_text);
 			}
 
 			i++;
-
 		}
-
-	} else {
-
+	}
+	else
+	{
 		//Tell it not to play dialogue
 		this->dialogue_playing = false;
-
 	}
 
 	//Get next arena 
@@ -171,23 +171,23 @@ Cutscene::Cutscene (const char *filename) {
 	this->current_text = this->first_text;
 	this->dialogue_timer = this->current_text->time;
 
-
 	//Set 
-	if (Input::controllerUsed ()) {
-
-		this->skipButtonSprite = _new Sprite ((char*) "assets/cutscenes/images/Skip_START.png");
-
-	} else {
-
-		this->skipButtonSprite = _new Sprite ((char*) "assets/cutscenes/images/Skip_ENTER.png");
-
+	if (Input::controllerUsed ()) 
+	{
+		this->skipButtonSprite = _new Sprite (
+			(char*) "assets/cutscenes/images/Skip_START.png");
+	} 
+	else 
+	{
+		this->skipButtonSprite = _new Sprite (
+			(char*) "assets/cutscenes/images/Skip_ENTER.png");
 	}
 
 	this->skipButtonSprite->setAlpha (0);
 
 	this->skipFrames = 0.0f;
-
 }
+
 
 Cutscene::~Cutscene () {
 
@@ -196,7 +196,10 @@ Cutscene::~Cutscene () {
 	delete this->skipButtonSprite;
 	delete[] this->nextArena;
 
-	//Make sure it's alive before killing (to prevent repeats causing memory problems)
+	/*
+	Make sure it's alive before killing (to prevent repeats causing memory 
+	problems)
+	*/
 	delete this->audio;
 
 	{
@@ -204,8 +207,8 @@ Cutscene::~Cutscene () {
 
 		n = this->first_tile;
 
-		while (n) {
-
+		while (n) 
+		{
 			delete n->tile;
 
 			m = n->next;
@@ -213,9 +216,7 @@ Cutscene::~Cutscene () {
 			delete n;
 
 			n = m;
-
 		}
-
 	}
 
 	{
@@ -223,8 +224,8 @@ Cutscene::~Cutscene () {
 
 		n = this->first_text;
 
-		while (n) {
-
+		while (n)
+		{
 			delete[] n->text;
 
 			m = n->next;
@@ -232,63 +233,60 @@ Cutscene::~Cutscene () {
 			delete n;
 
 			n = m;
-
 		}
-
 	}
-
 }
 
-bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState) {
 
+bool Cutscene::render (GPU_Target *screen, Arena *& arena, Player & player,
+					   GameState & gameState) 
+{
 	//Calculate what the render should be
 
 	//Fade in stage
-	if (this->current_fade_in > 0.0f) { 
-
+	if (this->current_fade_in > 0.0f)
+	{ 
 		//Check if time is up
-		if (this->current_fade_in <= Input::getDelta ()) {
-
+		if (this->current_fade_in <= Input::getDelta ()) 
+		{
 			//Set fade in to 0.0f
 			this->current_fade_in = 0.0f;
 
 			//Set alpha to full
 			this->current->tile->setAlpha (255);
-
-		} else {
-
+		} 
+		else 
+		{
 			//Set fade in to _new time
 			this->current_fade_in -= (float) Input::getDelta ();
 
 			//Set alpha to new
-			this->current->tile->setAlpha ((Uint8) (255 * (this->current->tile->getFadeIn () - this->current_fade_in) / this->current->tile->getFadeIn ()));
-
+			this->current->tile->setAlpha ((Uint8) (255 * (
+				this->current->tile->getFadeIn () - this->current_fade_in) /
+				this->current->tile->getFadeIn ()));
 		}
-
-	//Stay time stage
-	} else if (this->current_stay_time > 0.0f) { 
-
+	} 
+	else if (this->current_stay_time > 0.0f) //Stay time stage
+	{
 		//Check if time is up
-		if (this->current_stay_time <= Input::getDelta ()) {
-
+		if (this->current_stay_time <= Input::getDelta ()) 
+		{
 			//Set stay time to 0.0f
 			this->current_stay_time = 0.0f;
-
-		} else {
-
+		} 
+		else 
+		{
 			//Set stay time to _new time
 			this->current_stay_time -= (float) Input::getDelta ();
-
 		}
-
-	//Fade out stage
-	} else if (this->current_fade_out > 0.0f) {
-
+	} 
+	else if (this->current_fade_out > 0.0f) //Fade out stage
+	{
 		//Check if time is up
-		if (this->current_fade_out <= Input::getDelta ()) {
-
-			if (this->current->next != NULL) {
-
+		if (this->current_fade_out <= Input::getDelta ()) 
+		{
+			if (this->current->next != NULL) 
+			{
 				//Go to next tile
 				this->current = this->current->next;
 
@@ -296,163 +294,158 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 				this->current_fade_in = this->current->tile->getFadeIn ();
 				this->current_stay_time = this->current->tile->getStayTime ();
 				this->current_fade_out = this->current->tile->getFadeOut ();
-
-			} else {
-
+			} 
+			else
+			{
 				//Set player position
-				player->setPosition (this->getPlayerX (), this->getPlayerY ());
+				player.setPosition (this->getPlayerX (), this->getPlayerY ());
 
 				//Set camera position (with offset)
 				Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
 
 				//Replace arena
-				*arena = new_Arena (this->nextArena);
+				arena = new_Arena (this->nextArena);
 
 				//Set game state
-				*gameState = GameState::GAME;
+				gameState = GameState::GAME;
 
 				return true;
-
 			}
-
-		} else {
-
+		} 
+		else //Fade out stage
+		{
 			//Set fade in to _new time
 			this->current_fade_out -= (float) Input::getDelta ();
 
 			//Set alpha to new
-			this->current->tile->setAlpha ((Uint8) (255 * this->current_fade_out / this->current->tile->getFadeOut ()));
-
+			this->current->tile->setAlpha (
+				(Uint8) (255 * this->current_fade_out / 
+				this->current->tile->getFadeOut ()));
 		}
-
 	}
 
-	if (this->skipFrames == 0.0f) {
-
-		if (Input::controllerUsed ()) {
-
-			if (Input::buttonHeld (SDL_CONTROLLER_START)) {
-
+	if (this->skipFrames == 0.0f)
+	{
+		if (Input::controllerUsed ()) 
+		{
+			if (Input::buttonHeld (SDL_CONTROLLER_START)) 
+			{
 				this->skipFrames = 180.0f;
 
 				this->skipButtonSprite->setAlpha (255);
-
 			}
-
-		} else {
-
-			if (Input::keyHeld (SDL_SCANCODE_RETURN)) {
-
+		} 
+		else
+		{
+			if (Input::keyHeld (SDL_SCANCODE_RETURN)) 
+			{
 				this->skipFrames = 180.0f;
 
 				this->skipButtonSprite->setAlpha (255);
-
 			}
-
 		}
-
-	} else {
-
-		if (this->skipFrames > Input::getDelta ()) {
-
+	} 
+	else 
+	{
+		if (this->skipFrames > Input::getDelta ()) 
+		{
 			this->skipFrames -= (float) Input::getDelta ();
-
-		} else {
-
+		}
+		else 
+		{
 			this->skipFrames = 0.0f;
-
 		}
 
-		if (this->skipFrames < 150.0f && this->skipFrames > 0.0f) {
-
-			if (Input::controllerUsed ()) {
-
-				if (Input::buttonHeld (SDL_CONTROLLER_START)) {
-
+		if (this->skipFrames < 150.0f && this->skipFrames > 0.0f)
+		{
+			if (Input::controllerUsed ()) 
+			{
+				if (Input::buttonHeld (SDL_CONTROLLER_START)) 
+				{
 					//Set player position
-					player->setPosition (this->getPlayerX (), this->getPlayerY ());
+					player.setPosition (this->getPlayerX (), 
+										 this->getPlayerY ());
 
 					//Set camera position (with offset)
-					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
+					Sprite::setCamera (this->getCamPosX (), 
+									   this->getCamPosY ());
 
 					//Replace arena
-					*arena = new_Arena (this->nextArena);
+					arena = new_Arena (this->nextArena);
 
 					//Set game state
-					*gameState = GameState::GAME;
+					gameState = GameState::GAME;
 
 					return true;
-
 				}
-
-			} else {
-
-				if (Input::keyHeld (SDL_SCANCODE_RETURN)) {
-
+			} 
+			else
+			{
+				if (Input::keyHeld (SDL_SCANCODE_RETURN)) 
+				{
 					//Set player position
-					player->setPosition (this->getPlayerX (), this->getPlayerY ());
+					player.setPosition (this->getPlayerX (), 
+										 this->getPlayerY ());
 
 					//Set camera position (with offset)
-					Sprite::setCamera (this->getCamPosX (), this->getCamPosY ());
+					Sprite::setCamera (this->getCamPosX (), 
+									   this->getCamPosY ());
 
 					//Replace arena
-					*arena = new_Arena (this->nextArena);
+					arena = new_Arena (this->nextArena);
 
 					//Set game state
-					*gameState = GameState::GAME;
+					gameState = GameState::GAME;
 
 					return true;
-
 				}
-
 			}
 
-			if (this->skipFrames < 120.0f) {
-
-				this->skipButtonSprite->setAlpha ((int) (this->skipFrames * 255 / 120));
-
+			if (this->skipFrames < 120.0f) 
+			{
+				this->skipButtonSprite->setAlpha ((int) (this->skipFrames * 
+												  255 / 120));
 			}
-
 		}
-
 	} 
 
 	//Render tile
 	this->current->tile->render (screen);
 
 	//If dialogue is playing, do the calculations
-	if (this->dialogue_playing) {
-
+	if (this->dialogue_playing) 
+	{
 		//Display text box
 		this->textBox.render (screen, 0.166f, 0.655f, 1.0f, NULL);
 
 		//If dialogue timer is
 		if (this->dialogue_timer > Input::getDelta ()) {
 
-			this->font.getFont ()->drawBox (screen, Font::getRect_s (0.216f, 0.705f, 0.90133333333f, 0.25555555555f), this->current_text->text);
+			this->font.getFont ()->drawBox (screen, 
+											Font::getRect_s (0.216f, 0.705f, 
+											0.90133333333f, 0.25555555555f), 
+											this->current_text->text);
 
 			this->dialogue_timer -= (float) Input::getDelta ();
 
-		} else {
-
+		}
+		else
+		{
 			//If there's no more tiles, end dialogue, otherwise, move to next
-			if (this->current_text->next != NULL) {
-
+			if (this->current_text->next != NULL)
+			{
 				//Go to next text
 				this->current_text = this->current_text->next;
 
 				//Set timing
 				this->dialogue_timer = this->current_text->time;
-
-			} else {
-
+			} 
+			else 
+			{
 				//End dialogue
 				this->dialogue_playing = false;
-
 			}
-
 		}
-
 	}
 
 	//Render skip button
@@ -460,65 +453,75 @@ bool Cutscene::render (GPU_Target *screen, Arena **arena, Player *player, GameSt
 
 	//Return false
 	return false;
-
 }
 
-void Cutscene::createTileList (CutTile *data, TileList **first, TileList **last) {
 
-	*first = _new TileList (data);
+void Cutscene::createTileList (CutTile *data, TileList *& first, 
+							   TileList *& last)
+{
+	first = _new TileList (data);
 
-	*last = *first;
+	last = first;
 
+	return;
 }
 
-void Cutscene::addTileList (CutTile *data, TileList **last) {
 
-	struct TileList *prev = *last;
+void Cutscene::addTileList (CutTile * data, TileList *& last) 
+{
+	struct TileList *prev = last;
 
-	*last = _new TileList (data);
+	last = _new TileList (data);
 
-	prev->next = *last;
+	prev->next = last;
 
+	return;
 }
 
-void Cutscene::createTextList (char *text, float time, TextList **first, TextList **last) {
 
-	*first = _new TextList (text, time);
+void Cutscene::createTextList (char * text, float time, TextList *& first, 
+							   TextList *& last) 
+{
+	first = _new TextList (text, time);
 
-	*last = *first;
+	last = first;
 
+	return;
 }
 
-void Cutscene::addTextList (char *text, float time, TextList **last) {
 
-	struct TextList *prev = *last;
+void Cutscene::addTextList (char * text, float time, TextList *& last)
+{
+	struct TextList *prev = last;
 
-	*last = _new TextList (text, time);
+	last = _new TextList (text, time);
 
-	prev->next = *last;
+	prev->next = last;
 
+	return;
 }
 
-float Cutscene::getPlayerX () {
+
+float Cutscene::getPlayerX ()
+{
 
 	return this->playerX;
-
 }
 
-float Cutscene::getPlayerY () {
 
+float Cutscene::getPlayerY ()
+{
 	return this->playerY;
-
 }
 
-float Cutscene::getCamPosX () {
 
+float Cutscene::getCamPosX () 
+{
 	return (this->playerX - this->cameraOffsetX - 0.5f);
-
 }
 
-float Cutscene::getCamPosY () {
 
+float Cutscene::getCamPosY () 
+{
 	return (this->playerY - this->cameraOffsetY - 0.5f);
-
 }

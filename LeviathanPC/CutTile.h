@@ -15,20 +15,19 @@
 
 #include "Sprite.h"
 
-class CutTile {
-
+class CutTile 
+{
 public:
 
 	CutTile (char *filename, float scale);
 	~CutTile ();
 
 	//Timing struct
-	struct Timing {
-
+	struct Timing 
+	{
 		float fade_in;
 		float stay_time;
 		float fade_out;
-
 	};
 
 	//Get timing data
@@ -56,6 +55,4 @@ private:
 
 	//Timing of object
 	struct Timing timing;
-
 };
-

@@ -12,99 +12,168 @@
 using namespace std;
 using namespace rapidjson;
 
-Statistics::Statistics () {
 
-
-
-}
-
-Statistics::~Statistics () {
-
-
+Statistics::Statistics () 
+{
 
 }
 
 
-bool Statistics::load () {
+Statistics::~Statistics () 
+{
+
+}
+
+
+bool Statistics::load ()
+{
+	rapidjson::Document json;
 
 	//Alert that save is loading
-	cout << "[+] Loading save file to read.\n";
+	cout << "[+] Loading stat file to read.\n";
 
 	//File input pointer
 	FILE* f;
 
 	//Check if file exists
-	if (f = fopen ("save_data.sav", "rb")) {
-
+	if (f = fopen ("stat_data.sav", "rb"))
+	{
 		//Get file input
 		char buf[65536];
 		FileReadStream is = FileReadStream (f, buf, sizeof (buf));
 
 		//Copy file to memory, exit if failed
-		if (f == NULL) {
-
-			cout << "[-] Save: Save file failed to load for reading.\n";
+		if (f == NULL) 
+		{
+			cout << "[-] Stat: Stat file failed to load for reading.\n";
 
 			exit (ERROR_SAVE_LOAD_LOAD_FILE);
-
 		}
 
 		fclose (f); //Close file
 
 		//Parse JSON file
-		this->json.Parse (buf);
+		json.Parse (buf);
 
 		//If JSON failed to load, give error
-		if (!this->json.IsObject ()) {
+		if (!json.IsObject ()) 
+		{
+			cout << "[-] Stat: JSON file failed to parse.\n";
 
-			cout << "[-] Save: JSON file failed to parse.\n";
-
-			exit (ERROR_SAVE_LOAD_PARSE_JSON);
-
+			exit (ERROR_STAT_LOAD_PARSE_JSON);
 		}
 
+		//Get stats from file
+		this->kills = json["Kills"].GetInt ();
+
 		return false;
+	} 
+	else 
+	{
+		//Create blank information
+		this->kills = 0;
+		this->deaths = 0;
+		this->distance = 0.0f;
+		this->auraAttempts = 0;
+		this->auraHits = 0;
 
-	} else {
-
-		fclose (f);
 		return true;
-
 	}
-
 }
 
-void Statistics::save () {
+
+void Statistics::save ()
+{
+	rapidjson::Document json;
 
 	//Alert that arena is loading
-	cout << "[+] Loading save file to write.\n";
+	cout << "[+] Loading stats file to write.\n";
 
 	//File output pointer
 	FILE* f;
 
 	//See if file can be written to
-	if (f = fopen ("save_data.sav", "wb")) {
-
+	if (f = fopen ("stat_data.sav", "wb")) 
+	{
 		//Get file input
 		char buf[65536];
 		FileWriteStream os (f, buf, sizeof (buf));
 
 		//Write JSON to file
 		Writer<FileWriteStream> writer (os);
-		this->json.Accept (writer);
+		json.Accept (writer);
+
+		//TODO write data
 
 		//Close file
 		fclose (f);
-
-	} else {
-
+	}
+	else 
+	{
 		//Close file before printing error
 		fclose (f);
 
-		cout << "[-] Save: Save file failed to load for saving.\n";
+		cout << "[-] Stat: Stat file failed to load for saving.\n";
 
-		exit (ERROR_SAVE_SAVE_LOAD_FILE);
-
+		exit (ERROR_STAT_SAVE_LOAD_FILE);
 	}
 
+	return;
+}
+
+
+void Statistics::incrementKills () 
+{
+	this->kills++;
+
+	return;
+}
+
+
+void Statistics::incrementDeaths () 
+{
+	this->deaths++;
+
+	return;
+}
+
+
+void Statistics::incrementDamageTaken (unsigned int damage) 
+{
+	this->damageDelt += damage;
+
+	return;
+}
+
+
+void Statistics::incrementDamageDelt (unsigned int damage) 
+{
+	this->damageTaken += damage;
+
+	return;
+}
+
+
+void Statistics::incrementDistance (float vx, float vy) 
+{
+	//Add distance
+	this->distance += sqrt (vx * vx + vy * vy);
+
+	return;
+}
+
+
+void Statistics::auraAttempted () 
+{
+	this->auraAttempts++;
+
+	return;
+}
+
+
+void Statistics::auraHit () 
+{
+	this->auraHits++;
+
+	return;
 }

@@ -14,8 +14,8 @@
  * (at your option) any later version.
  **/
 
-namespace Input {
-
+namespace Input 
+{
 	// ******************************************
 	// Init/update
 	// ******************************************
@@ -73,5 +73,4 @@ namespace Input {
 
 	//Rumbles
 	void rumble (float strength, int duration);
-
 };

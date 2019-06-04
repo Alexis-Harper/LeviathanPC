@@ -3,10 +3,12 @@
 
 #include "Input.h"
 
-Health::Health () {
 
+Health::Health () 
+{
 	//Load program
-	this->program = loadShaderProgram ("assets/shaders/hud/health.vert", "assets/shaders/hud/health.frag");
+	this->program = loadShaderProgram ("assets/shaders/hud/health.vert",
+									   "assets/shaders/hud/health.frag");
 
 	//Set uniforms
 	this->uhealth = GPU_GetUniformLocation (this->program.program, "health");
@@ -14,25 +16,27 @@ Health::Health () {
 
 	//Close program
 	GPU_ActivateShaderProgram (0, NULL);
-
 }
 
-Health::~Health () {
 
+Health::~Health ()
+{
 	//Free memory
 	freeShaderProgram (this->program);
-
 }
 
-void Health::modPlayerHealth (int health, int maxHealth) {
 
+void Health::modPlayerHealth (int health, int maxHealth)
+{
 	//Set health float
 	this->health = (float) health / maxHealth;
 
+	return;
 }
 
-void Health::render (GPU_Target *screen) {
 
+void Health::render (GPU_Target *screen) 
+{
 	//Activate shader program
 	GPU_ActivateShaderProgram (this->program.program, &this->program.block);
 
@@ -46,4 +50,5 @@ void Health::render (GPU_Target *screen) {
 	//Deactivate shader program
 	GPU_ActivateShaderProgram (0, NULL);
 
+	return;
 }

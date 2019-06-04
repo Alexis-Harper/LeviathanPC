@@ -28,8 +28,8 @@ class GameObject;
 //Calls correct arena based off of data in class
 Arena* new_Arena (const char *filename);
 
-class Arena {
-
+class Arena 
+{
 public:
 
 	//Arena base constructors and deconstructors
@@ -72,13 +72,12 @@ protected:
 	float backgroundScale;
 
 	//Wall linked lists
-	struct Walls {
-
+	struct Walls 
+	{
 		Rectangle rect;
 		struct Walls *next;
 
 		Walls (Rectangle data) : rect (data) { this->next = NULL; };
-
 	};
 
 	//Linked list pointer (Movement Walls)
@@ -96,13 +95,12 @@ protected:
 	static void addWallList (Rectangle wall, Walls **last);
 
 	//GameObject linked list
-	struct GameObjects {
-
+	struct GameObjects 
+	{
 		GameObject *object;
 		struct GameObjects *next;
 
 		GameObjects (GameObject *data) : object (data) { this->next = NULL; };
-
 	};
 
 	//Linked list pointer
@@ -111,11 +109,10 @@ protected:
 	//Linked list build functions
 	static void createGameObjectsList (GameObject *gameObject, GameObjects **first, GameObjects **last);
 	static void addGameObjectsList (GameObject *gameObject, GameObjects **last);
-
 };
 
-class NormalArena : public Arena {
-
+class NormalArena : public Arena 
+{
 public:
 
 	NormalArena (rapidjson::Document &json);
@@ -131,11 +128,10 @@ public:
 private:
 
 	
-
 };
 
-class BossArena : public Arena {
-
+class BossArena : public Arena 
+{
 public:
 
 	BossArena (rapidjson::Document &json);
@@ -152,5 +148,4 @@ private:
 
 	//BossObject
 	BossObject *boss;
-
 };

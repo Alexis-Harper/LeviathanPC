@@ -31,11 +31,10 @@ void freeShaderProgram (Uint32 vertex, Uint32 fragment, Uint32 program);
 void freeShaderProgram (ShaderProgram program);
 
 //Holds shader pointers
-struct ShaderProgram {
-
+struct ShaderProgram 
+{
 	Uint32 vertex;
 	Uint32 fragment;
 	Uint32 program;
 	GPU_ShaderBlock block;
-
 };

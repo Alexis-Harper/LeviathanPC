@@ -15,8 +15,8 @@
 #include "Sprite.h"
 #include "Shaders.h"
 
-class Health {
-
+class Health 
+{
 public:
 
 	Health ();
@@ -39,6 +39,5 @@ private:
 	//Shader uniform pointer & value
 	int uhealth;
 	float health = 1.0f;
-
 };
 

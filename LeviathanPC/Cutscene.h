@@ -21,16 +21,17 @@
 #include "Player.h"
 #include "Font.h"
 
-class Cutscene {
-
+class Cutscene 
+{
 public:
 
 	//Constructors and destructors
-	Cutscene (const char *filename);
+	Cutscene (const char * filename);
 	~Cutscene ();
 
 	//Renderers
-	bool render (GPU_Target *screen, Arena **arena, Player *player, GameState *gameState);
+	bool render (GPU_Target * screen, Arena *& arena, Player & player, 
+				 GameState & gameState);
 
 private:
 
@@ -44,13 +45,12 @@ private:
 	float skipFrames;
 
 	//List struct (tiles)
-	struct TileList {
-
+	struct TileList 
+	{
 		CutTile *tile;
 		struct TileList *next;
 
-		TileList (CutTile *tile) : tile (tile) { this->next = NULL; };
-
+		TileList (CutTile * tile) : tile (tile) { this->next = NULL; };
 	};
 
 	//Current timings
@@ -60,24 +60,25 @@ private:
 	struct TileList *first_tile = NULL, *last_tile = NULL, *current = NULL;
 
 	//List manipulators
-	static void createTileList (CutTile *data, TileList **first, TileList **last);
-	static void addTileList (CutTile *data, TileList **last);
+	static void createTileList (CutTile * data, TileList *& first,
+								TileList *& last);
+	static void addTileList (CutTile * data, TileList *& last);
 
 	//Sprite for showing text
-	Sprite textBox = Sprite ((char*) "assets/cutscenes/images/CutsceneTextBox.png");
+	Sprite textBox;
 
 	//Text font
-	Font font = Font (GameFonts::MAIN_FONT, 32, NFont::Color (220, 220, 220, 250));
+	Font font;
 
 	//List struct (dialogue)
-	struct TextList {
-
+	struct TextList 
+	{
 		char *text;
 		float time;
 		struct TextList *next;
 
-		TextList (char *text, float time) : text (text), time (time) { this->next = NULL; };
-
+		TextList (char * text, float time) : text (text), time (time) 
+		{ this->next = NULL; };
 	};
 
 	//Current dialogue timing
@@ -88,8 +89,10 @@ private:
 	struct TextList *first_text = NULL, *last_text = NULL, *current_text = NULL;
 
 	//List manipulators
-	static void createTextList (char *text, float time, TextList **first, TextList **last);
-	static void addTextList (char *text, float time, TextList **last);
+	static void createTextList (char *text, float time, TextList *& first, 
+								TextList *& last);
+	static void addTextList (char *text, float time, TextList *& last);
+
 
 	//Get post-cutscene arena information
 	float getPlayerX ();
@@ -102,6 +105,4 @@ private:
 
 	//Coords to be set when cutscene is done
 	float playerX, playerY, cameraOffsetX, cameraOffsetY;
-
 };
-

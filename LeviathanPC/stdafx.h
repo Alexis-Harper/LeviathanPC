@@ -43,8 +43,8 @@
 #define _SQRT_2 -0.70710678118f
 
 //Eight directon enum
-enum EightDirection {
-
+enum EightDirection 
+{
 	NONE,
 	UP,
 	UP_RIGHT,
@@ -54,5 +54,4 @@ enum EightDirection {
 	DOWN_LEFT,
 	LEFT,
 	UP_LEFT
-
 };

@@ -16,8 +16,8 @@
 #include "Font.h"
 #include "Player.h"
 
-class AmmoLabel {
-
+class AmmoLabel 
+{
 public:
 
 	AmmoLabel ();
@@ -30,5 +30,4 @@ private:
 
 	//Font for use in displaying ammo
 	Font font = Font (GameFonts::MAIN_FONT, 50, NFont::Color (200, 200, 200, 204), 1);
-
 };

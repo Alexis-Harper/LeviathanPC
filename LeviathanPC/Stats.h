@@ -18,8 +18,8 @@
 
 #include <rapidjson/document.h>
 
-class Statistics {
-
+class Statistics 
+{
 public:
 
 	Statistics ();
@@ -28,8 +28,22 @@ public:
 	bool load ();
 	void save ();
 
+	//Stat setters
+	void incrementKills ();
+	void incrementDeaths ();
+	void incrementDamageTaken (unsigned int damage);
+	void incrementDamageDelt (unsigned int damage);
+	void incrementDistance (float vx, float vy);
+	void auraAttempted ();
+	void auraHit ();
+
 private:
 
-	rapidjson::Document json;
-
+	unsigned int kills;
+	unsigned int deaths;
+	unsigned int damageTaken;
+	unsigned int damageDelt;
+	float distance;
+	unsigned int auraAttempts;
+	unsigned int auraHits;
 };

@@ -19,16 +19,17 @@
 #include "Shaders.h"
 
 class Arena;
+class Statistics;
 
-class Player {
-
+class Player 
+{
 public:
 
 	Player ();
 	~Player ();
 
 	//Update/render player
-	void update (Arena *activeArena);
+	void update (Arena *activeArena, Statistics &statisticsObject);
 	void render (GPU_Target *screen);
 
 	//Damage/heal player (
@@ -48,8 +49,8 @@ public:
 private:
 
 	//Stat struct
-	struct PlayerStats {
-
+	struct PlayerStats 
+	{
 		int hp, hpMax;
 		Uint16 ammo = 16, maxAmmo = 23;
 
@@ -58,7 +59,6 @@ private:
 		float damageBoost = 0.0f;
 		float sprintCounter = 0.0f;
 		float auraCounter = 0.0f;
-
 	} stats;
 
 	//Player facing direction
@@ -81,5 +81,4 @@ private:
 
 	//Player hitbox
 	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.031f, 0.082f);
-
 };

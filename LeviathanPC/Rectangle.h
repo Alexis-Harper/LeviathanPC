@@ -13,8 +13,8 @@
  * (at your option) any later version.
  **/
 
-class Rectangle {
-
+class Rectangle 
+{
 public:
 
 	Rectangle ();
@@ -56,6 +56,4 @@ private:
 
 	float width;
 	float height;
-
 };
-

@@ -14,8 +14,8 @@
  **/
 
 //List of errors that can be called for exits
-enum ERROR {
-
+enum ERROR 
+{
 	//Version 1.0 Alpha
 	ERROR_SDL_INIT_VIDEO = 4,
 	ERROR_SDL_INIT_AUDIO,
@@ -40,5 +40,4 @@ enum ERROR {
 	ERROR_ARENA_PARSE_JSON,
 	ERROR_CUTSCENE_LOAD_FILE,
 	ERROR_CUTSCENE_PARSE_JSON
-
 };

@@ -20,8 +20,8 @@
 #include "Arena.h"
 #include "Audio.h"
 
-class MainMenu {
-
+class MainMenu 
+{
 public:
 
 	MainMenu (Font *font, SpriteSheet *buttons);
@@ -49,10 +49,9 @@ private:
 	SpriteSheet *buttons;
 
 	//Buttons
-	struct Buttons {
-
+	struct Buttons 
+	{
 		MenuButton playGame = MenuButton ("Play Game", 0.33333333333f, 0.5f);
-
 	} menuButtons;
 
 };

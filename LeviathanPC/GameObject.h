@@ -20,23 +20,23 @@
 //Forward declaration to prevent dependencies
 class Arena;
 
-class GameObject {
-
+class GameObject 
+{
 public:
 
 	GameObject ();
 	virtual ~GameObject ();
 
 	//AI information
-	struct AIArgs {
-
+	struct AIArgs 
+	{
 		Arena *activeArena; //Arena for pathfinding
 		Player *player; //Player hitbox for targeting
 
 		Health *healthBar; //Health bar (for attacking the player)
 
-		AIArgs (Arena *arena, Player *player, Health *health) : activeArena (arena), player (player), healthBar (health) {};
-
+		AIArgs (Arena *arena, Player *player, Health *health) : 
+			activeArena (arena), player (player), healthBar (health) {};
 	};
 
 	//Virtuals to update & render
@@ -66,15 +66,14 @@ public:
 protected:
 
 	//AI aspect
-	struct AIState {
-
+	struct AIState 
+	{
 		void (GameObject::*currentAIAction) (AIState&, AIArgs); //AI function pointer
 
 		unsigned short int state; //Int containing flag bits for various things
 
 		float range; //Range before pathfinding becomes attack
 		float timer = 0; //Timer for certain actions
-
 	} objectAIState;
 
 	//Executes the AI if on screen
@@ -86,9 +85,11 @@ protected:
 	//Activates default shader program (for rendering)
 	void activateDefaultShaderProgram ();
 
+
 	//Attacks
 	void (GameObject::*attackMele) () = NULL;
 	void (GameObject::*ranged) () = NULL;
+
 
 	//Hitbox
 	Rectangle *hitbox;
@@ -134,5 +135,4 @@ private:
 
 	//Object count
 	static unsigned int objectCount;
-
 };

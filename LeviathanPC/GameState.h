@@ -14,11 +14,10 @@
  **/
 
 //Enum containing game states
-enum GameState {
-
+enum GameState 
+{
 	HOME_MENU,
 	GAME,
 	PAUSED,
 	CUTSCENE
-
 };
