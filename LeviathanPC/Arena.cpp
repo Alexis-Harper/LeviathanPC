@@ -846,6 +846,10 @@ NormalArena::NormalArena (Document &json) : Arena (json)
 		{
 			ptr = _new KillerShadow (x, y);
 		}
+		else if (!strcmp (buf, "TheDamned"))
+		{
+			ptr = _new TheDamned (x, y);
+		}
 
 		//Clear buffer
 		delete[] buf;

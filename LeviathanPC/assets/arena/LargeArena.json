@@ -94,7 +94,7 @@
   "Enemies": 
   [
     {
-      "Type": "KillerShadow",
+      "Type": "TheDamned",
       "x": 0.5,
       "y": 0.7
     }

@@ -158,6 +158,7 @@
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Stats.cpp" />
+    <ClCompile Include="TheDamned.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stats.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TheDamned.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

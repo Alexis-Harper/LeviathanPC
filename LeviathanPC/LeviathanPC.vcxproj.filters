@@ -192,6 +192,9 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="TheDamned.cpp">
+      <Filter>Source Files\GameObjects\Enemies\Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.h">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TheDamned.h">
+      <Filter>Header Files\GameObjects\Enemies\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

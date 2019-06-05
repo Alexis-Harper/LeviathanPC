@@ -73,6 +73,7 @@ protected:
 		unsigned short int state; //Int containing flag bits for various things
 
 		float range; //Range before pathfinding becomes attack
+		int damage;
 		float timer = 0; //Timer for certain actions
 	} objectAIState;
 
@@ -116,8 +117,8 @@ protected:
 	std::vector<Audio::Effect> soundEffects;
 
 	//AI functions
-	void aStar (AIState &objectAIState, AIArgs args);
-	void bodyAttack (AIState &objectAIState, AIArgs args);
+	void aStar (AIState & objectAIState, AIArgs args);
+	void bodyAttack (AIState & objectAIState, AIArgs args);
 
 	//Attack functions (TODO)
 
