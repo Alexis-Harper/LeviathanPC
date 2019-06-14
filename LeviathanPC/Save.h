@@ -15,6 +15,7 @@
 
 #include <rapidjson/document.h>
 
+
 struct SaveData 
 {
 	const char *arenaFilename;
@@ -22,6 +23,7 @@ struct SaveData
 	SaveData (const char *arenaFileame);
 	~SaveData ();
 };
+
 
 class Save 
 {

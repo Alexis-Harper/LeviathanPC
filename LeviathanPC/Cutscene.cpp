@@ -189,10 +189,8 @@ Cutscene::Cutscene (const char *filename) :
 }
 
 
-Cutscene::~Cutscene () {
-
-	cout << "Deleted cutscene";
-
+Cutscene::~Cutscene () 
+{
 	delete this->skipButtonSprite;
 	delete[] this->nextArena;
 

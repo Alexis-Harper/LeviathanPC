@@ -63,8 +63,32 @@ bool Statistics::load ()
 			exit (ERROR_STAT_LOAD_PARSE_JSON);
 		}
 
+		//Deal with version difference
+		{
+			const Value &version = json["Version"];
+
+			size_t size = version.GetStringLength () + 1;
+			char *buf = _new char[size];
+			strcpy (buf, version.GetString ());
+
+			//Check the version and make changes depending
+			if (!strcmp (buf, "1.0.0 alpha"))
+			{
+				cout << "[+] Stat: Loading version 1.0.0 alpha save\n";
+			}
+
+			delete buf;
+		}
+
 		//Get stats from file
-		this->kills = json["Kills"].GetInt ();
+		this->kills = json["Kills"].GetUint64 ();
+		this->deaths = json["Deaths"].GetUint64 ();
+		this->damageTaken = json["DamageTaken"].GetUint64 ();
+		this->damageDelt = json["DamageDelt"].GetUint64 ();
+		this->distance = json["Distance"].GetDouble ();
+		this->auraAttempts = json["AuraAttempts"].GetUint64 ();
+		this->auraHits = json["AuraHits"].GetUint64 ();
+		this->sprintDashes = json["SprintDashes"].GetUint64 ();
 
 		return false;
 	} 
@@ -73,9 +97,12 @@ bool Statistics::load ()
 		//Create blank information
 		this->kills = 0;
 		this->deaths = 0;
-		this->distance = 0.0f;
+		this->damageTaken = 0;
+		this->damageDelt = 0;
+		this->distance = 0.0;
 		this->auraAttempts = 0;
 		this->auraHits = 0;
+		this->sprintDashes = 0;
 
 		return true;
 	}
@@ -84,10 +111,33 @@ bool Statistics::load ()
 
 void Statistics::save ()
 {
-	rapidjson::Document json;
+	Document json;
+	json.SetObject ();
 
 	//Alert that arena is loading
 	cout << "[+] Loading stats file to write.\n";
+
+	//Write JSON
+	{
+		Document::AllocatorType &alloc = json.GetAllocator ();
+
+		json.AddMember ("Version", Value ().SetString ("1.0.0 alpha"), alloc);
+
+		json.AddMember ("Kills", Value ().SetUint64 (this->kills), alloc);
+		json.AddMember ("Deaths", Value ().SetUint64 (this->deaths), alloc);
+		json.AddMember ("DamageTaken", Value ().SetUint64 (this->damageTaken),
+						alloc);
+		json.AddMember ("DamageDelt", Value ().SetUint64 (this->damageDelt),
+						alloc);
+		json.AddMember ("Distance", Value ().SetDouble (this->distance), 
+						alloc);
+		json.AddMember ("AuraAttempts", Value ().SetUint64 (this->auraAttempts),
+						alloc);
+		json.AddMember ("AuraHits", Value ().SetUint64 (this->auraHits), 
+						alloc);
+		json.AddMember ("SprintDashes", Value ().SetUint64 (this->sprintDashes),
+						alloc);
+	}
 
 	//File output pointer
 	FILE* f;
@@ -176,4 +226,9 @@ void Statistics::auraHit ()
 	this->auraHits++;
 
 	return;
+}
+
+void Statistics::sprintDashed ()
+{
+	this->sprintDashes++;
 }

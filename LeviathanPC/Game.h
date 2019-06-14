@@ -34,21 +34,23 @@
 #include "MainMenu.h"
 #include "PauseMenu.h"
 #include "Window.h"
+#include "Stats.h"
 
 
 struct Menus
 {
+	//Constructor
+	Menus ();
+
 	//Menu font
-	Font font = Font (GameFonts::MAIN_FONT, 32,
-					  NFont::Color (200, 200, 200, 250));
+	Font font;
 
 	//Menu buttons
-	SpriteSheet buttons = SpriteSheet (
-		(char*) "assets/menu/MainButtons.png", 1, 2);
+	SpriteSheet buttons;
 
 	//Menu objects
-	MainMenu mainMenu = MainMenu (&this->font, &this->buttons);
-	PauseMenu pauseMenu = PauseMenu (&this->font, &this->buttons);
+	MainMenu mainMenu;
+	PauseMenu pauseMenu;
 };
 
 

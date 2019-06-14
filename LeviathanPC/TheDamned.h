@@ -2,9 +2,9 @@
 
 /**
  * Author:    Alexis Harper
- * Created:   30.12.2018
+ * Created:   04.06.2019
  *
- * Description: KillerShadow is a class that represents the Killer Shadow enemy.
+ * Description: TheDamned is a class that represents the The Damned enemy.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

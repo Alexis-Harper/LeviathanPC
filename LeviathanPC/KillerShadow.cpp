@@ -10,8 +10,8 @@ KillerShadow::KillerShadow (float x, float y)
 	this->spritesheet = _new SpriteSheet (
 		(char*) "assets/enemies/basic/ShadowPlayer.png", 4, 8);
 
-	this->hp = 10;
-	this->hpMax = 10;
+	this->hp = 100;
+	this->hpMax = 100;
 
 	this->hitbox = _new Rectangle (x, y, 0.031f, 0.082f);
 

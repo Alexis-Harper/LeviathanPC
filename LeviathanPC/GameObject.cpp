@@ -538,7 +538,7 @@ void GameObject::bodyAttack (AIState &objectAIState, AIArgs args)
 
 	if (Rectangle::rectIsColliding (*this->hitbox, args.player->getHitbox ())) 
 	{
-		args.player->damage (this->objectAIState.damage, args.healthBar);
+		args.player->damage (this->objectAIState.damage, *args.healthBar);
 
 		if (tstBit (objectAIState.state, AI_STATE_FLAG_STILL)) 
 		{

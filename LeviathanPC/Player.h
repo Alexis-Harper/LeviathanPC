@@ -18,8 +18,10 @@
 #include "Health.h"
 #include "Shaders.h"
 
+
 class Arena;
 class Statistics;
+
 
 class Player 
 {
@@ -29,12 +31,12 @@ public:
 	~Player ();
 
 	//Update/render player
-	void update (Arena *activeArena, Statistics &statisticsObject);
-	void render (GPU_Target *screen);
+	void update (Arena * activeArena, Statistics & statisticsObject);
+	void render (GPU_Target * screen);
 
 	//Damage/heal player (
-	void damage (int damage, Health *healthHud);
-	void heal (int heal, Health *healthHud);
+	void damage (int damage, Health & healthHud);
+	void heal (int heal, Health & healthHud);
 
 	//Ammo getters
 	Uint16 getAmmo ();
@@ -80,5 +82,5 @@ private:
 	int usprint;
 
 	//Player hitbox
-	Rectangle hitbox = Rectangle (0.5f, 0.5f, 0.031f, 0.082f);
+	Rectangle hitbox;
 };

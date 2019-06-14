@@ -19,7 +19,8 @@ namespace
 #endif
 
 
-Player::Player () 
+Player::Player () :
+	hitbox (0.5f, 0.5f, 0.031f, 0.082f)
 {
 	this->spritesheet = _new SpriteSheet ((char*) "assets/player/Player.png",
 										  4, 8);
@@ -164,6 +165,8 @@ void Player::update (Arena * arena, Statistics & statistics)
 		if (this->stats.damageBoost == 0.0f && 
 			Input::keyHeld (SDL_SCANCODE_SPACE)) 
 		{
+			statistics.sprintDashed ();
+
 			this->stats.sprintCounter = 60.0f;
 			this->stats.damageBoost = 32.0f;
 		}
@@ -226,7 +229,10 @@ void Player::update (Arena * arena, Statistics & statistics)
 				this->stats.hp;
 
 			if (arena->damageGameObjects (this->hitbox, damage, false))
+			{ 
+				statistics.incrementDamageDelt (damage);
 				statistics.auraHit ();
+			}
 		}
 	}
 
@@ -306,7 +312,7 @@ void Player::render (GPU_Target *screen)
 }
 
 
-void Player::damage (int damage, Health *healthHud) 
+void Player::damage (int damage, Health & healthHud) 
 {
 	//If player is in damage boost, do nothing
 	if (this->stats.damageBoost > 0.0f)
@@ -324,7 +330,7 @@ void Player::damage (int damage, Health *healthHud)
 			this->stats.hp = this->stats.hpMax;
 
 			//Change health bar
-			healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
+			healthHud.modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
 			//TODO Kill player
 
@@ -339,7 +345,7 @@ void Player::damage (int damage, Health *healthHud)
 			this->stats.hp -= damage;
 
 			//Change health bar
-			healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
+			healthHud.modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
 			//Rumbe if controller is used
 			Input::rumble (0.5f, 100);
@@ -352,7 +358,7 @@ void Player::damage (int damage, Health *healthHud)
 }
 
 
-void Player::heal (int heal, Health *healthHud) 
+void Player::heal (int heal, Health & healthHud) 
 {
 	//If healing more than health, set to max health, if not just heal
 	if (this->stats.hp + heal >= this->stats.hpMax)
@@ -368,7 +374,7 @@ void Player::heal (int heal, Health *healthHud)
 	}
 
 	//Change health bar
-	healthHud->modPlayerHealth (this->stats.hp, this->stats.hpMax);
+	healthHud.modPlayerHealth (this->stats.hp, this->stats.hpMax);
 
 	return;
 }

@@ -7,6 +7,16 @@ using namespace std;
 constexpr chrono::nanoseconds timestep (16ms); //60 ticks per sec
 
 
+Menus::Menus () :
+	font (GameFonts::MAIN_FONT, 32, NFont::Color (200, 200, 200, 250)),
+	buttons ((char*) "assets/menu/MainButtons.png", 1, 2),
+	mainMenu (&this->font, &this->buttons),
+	pauseMenu (&this->font, &this->buttons)
+{
+	//Constructor
+}
+
+
 Game::Game () :
 	window ("The Leviathan"),
 	gameController (NULL),
@@ -23,13 +33,14 @@ Game::Game () :
 	sdlEvent (),
 	menus ()
 {
-
+	//Constructor
 }
 
 
 Game::~Game ()
 {
 	//Close program
+	statObject.save ();
 
 	//Close arena if open
 	if (activeArena != NULL)
@@ -396,7 +407,7 @@ void Game::update ()
 
 		if (Input::keyHeld (SDL_SCANCODE_U))
 		{
-			player.damage (10, &health);
+			player.damage (10, health);
 		}
 
 		#endif

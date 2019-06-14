@@ -18,6 +18,7 @@
 
 #include <rapidjson/document.h>
 
+
 class Statistics 
 {
 public:
@@ -36,14 +37,16 @@ public:
 	void incrementDistance (float vx, float vy);
 	void auraAttempted ();
 	void auraHit ();
+	void sprintDashed ();
 
 private:
 
-	unsigned int kills;
-	unsigned int deaths;
-	unsigned int damageTaken;
-	unsigned int damageDelt;
-	float distance;
-	unsigned int auraAttempts;
-	unsigned int auraHits;
+	Uint64 kills;
+	Uint64 deaths;
+	Uint64 damageTaken;
+	Uint64 damageDelt;
+	double distance;
+	Uint64 auraAttempts;
+	Uint64 auraHits;
+	Uint64 sprintDashes;
 };

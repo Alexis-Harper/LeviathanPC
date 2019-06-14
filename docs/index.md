@@ -16,22 +16,19 @@ Using a filepath as the first argumant will cause that to be used as the starter
 
 # Credits
 
-**Game Created By:**
+**Original Idea By:**
 * Michael Bledsoe
 
-**Dungeoneer (Dungeon Designer):**
-* Michael Bledsoe 
-
-**Head of Development:**
+**Created By:**
 * Alexis Harper
 
 **Developed By:**
 * Alexis Harper
 
 **Art Made By:**
-* N/A
+* Alexis Harper
 
-**Music Writen By:**
+**Music Composed By:**
 * Alexis Harper
 
 ### Special Thank You To
