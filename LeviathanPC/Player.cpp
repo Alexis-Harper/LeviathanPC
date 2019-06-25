@@ -219,16 +219,16 @@ void Player::update (Arena * arena, Statistics & statistics)
 
 			this->stats.auraCounter = 60.0f;
 
-			float offX = this->hitbox.getX () - 0.01f; //(0.051 - 0.031) / 2.0
-			float offY = this->hitbox.getY () - 0.01f; //(0.102 - 0.082) / 2.0
+			float offX = this->hitbox.getX () - 0.02f; //(0.051 - 0.031) / 2.0
+			float offY = this->hitbox.getY () - 0.02f; //(0.102 - 0.082) / 2.0
 
-			Rectangle attackbox = Rectangle (offX, offY, 0.051f, 0.102f);
+			Rectangle attackbox = Rectangle (offX, offY, 0.071f, 0.122f);
 
 			//Deals good damage, plus
 			int damage = this->stats.strength + this->stats.hpMax - 
 				this->stats.hp;
 
-			if (arena->damageGameObjects (this->hitbox, damage, false))
+			if (arena->damageGameObjects (attackbox, damage, false))
 			{ 
 				statistics.incrementDamageDelt (damage);
 				statistics.auraHit ();
@@ -291,10 +291,10 @@ void Player::render (GPU_Target *screen)
 
 	//Player aura box
 	{
-		float offX = this->hitbox.getX () - 0.01f; //(0.051 - 0.031) / 2.0
-		float offY = this->hitbox.getY () - 0.01f; //(0.102 - 0.082) / 2.0
+		float offX = this->hitbox.getX () - 0.02f; //(0.051 - 0.031) / 2.0
+		float offY = this->hitbox.getY () - 0.02f; //(0.102 - 0.082) / 2.0
 
-		Rectangle attackbox = Rectangle (offX, offY, 0.051f, 0.102f);
+		Rectangle attackbox = Rectangle (offX, offY, 0.071f, 0.122f);
 
 		SDL_Color hitboxColor;
 
